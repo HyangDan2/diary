@@ -16,7 +16,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261118-accordion">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261118-search">
 </head>
 <body class="page-categories-devlog">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -93,6 +93,7 @@
     <main id="main">
         
 
+
 <section class="page-hero shell">
     <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/diary/">Diary</a>
@@ -119,9 +120,52 @@
     </div>
     
         
+
+
+<div class="diary-search"
+     data-diary-search
+     data-mode="category"
+     data-total-label="Devlog"
+     data-category="devlog"
+     data-index-url="/diary/search.json">
+    <div class="search-field">
+        <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </span>
+        <input class="search-input"
+               type="search"
+               id="diary-search-category"
+               data-search-input
+               placeholder="Devlog 글 안에서 검색"
+               aria-label="Diary 글 검색"
+               autocomplete="off"
+               spellcheck="false"
+               enterkeyhint="search">
+        <button class="search-clear" type="button" data-search-clear aria-label="검색어 지우기" hidden>
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <div class="search-foot">
+        <p class="search-status" data-search-status role="status" aria-live="polite">
+            <span>Devlog </span><strong>4</strong><span>편 · 제목·요약·태그로 검색</span>
+        </p>
+        
+    </div>
+</div>
+
+        
+<div class="search-results" data-search-results hidden>
+    <ul class="post-list" data-search-result-list></ul>
+    <div class="empty-state search-empty" data-search-empty hidden>
+        <p data-search-empty-text>조건에 맞는 기록이 없다. 다른 단어로 찾아보자.</p>
+    </div>
+</div>
+
+        <div data-search-default>
+            
 <ul class="post-list">
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-17-solver-and-markdown-tools/">
         <a class="post-row-link" href="/diary/posts/2026-11-17-solver-and-markdown-tools/">
             <span class="post-row-meta">
                 <time datetime="2026-11-17">2026.11.17</time>
@@ -133,9 +177,13 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="pkpilot" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>pkpilot</button><button class="post-tag" type="button" data-tag="solver" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>solver</button><button class="post-tag" type="button" data-tag="markdown" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>markdown</button><button class="post-tag" type="button" data-tag="devlog" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>devlog</button>
+        </div>
     </li>
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-15-shutterplate-13-frames-fyra04/">
         <a class="post-row-link" href="/diary/posts/2026-11-15-shutterplate-13-frames-fyra04/">
             <span class="post-row-meta">
                 <time datetime="2026-11-15">2026.11.15</time>
@@ -147,9 +195,13 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="shutterplate" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>shutterplate</button><button class="post-tag" type="button" data-tag="exif" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>exif</button><button class="post-tag" type="button" data-tag="canvas" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>canvas</button><button class="post-tag" type="button" data-tag="devlog" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>devlog</button>
+        </div>
     </li>
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-13-shipping-pkpilot0006/">
         <a class="post-row-link" href="/diary/posts/2026-11-13-shipping-pkpilot0006/">
             <span class="post-row-meta">
                 <time datetime="2026-11-13">2026.11.13</time>
@@ -161,9 +213,13 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="pkpilot" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>pkpilot</button><button class="post-tag" type="button" data-tag="web-hq" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>web-hq</button><button class="post-tag" type="button" data-tag="github-pages" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>github-pages</button><button class="post-tag" type="button" data-tag="devlog" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>devlog</button>
+        </div>
     </li>
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-11-pkpilot0001-0002-photos-and-midpoint/">
         <a class="post-row-link" href="/diary/posts/2026-11-11-pkpilot0001-0002-photos-and-midpoint/">
             <span class="post-row-meta">
                 <time datetime="2026-11-11">2026.11.11</time>
@@ -175,10 +231,15 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="pkpilot" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>pkpilot</button><button class="post-tag" type="button" data-tag="photos" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>photos</button><button class="post-tag" type="button" data-tag="exif" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>exif</button><button class="post-tag" type="button" data-tag="map" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>map</button><button class="post-tag" type="button" data-tag="devlog" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>devlog</button>
+        </div>
     </li>
     
 </ul>
 
+        </div>
     
 </section>
 
@@ -221,7 +282,7 @@
             <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
-    
+    <script src="/diary/assets/diary-search.js?v=20261118-search" defer></script>
     <script src="/diary/assets/diary-nav.js?v=20261118-accordion" defer></script>
 </body>
 </html>

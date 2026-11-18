@@ -124,7 +124,7 @@ export default function (eleventyConfig) {
       includes: "_includes",
       data: "_data",
     },
-    templateFormats: ["njk", "md", "html"],
+    templateFormats: ["njk", "md", "html", "11ty.js"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
   };

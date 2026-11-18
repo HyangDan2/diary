@@ -14,6 +14,7 @@ repository root *is* `https://hyangdan2.github.io/diary/`.
 
 ```
 index.html            /diary/                    (built)
+search.json           /diary/search.json         (built: the search index)
 posts/<slug>/         /diary/posts/<slug>/       (built)
 categories/           /diary/categories/…        (built)
 assets/               /diary/assets/…            (built: css, js, favicons, post images)
@@ -64,6 +65,22 @@ new `category` value becomes a category page of its own at build time. Images go
 `diary-src/assets/images/` and are referenced from Markdown as `/diary/assets/images/<file>`.
 The sibling Markdown editor at `https://hyangdan2.github.io/PKPilot0007/` commits posts to this
 repository through the GitHub API.
+
+## Search and tags
+
+There is no search service. Every build writes `search.json` (title, summary, category, tags,
+date, url and a `keywords` blob of subheadings plus the opening of each post — roughly 12 KB), and
+`diary-src/assets/diary-search.js` filters it in the browser.
+
+- **Home (`/diary/`)**: the search box sits above the recent list; while a query or a category
+  chip is active, the list switches to matching posts from the whole index.
+- **Category pages**: the same box filters the rows already on the page, so it only searches
+  inside that category.
+- **Tag chips**: every list row ends with its `#tags`. Pressing one drops `#tag` into the search
+  box (pressing it again removes it) and the list narrows immediately. A `#tag` term matches the
+  tag exactly; free words match title, summary, category, tags, and keywords, all terms at once.
+
+`Enter` opens the top match, `Escape` (or the `×`) clears the search.
 
 ## Theme and navigation
 

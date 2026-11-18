@@ -1,5 +1,6 @@
 ---
 layout: base.njk
+pageScript: "/assets/diary-search.js"
 pagination:
   data: collections.diaryCategories
   size: 1
@@ -8,6 +9,7 @@ permalink: "/categories/{{ categoryPage.slug }}/index.html"
 ---
 
 {% import "parts/post-list.njk" as parts %}
+{% import "parts/search.njk" as search %}
 <section class="page-hero shell">
     <nav class="crumbs" aria-label="Breadcrumb">
         <a href="{{ '/' | url }}">Diary</a>
@@ -33,7 +35,11 @@ permalink: "/categories/{{ categoryPage.slug }}/index.html"
         <span class="mono-note">{{ categoryPage.count }} post{% if categoryPage.count != 1 %}s{% endif %}</span>
     </div>
     {% if categoryPage.count %}
-        {{ parts.postList(categoryPage.posts, false) }}
+        {{ search.searchBar({ mode: 'category', category: categoryPage.slug, label: categoryPage.name, total: categoryPage.count, placeholder: categoryPage.name + ' 글 안에서 검색' }) }}
+        {{ search.searchResults() }}
+        <div data-search-default>
+            {{ parts.postList(categoryPage.posts, false) }}
+        </div>
     {% else %}
         {{ parts.emptyState('아직 이 서랍은 비어 있다.') }}
     {% endif %}
