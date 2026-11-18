@@ -41,6 +41,7 @@ export default class SearchIndex {
       categoryLabel: post.data.categoryName ?? post.data.category ?? "",
       categorySlug: post.data.categorySlug ?? "",
       tags: normalizeTags(post.data.tags),
+      lang: post.data.lang === "en" ? "en" : "ko",
       date: htmlDate(post.date),
       dateLabel: displayDate(post.date),
       url: post.url,

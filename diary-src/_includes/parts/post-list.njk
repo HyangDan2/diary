@@ -1,7 +1,7 @@
 {% macro postList(posts, showCategory = true) %}
 <ul class="post-list">
     {% for post in posts %}
-    <li class="post-row" data-post-url="{{ post.url }}">
+    <li class="post-row" lang="{{ 'en' if post.data.lang == 'en' else 'ko' }}" data-post-url="{{ post.url }}">
         <a class="post-row-link" href="{{ post.url | url }}">
             <span class="post-row-meta">
                 <time datetime="{{ post.date | htmlDate }}">{{ post.date | displayDate }}</time>

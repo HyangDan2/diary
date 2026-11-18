@@ -85,6 +85,7 @@
         const item = document.createElement("li");
         item.className = "post-row";
         item.dataset.postUrl = post.url || "";
+        if (post.lang === "en" || post.lang === "ko") item.lang = post.lang;
 
         const link = document.createElement("a");
         link.className = "post-row-link";
@@ -142,6 +143,14 @@
     }
 
     function idleStatus(state) {
+        if (state.lang === "en") {
+            paintStatus(state, [
+                [state.label + " · ", null],
+                [String(totalOf(state)), "strong"],
+                [" notes · search titles, summaries, tags", null],
+            ]);
+            return;
+        }
         paintStatus(state, [
             [state.label + " ", null],
             [String(totalOf(state)), "strong"],
@@ -150,6 +159,17 @@
     }
 
     function matchStatus(state, matched, terms) {
+        if (state.lang === "en") {
+            const bits = [];
+            const scopeChip = state.scopes.find((chip) => chip.dataset.scope === state.scope);
+            if (state.scope && scopeChip) bits.push([scopeChip.textContent.trim() + " · ", null]);
+            else if (state.mode === "category") bits.push([state.label + " · ", null]);
+            if (terms.length) bits.push(["“" + state.input.value.trim() + "” · ", null]);
+            bits.push([String(matched), "strong"]);
+            bits.push([" of " + totalOf(state) + " notes", null]);
+            paintStatus(state, bits);
+            return;
+        }
         const bits = [];
         const scopeChip = state.scopes.find((chip) => chip.dataset.scope === state.scope);
         if (state.scope && scopeChip) bits.push([scopeChip.textContent.trim() + " · ", null]);
@@ -223,7 +243,7 @@
         // Until the index arrives, typing must not pretend there are no matches.
         if (!state.ready) {
             if (state.clear) state.clear.hidden = false;
-            paintStatus(state, [["검색 준비 중…", null]]);
+            paintStatus(state, [[state.lang === "en" ? "Getting the search ready…" : "검색 준비 중…", null]]);
             return;
         }
 
@@ -231,7 +251,7 @@
         const matched = state.index.filter((post) => inScope(post, state) && matches(post, terms));
 
         if (state.clear) state.clear.hidden = false;
-        if (state.heading) state.heading.textContent = "검색 결과.";
+        if (state.heading) state.heading.textContent = state.lang === "en" ? "Search results." : "검색 결과.";
 
         if (state.mode === "home") {
             if (state.defaultBox) state.defaultBox.hidden = true;
@@ -258,9 +278,15 @@
             state.emptyBox.hidden = matched.length > 0;
             if (state.emptyText && matched.length === 0) {
                 const query = state.input.value.trim();
-                state.emptyText.textContent = query
-                    ? `“${query}”에 해당하는 기록이 없다. 다른 단어로 찾아보자.`
-                    : "이 조건에 해당하는 기록이 없다.";
+                if (state.lang === "en") {
+                    state.emptyText.textContent = query
+                        ? `No notes match “${query}”. Try another word.`
+                        : "No notes match that yet.";
+                } else {
+                    state.emptyText.textContent = query
+                        ? `“${query}”에 해당하는 기록이 없다. 다른 단어로 찾아보자.`
+                        : "이 조건에 해당하는 기록이 없다.";
+                }
             }
         }
 
@@ -333,6 +359,7 @@
                 date: row.querySelector("time")?.getAttribute("datetime") ?? "",
                 dateLabel: row.querySelector("time")?.textContent ?? "",
                 url: row.dataset.postUrl,
+                lang: row.getAttribute("lang") || "",
                 keywords: "",
             }),
         );
@@ -360,9 +387,10 @@
         const state = {
             root,
             panel,
+            lang: root.dataset.lang === "en" ? "en" : "ko",
             mode: root.dataset.mode === "category" ? "category" : "home",
             category: root.dataset.category || "",
-            label: root.dataset.totalLabel || "전체",
+            label: root.dataset.totalLabel || (root.dataset.lang === "en" ? "All" : "전체"),
             indexUrl: root.dataset.indexUrl || "/diary/search.json",
             base: "",
             scope: "",

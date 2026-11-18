@@ -1,9 +1,11 @@
 {% macro searchBar(options) %}
 {% set mode = options.mode or 'home' %}
-{% set label = options.label or '전체' %}
+{% set en = (options.lang or 'ko') == 'en' %}
+{% set label = options.label or ('All' if en else '전체') %}
 <div class="diary-search"
      data-diary-search
      data-mode="{{ mode }}"
+     data-lang="{{ 'en' if en else 'ko' }}"
      data-total-label="{{ label }}"
      {% if options.category %}data-category="{{ options.category }}"{% endif %}
      data-index-url="{{ '/search.json' | url }}">
@@ -15,22 +17,22 @@
                type="search"
                id="diary-search-{{ mode }}"
                data-search-input
-               placeholder="{{ options.placeholder or '제목 · 요약 · 태그로 검색' }}"
-               aria-label="Diary 글 검색"
+               placeholder="{{ options.placeholder or ('Search titles, summaries, tags' if en else '제목 · 요약 · 태그로 검색') }}"
+               aria-label="{{ 'Search diary notes' if en else 'Diary 글 검색' }}"
                autocomplete="off"
                spellcheck="false"
                enterkeyhint="search">
-        <button class="search-clear" type="button" data-search-clear aria-label="검색어 지우기" hidden>
+        <button class="search-clear" type="button" data-search-clear aria-label="{{ 'Clear search' if en else '검색어 지우기' }}" hidden>
             <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         </button>
     </div>
     <div class="search-foot">
         <p class="search-status" data-search-status role="status" aria-live="polite">
-            <span>{{ label }} </span><strong>{{ options.total or 0 }}</strong><span>편 · 제목·요약·태그로 검색</span>
+            <span>{% if en %}{{ label }} · {% else %}{{ label }} {% endif %}</span><strong>{{ options.total or 0 }}</strong><span>{% if en %} notes · search titles, summaries, tags{% else %}편 · 제목·요약·태그로 검색{% endif %}</span>
         </p>
         {% if mode == 'home' and options.categories %}
-        <div class="search-scopes" role="group" aria-label="카테고리 필터">
-            <button class="scope-chip" type="button" data-scope="" aria-pressed="true">전체</button>
+        <div class="search-scopes" role="group" aria-label="{{ 'Filter by category' if en else '카테고리 필터' }}">
+            <button class="scope-chip" type="button" data-scope="" aria-pressed="true">{{ 'All' if en else '전체' }}</button>
             {% for category in options.categories %}
             <button class="scope-chip" type="button" data-scope="{{ category.slug }}" aria-pressed="false">{{ category.name }}</button>
             {% endfor %}
@@ -40,11 +42,12 @@
 </div>
 {% endmacro %}
 
-{% macro searchResults() %}
+{% macro searchResults(lang) %}
+{% set en = lang == 'en' %}
 <div class="search-results" data-search-results hidden>
     <ul class="post-list" data-search-result-list></ul>
     <div class="empty-state search-empty" data-search-empty hidden>
-        <p data-search-empty-text>조건에 맞는 기록이 없다. 다른 단어로 찾아보자.</p>
+        <p data-search-empty-text>{% if en %}Nothing matches that yet. Try another word.{% else %}조건에 맞는 기록이 없다. 다른 단어로 찾아보자.{% endif %}</p>
     </div>
 </div>
 {% endmacro %}

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
     <title>HD2&#39;s Diary</title>
-    <meta name="description" content="HD2Lab의 개발 기록. Devlog, Architecture, Troubleshooting, Notes — 만들고 부수고 다시 세운 이야기.">
+    <meta name="description" content="Build notes from HD2Lab — Devlog, Architecture, Troubleshooting and Notes: what I make, what shifts, and what broke on the way.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
     <meta property="og:title" content="HD2&#39;s Diary">
-    <meta property="og:description" content="HD2Lab의 개발 기록. Devlog, Architecture, Troubleshooting, Notes — 만들고 부수고 다시 세운 이야기.">
+    <meta property="og:description" content="Build notes from HD2Lab — Devlog, Architecture, Troubleshooting and Notes: what I make, what shifts, and what broke on the way.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -156,8 +156,8 @@
         <h1 id="diary-title">Build it. Break it.<br><span>Write it down.</span></h1>
         <p class="hero-description">Where fleeting ideas find a gentler place to rest.</p>
         <div class="hero-actions">
-            <a class="button button-primary" href="#recent">최근 기록 보기</a>
-            <a class="button button-ghost" href="#categories">카테고리 보기</a>
+            <a class="button button-primary" href="#recent">Read recent notes</a>
+            <a class="button button-ghost" href="#categories">Explore the drawers</a>
         </div>
         <dl class="hero-stats">
             <div><dt>Posts</dt><dd>17</dd></div>
@@ -184,49 +184,49 @@
     <div class="section-heading">
         <div>
             <p class="eyebrow">Categories</p>
-            <h2 id="categories-title">네 개의 서랍.</h2>
+            <h2 id="categories-title">Four quiet drawers.</h2>
         </div>
-        <p>글은 주제별로 쌓인다. 서랍을 열면 전체 목록이 나온다.</p>
+        <p>Thoughts settle by theme. Open a drawer to browse every note.</p>
     </div>
     <nav class="category-grid" aria-label="Diary categories">
         
         <a class="category-card" href="/diary/categories/devlog/">
             <span class="card-index">01 / DEVLOG</span>
             <span class="category-name">Devlog</span>
-            <span class="category-blurb">무엇을 만들고 있는지, 무엇이 바뀌었는지.</span>
+            <span class="category-blurb">What I&#39;m building, and what shifted along the way.</span>
             <span class="category-foot">
                 <span class="category-count">5 posts</span>
-                <span class="category-latest">최근 오늘</span>
+                <span class="category-latest">Latest today</span>
             </span>
         </a>
         
         <a class="category-card" href="/diary/categories/architecture/">
             <span class="card-index">02 / ARCHITECTURE</span>
             <span class="category-name">Architecture</span>
-            <span class="category-blurb">구조를 정하는 결정과 그 이유.</span>
+            <span class="category-blurb">The shape of a thing, and the reasons it settled that way.</span>
             <span class="category-foot">
                 <span class="category-count">5 posts</span>
-                <span class="category-latest">최근 오늘</span>
+                <span class="category-latest">Latest today</span>
             </span>
         </a>
         
         <a class="category-card" href="/diary/categories/troubleshooting/">
             <span class="card-index">03 / TROUBLESHOOTING</span>
             <span class="category-name">Troubleshooting</span>
-            <span class="category-blurb">막혔던 지점과 뚫은 방법.</span>
+            <span class="category-blurb">Where things got stuck, and the way through that opened.</span>
             <span class="category-foot">
                 <span class="category-count">2 posts</span>
-                <span class="category-latest">최근 오늘</span>
+                <span class="category-latest">Latest today</span>
             </span>
         </a>
         
         <a class="category-card" href="/diary/categories/notes/">
             <span class="card-index">04 / NOTES</span>
             <span class="category-name">Notes</span>
-            <span class="category-blurb">짧게 적어 두는 생각과 참고거리.</span>
+            <span class="category-blurb">Small thoughts and references, kept short.</span>
             <span class="category-foot">
                 <span class="category-count">5 posts</span>
-                <span class="category-latest">최근 오늘</span>
+                <span class="category-latest">Latest today</span>
             </span>
         </a>
         
@@ -237,18 +237,20 @@
     <div class="section-heading">
         <div>
             <p class="eyebrow">Recent</p>
-            <h2 id="recent-title">최근 기록.</h2>
+            <h2 id="recent-title">Recent notes.</h2>
         </div>
-        <p>지금까지 17편</p>
+        <p>17 notes so far</p>
     </div>
     
         
 
 
+
 <div class="diary-search"
      data-diary-search
      data-mode="home"
-     data-total-label="전체"
+     data-lang="en"
+     data-total-label="All"
      
      data-index-url="/diary/search.json">
     <div class="search-field">
@@ -259,22 +261,22 @@
                type="search"
                id="diary-search-home"
                data-search-input
-               placeholder="제목 · 요약 · 태그로 검색 (예: git, exif, ci)"
-               aria-label="Diary 글 검색"
+               placeholder="Search titles · summaries · tags (try: git, exif, ci)"
+               aria-label="Search diary notes"
                autocomplete="off"
                spellcheck="false"
                enterkeyhint="search">
-        <button class="search-clear" type="button" data-search-clear aria-label="검색어 지우기" hidden>
+        <button class="search-clear" type="button" data-search-clear aria-label="Clear search" hidden>
             <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         </button>
     </div>
     <div class="search-foot">
         <p class="search-status" data-search-status role="status" aria-live="polite">
-            <span>전체 </span><strong>17</strong><span>편 · 제목·요약·태그로 검색</span>
+            <span>All · </span><strong>17</strong><span> notes · search titles, summaries, tags</span>
         </p>
         
-        <div class="search-scopes" role="group" aria-label="카테고리 필터">
-            <button class="scope-chip" type="button" data-scope="" aria-pressed="true">전체</button>
+        <div class="search-scopes" role="group" aria-label="Filter by category">
+            <button class="scope-chip" type="button" data-scope="" aria-pressed="true">All</button>
             
             <button class="scope-chip" type="button" data-scope="devlog" aria-pressed="false">Devlog</button>
             
@@ -290,10 +292,11 @@
 </div>
 
         
+
 <div class="search-results" data-search-results hidden>
     <ul class="post-list" data-search-result-list></ul>
     <div class="empty-state search-empty" data-search-empty hidden>
-        <p data-search-empty-text>조건에 맞는 기록이 없다. 다른 단어로 찾아보자.</p>
+        <p data-search-empty-text>Nothing matches that yet. Try another word.</p>
     </div>
 </div>
 
@@ -301,7 +304,7 @@
             
 <ul class="post-list">
     
-    <li class="post-row" data-post-url="/posts/2026-11-19-hd2lingo-30-day-daily-series/">
+    <li class="post-row" lang="en" data-post-url="/posts/2026-11-19-hd2lingo-30-day-daily-series/">
         <a class="post-row-link" href="/diary/posts/2026-11-19-hd2lingo-30-day-daily-series/">
             <span class="post-row-meta">
                 <time datetime="2026-11-19">2026.11.19</time>
@@ -319,7 +322,7 @@
         </div>
     </li>
     
-    <li class="post-row" data-post-url="/posts/2026-11-18-one-control-per-job-theme-toggles-and-hud/">
+    <li class="post-row" lang="en" data-post-url="/posts/2026-11-18-one-control-per-job-theme-toggles-and-hud/">
         <a class="post-row-link" href="/diary/posts/2026-11-18-one-control-per-job-theme-toggles-and-hud/">
             <span class="post-row-meta">
                 <time datetime="2026-11-18">2026.11.18</time>
@@ -337,7 +340,7 @@
         </div>
     </li>
     
-    <li class="post-row" data-post-url="/posts/2026-11-18-pkpilot0008-zip-export-and-full-viewport/">
+    <li class="post-row" lang="en" data-post-url="/posts/2026-11-18-pkpilot0008-zip-export-and-full-viewport/">
         <a class="post-row-link" href="/diary/posts/2026-11-18-pkpilot0008-zip-export-and-full-viewport/">
             <span class="post-row-meta">
                 <time datetime="2026-11-18">2026.11.18</time>
@@ -355,7 +358,7 @@
         </div>
     </li>
     
-    <li class="post-row" data-post-url="/posts/2026-11-18-onprem-pip-npm-offline-install/">
+    <li class="post-row" lang="ko" data-post-url="/posts/2026-11-18-onprem-pip-npm-offline-install/">
         <a class="post-row-link" href="/diary/posts/2026-11-18-onprem-pip-npm-offline-install/">
             <span class="post-row-meta">
                 <time datetime="2026-11-18">2026.11.18</time>
@@ -373,7 +376,7 @@
         </div>
     </li>
     
-    <li class="post-row" data-post-url="/posts/2026-11-18-vibe-coding-setup-checklist/">
+    <li class="post-row" lang="ko" data-post-url="/posts/2026-11-18-vibe-coding-setup-checklist/">
         <a class="post-row-link" href="/diary/posts/2026-11-18-vibe-coding-setup-checklist/">
             <span class="post-row-meta">
                 <time datetime="2026-11-18">2026.11.18</time>
@@ -399,10 +402,10 @@
 
 <section class="cta-band shell">
     <div>
-        <h2>네 개의 서랍,<br><span>전체 목록.</span></h2>
-        <p>최근 기록은 위에서, 주제별 기록은 서랍에서 한 번에 본다.</p>
+        <h2>Four quiet drawers,<br><span>in one list.</span></h2>
+        <p>Recent notes are above; everything by theme waits in the drawers.</p>
     </div>
-    <a class="button button-primary" href="/diary/categories/">카테고리 전체 보기 <span aria-hidden="true">↗</span></a>
+    <a class="button button-primary" href="/diary/categories/">Browse every drawer <span aria-hidden="true">↗</span></a>
 </section>
 
     </main>
