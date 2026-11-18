@@ -1,6 +1,6 @@
 # deps
-node_modules/
-diary-src/node_modules/
+node_modules
+diary-src/node_modules
 
 # Eleventy intermediate output (the published copy is the repo root)
 diary-src/_site/
