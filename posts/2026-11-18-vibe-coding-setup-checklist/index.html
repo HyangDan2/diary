@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
     <title>핸들을 잡는 법: 바이브코딩이 중간에 꼬이지 않게 · HD2&#39;s Diary</title>
-    <meta name="description" content="바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한의 겹이 없어서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.">
+    <meta name="description" content="바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한이 겹겹이 받쳐 주지 않아서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
     <meta property="og:title" content="핸들을 잡는 법: 바이브코딩이 중간에 꼬이지 않게 · HD2&#39;s Diary">
-    <meta property="og:description" content="바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한의 겹이 없어서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.">
+    <meta property="og:description" content="바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한이 겹겹이 받쳐 주지 않아서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -101,7 +101,7 @@
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.18</p>
         <h1>핸들을 잡는 법: 바이브코딩이 중간에 꼬이지 않게</h1>
-        <p class="post-summary">바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한의 겹이 없어서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.</p>
+        <p class="post-summary">바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한이 겹겹이 받쳐 주지 않아서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다.</p>
         <div class="post-meta">
             <span class="badge">Notes</span>
             <time datetime="2026-11-18">2026년 11월 18일</time>
@@ -118,7 +118,7 @@
     <div class="md-body post-content">
         <p>첫 편에서 모델은 엔진, 하네스는 핸들이라고 적었습니다. 둘째 편에서는 엔진 속을 열어 토큰과 MoE, 씽킹 손잡이를 봤습니다. 이번 편은 그 둘을 <strong>내 손에 쥐는 일</strong>입니다. 하네스를 무엇으로 만들지, 모델을 어디에 놓을지 알아도, 매일 아침 세팅이 되어 있지 않으면 결과는 다시 들쭉날쭉해집니다. <a href="/diary/posts/2026-11-18-harness-layer-concept-and-usage/">모델은 엔진, 하네스는 핸들</a>과 <a href="/diary/posts/2026-11-18-llm-and-qwen-models/">엔진 속을 들여다보기</a>를 읽고 오시면 더 자연스럽게 이어집니다. 다만 이 글만 읽어도 점검표로 쓸 수 있게 썼습니다.</p>
 <p>바이브코딩의 시작은 대개 잘 됩니다. 빈 폴더에 프롬프트 한 줄, 몇 분 만에 화면이 뜹니다. 무너지는 시점은 그다음입니다. 파일이 서른 개가 되고, 대화가 이백 턴을 넘고, 기능이 다섯 개쯤 붙었을 때입니다. 그때부터 &quot;잘 되던 게 안 된다&quot;는 말이 나오고, 고치면 다른 곳이 깨지고, 어제 정한 규칙을 오늘 다시 설명하게 됩니다.</p>
-<p>이 글은 그 지점을 넘기는 방법에 대한 노트입니다. 거창한 도구 목록이 아니라, 첫날 십 분에 깔아 두면 이후 사흘을 아껴 주는 여섯 가지 겹입니다.</p>
+<p>이 글은 그 지점을 넘기는 방법에 대한 노트입니다. 거창한 도구 목록이 아니라, 첫날 십 분에 깔아 두면 이후 사흘을 아껴 주는 여섯 겹의 안전장치입니다.</p>
 <h2>바이브코딩이 왜 중간에 꼬일까</h2>
 <h3>시작이 잘 되는 이유와, 꼬이는 이유</h3>
 <p>시작이 잘 되는 데는 이유가 있습니다. 문맥이 짧고, 결과를 눈으로 확인할 수 있고, 되돌릴 것이 없습니다. 잘못 만들면 폴더를 지우고 다시 시작하면 그만입니다. 이 세 조건이 갖춰진 구간에서는 모델의 실수가 거의 공짜입니다.</p>
@@ -151,7 +151,7 @@
 <h3>그리고 변경 범위의 팽창</h3>
 <p>마지막은 조용하지만 가장 흔합니다. &quot;이왕 고치는 김에&quot;가 붙으면서 diff가 불어납니다. 변수 이름 정리, 폴더 이동, 포맷 변경이 기능 수정과 한 커밋에 섞입니다. 리뷰가 불가능해지고, 리뷰가 불가능한 diff는 결국 그대로 머지됩니다. 그러면 문제가 생겼을 때 무엇이 원인인지 알 수 없습니다.</p>
 <p>이 네 가지를 한 줄로 줄이면 이렇습니다. <strong>모델은 자기가 무엇을 깨뜨렸는지 모릅니다.</strong> 알려면 돌려 봐야 하고, 돌려 보려면 명령이 있어야 하고, 그 명령을 사람이 매번 치지 않으려면 루프가 있어야 합니다. 세팅이란 결국 이 루프를 미리 깔아 두는 일입니다.</p>
-<p><a href="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="무작정 바이브코딩의 실패 루프와 Plan → Small Diff → Auto Test → Review 안전 루프 비교"></a></p>
+<p><a href="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="무작정 바이브코딩의 실패 루프와 계획 → 작은 변경 → 자동 검증 → 리뷰 안전 루프 비교"></a></p>
 <h2>실전 세팅 6단계 점검표</h2>
 <p>여섯 단계에는 순서가 있습니다. ①~③은 사고의 <strong>횟수</strong>를 줄이고, ④~⑥은 사고의 <strong>비용</strong>을 줄입니다. 순서를 바꾸면 효율이 떨어집니다. 검증 루프부터 깔면 Git 없이 테스트만 도는 셈이고, 모델 라우팅부터 정하면 검증 없이 비싼 모델만 쓰게 됩니다.</p>
 <div class="table-wrap"><table><thead>
@@ -170,13 +170,13 @@
 <td><code>main</code>이 언제나 배포 가능</td>
 </tr>
 <tr>
-<td>② 컨텍스트 위생</td>
+<td>② 문맥 관리</td>
 <td>기억을 파일로 옮김</td>
 <td><code>AGENTS.md</code>, <code>.cline/rules/</code>, 리셋 신호</td>
 <td>새 세션 30초 안에 맥락 복구</td>
 </tr>
 <tr>
-<td>③ Plan → Act</td>
+<td>③ 계획 → 실행 분리</td>
 <td>쓰기 전에 범위 합의</td>
 <td>계획 5줄 보고, 승인 후 구현</td>
 <td>계획 밖 파일 변경 0</td>
@@ -184,7 +184,7 @@
 <tr>
 <td>④ 자동 검증 루프</td>
 <td>사람 대신 기계가 확인</td>
-<td><code>verify</code> 한 줄, 실화면 점검</td>
+<td><code>verify</code> 한 줄, 실제 화면 점검</td>
 <td>통과 로그가 남음</td>
 </tr>
 <tr>
@@ -210,7 +210,7 @@
 </ul>
 <p>에이전트에게 함께 알려야 하는 것은 하지 말아야 할 Git 명령입니다. <code>git reset --hard</code>, <code>git push --force</code>, <code>git checkout .</code>은 작업물을 소리 없이 지웁니다. 강제 push가 꼭 필요하면 <code>--force-with-lease</code>만 쓰게 하고, 그보다는 &quot;push 전에 <code>fetch</code>하고 <code>rebase</code>하라&quot;를 규칙에 넣는 편이 낫습니다. 충돌을 피하는 일이 충돌을 덮는 일보다 싸기 때문입니다.</p>
 <p>확인은 간단합니다. <code>git status</code>가 깨끗한가. <code>git log --oneline main..HEAD</code>의 커밋들이 한 문장으로 설명되는가. 설명이 안 되면 브랜치가 이미 너무 넓습니다.</p>
-<h3>② 컨텍스트 위생과 규칙 고정</h3>
+<h3>② 문맥 관리와 규칙 고정</h3>
 <p>두 번째는 기억을 대화에서 꺼내 파일로 옮기는 일입니다. 대화는 유한하고, 파일은 남습니다.</p>
 <p><strong>규칙은 파일에 둡니다.</strong> 레포 루트의 <code>AGENTS.md</code>가 대표이고, Cline은 <code>.clinerules/</code> 또는 <code>.cline/rules/</code>도 함께 읽습니다. 첫 편에서 정리한 대로, 팀이 같은 방식으로 일해야 하는 것은 레포에 커밋하고 개인 취향은 전역에 둡니다.</p>
 <p><code>AGENTS.md</code>에 들어갈 것은 다섯 가지면 충분합니다.</p>
@@ -245,9 +245,9 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <li>없는 파일·함수를 언급할 때 — 문맥이 이미 실제 코드와 어긋났습니다.</li>
 <li>diff가 리뷰 불가능한 크기로 커졌을 때 — 대화도 같이 커졌을 가능성이 큽니다.</li>
 </ol>
-<p>리셋이 무섭지 않으려면 잃을 것이 없어야 합니다. 그래서 결정은 대화가 아니라 문서에 남깁니다. 왜 이 구조를 골랐는지는 <code>docs/adr/</code>나 이슈에, 다음 할 일은 TODO에, 이번 변경의 이유는 PR 본문에. 세션에만 있는 지식은 이미 사라진 지식입니다.</p>
-<p><a href="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png"><img src="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png" alt="컨텍스트 창 누적에 따른 정확도 저하와 세션 리셋 신호, AGENTS.md 고정 구조"></a></p>
-<h3>③ Plan → Act 분리</h3>
+<p>새 세션을 여는 일이 무섭지 않으려면 잃을 것이 없어야 합니다. 그래서 결정은 대화가 아니라 문서에 남깁니다. 왜 이 구조를 골랐는지는 <code>docs/adr/</code>나 이슈에, 다음 할 일은 TODO에, 이번 변경의 이유는 PR 본문에. 세션에만 있는 지식은 이미 사라진 지식입니다.</p>
+<p><a href="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png"><img src="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png" alt="대화가 쌓일수록 규칙이 얇아지고 판단이 흔들리는 모습, 세션 리셋 신호 네 가지, AGENTS.md 고정 구조"></a></p>
+<h3>③ 계획과 실행 분리 (Plan → Act)</h3>
 <p>세 번째는 쓰기 전에 범위를 합의하는 일입니다. Cline은 Plan과 Act 모드를 나눠 두었습니다. Plan에서는 읽고 조사하고 설계만 하고, Act에서 실제로 파일을 고칩니다. 도구가 달라도 원리는 같습니다. <strong>읽기와 쓰기 사이에 사람의 확인을 한 번 넣습니다.</strong></p>
 <p>계획은 길 필요가 없습니다. 오히려 길면 안 읽힙니다. 다섯 줄이면 충분합니다.</p>
 <ul>
@@ -258,13 +258,13 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <li>문제가 생겼을 때 되돌리는 방법</li>
 </ul>
 <p>이 다섯 줄이 있으면 승인은 1분이면 끝납니다. 없으면 &quot;알아서 잘 하겠지&quot;가 되고, 그 말은 검증을 포기한 것과 같습니다.</p>
-<p>여기에 역설이 하나 있습니다. 모든 도구 호출을 승인받으면 사람은 곧 무시하기 시작합니다. 하루에 백 번 묻는 확인 창은 읽지 않고 누르게 됩니다. 그래서 게이트는 <strong>되돌릴 수 없는 것에만</strong> 겁니다. 읽기, 테스트 실행, 로컬 빌드는 통과시키고, 배포·삭제·결제·외부 발송·운영 DB 접근만 세웁니다. 승인의 가치는 빈도가 아니라 위치에 있습니다.</p>
+<p>여기에 역설이 하나 있습니다. 모든 도구 호출을 승인받으면 사람은 곧 무시하기 시작합니다. 하루에 백 번 묻는 확인 창은 읽지 않고 누르게 됩니다. 그래서 게이트는 <strong>되돌릴 수 없는 곳에만</strong> 세웁니다. 읽기, 테스트 실행, 로컬 빌드는 통과시키고, 배포·삭제·결제·외부 발송·운영 DB 접근만 세웁니다. 승인의 가치는 빈도가 아니라 위치에 있습니다.</p>
 <p>규칙 문장으로는 이렇게 적어 둡니다.</p>
 <pre class="code-block" data-lang="markdown"><code class="hljs language-markdown"><span class="hljs-bullet">-</span> 구현 전에 계획과 바꿀 파일 목록을 보고하고 승인을 기다립니다.
 <span class="hljs-bullet">-</span> 계획에 없던 파일이 필요하면 멈추고 먼저 보고합니다.
 <span class="hljs-bullet">-</span> 승인 없이 의존성을 추가하지 않습니다.
 </code></pre>
-<p>Plan을 건너뛰어도 되는 경우도 있습니다. 오타, 색상 값, 문구 수정처럼 영향 범위가 자명한 일입니다. 판단 기준은 하나입니다. <strong>영향 범위를 내가 이미 알고 있는가.</strong> 모르면 계획을 받고, 알면 그냥 고치게 합니다.</p>
+<p>계획을 건너뛰어도 되는 경우도 있습니다. 오타, 색상 값, 문구 수정처럼 영향 범위가 자명한 일입니다. 판단 기준은 하나입니다. <strong>영향 범위를 내가 이미 알고 있는가.</strong> 모르면 계획을 받고, 알면 그냥 고치게 합니다.</p>
 <h3>④ 자동 검증 루프</h3>
 <p>네 번째는 사람 대신 기계가 확인하게 만드는 일입니다. 여기까지는 사고를 줄이는 장치였고, 여기부터는 사고를 빨리 발견하는 장치입니다.</p>
 <p>검증은 순서가 있습니다. 싼 것부터 돌립니다.</p>
@@ -274,7 +274,7 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <li><strong>단위 테스트</strong> — 분 단위. 도메인 로직의 회귀.</li>
 <li><strong>빌드</strong> — 실제로 묶이는지. 로컬에서 되는데 빌드가 안 되는 경우가 생각보다 많습니다.</li>
 <li><strong>E2E</strong> — 핵심 경로 서너 개. 로그인, 결제, 저장.</li>
-<li><strong>실화면 점검</strong> — 배포 후 HTTP 200, 이미지 로드 수, 콘솔 오류 0, 가로 넘침 0.</li>
+<li><strong>실제 화면 점검</strong> — 배포 후 HTTP 200, 이미지 로드 수, 콘솔 오류 0, 가로 넘침 0.</li>
 </ol>
 <p>마지막 항목은 테스트로 잡히지 않는 종류입니다. 이 블로그에 글을 올릴 때도 같은 목록을 돌립니다. 응답 코드, 도식 네 장이 실제로 로드됐는지, 콘솔에 오류가 없는지, 1440px과 390px에서 가로 스크롤이 생기지 않는지. 눈으로 보는 것보다 느리지 않고, 빠뜨리지 않습니다.</p>
 <p>에이전트에게는 &quot;돌려 봤습니다&quot;가 아니라 <strong>통과했습니다</strong>를 요구합니다. 차이는 종료 코드와 로그입니다. <code>pnpm verify</code>가 0으로 끝났고, 실패가 있으면 그 로그를 그대로 붙이게 합니다. 확신은 근거가 아니지만, 종료 코드는 근거입니다.</p>
@@ -364,13 +364,13 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <td>기능 구현 (영향 범위 명확)</td>
 <td>27B (씽킹 medium)</td>
 <td>중간</td>
-<td>Plan 승인 → 검증</td>
+<td>계획 승인 → 검증</td>
 </tr>
 <tr>
 <td>설계 선택·원인 모를 버그</td>
 <td>397B-A17B</td>
 <td>높음</td>
-<td>Plan 승인 + 사람 리뷰</td>
+<td>계획 승인 + 사람 리뷰</td>
 </tr>
 <tr>
 <td>대량 분류·추출</td>
@@ -389,7 +389,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <p>주의할 점도 있습니다. 라우팅을 너무 잘게 쪼개면 관리 비용이 이득을 넘습니다. 두세 단계면 충분합니다. &quot;가볍게 / 제대로 / 사람과 함께&quot; 정도로 나누고, 각 단계에 모델과 게이트를 하나씩 붙이면 됩니다.</p>
 <p><a href="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png" alt="작업 난이도와 위험도에 따른 모델(경량·고성능·씽킹)과 하네스 게이트 라우팅 매트릭스"></a></p>
 <p>여섯 단계를 한 장으로 정리하면 아래와 같습니다. 점검표로 인쇄해 두고 쓰기 좋게 만들었습니다.</p>
-<p><a href="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png" alt="실전 세팅 6단계 점검표 — Git · 컨텍스트 · Plan/Act · 자동 검증 · 가드레일 · 모델 라우팅"></a></p>
+<p><a href="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png" alt="실전 세팅 6단계 점검표 — Git · 문맥 관리 · 계획/실행 · 자동 검증 · 가드레일 · 모델 라우팅"></a></p>
 <h2>상황별 빠른 점검 루틴</h2>
 <p>여섯 단계는 평소에 깔아 두는 것이고, 실제로는 세 가지 상황에서 급하게 필요해집니다.</p>
 <h3>새 프로젝트를 시작할 때 — 10분</h3>
