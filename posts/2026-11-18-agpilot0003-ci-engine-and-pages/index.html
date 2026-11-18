@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
-    <title>사흘째 빨간불이던 CI: 앱이 아니라 엔진이 없었습니다 · HD2&#39;s Diary</title>
-    <meta name="description" content="AGPilot0003의 E2E 여섯 개가 Engine Offline으로 타임아웃되던 문제를 Playwright가 백엔드를 직접 띄우게 고쳤습니다. 그 과정에서 드러난 준비 대기 레이스와, 마지막까지 남아 있던 Pages 배포 잡까지 정리한 기록입니다.">
+    <title>Three Days of Red CI: The App Was Fine, the Engine Was Missing · HD2&#39;s Diary</title>
+    <meta name="description" content="Six AGPilot0003 E2E specs were timing out on Engine Offline. The fix was letting Playwright start the backend itself — which then exposed a readiness race, and left one Pages deploy job still failing.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
-    <meta property="og:title" content="사흘째 빨간불이던 CI: 앱이 아니라 엔진이 없었습니다 · HD2&#39;s Diary">
-    <meta property="og:description" content="AGPilot0003의 E2E 여섯 개가 Engine Offline으로 타임아웃되던 문제를 Playwright가 백엔드를 직접 띄우게 고쳤습니다. 그 과정에서 드러난 준비 대기 레이스와, 마지막까지 남아 있던 Pages 배포 잡까지 정리한 기록입니다.">
+    <meta property="og:title" content="Three Days of Red CI: The App Was Fine, the Engine Was Missing · HD2&#39;s Diary">
+    <meta property="og:description" content="Six AGPilot0003 E2E specs were timing out on Engine Offline. The fix was letting Playwright start the backend itself — which then exposed a readiness race, and left one Pages deploy job still failing.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -152,12 +152,14 @@
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Troubleshooting · 2026.11.18</p>
-        <h1>사흘째 빨간불이던 CI: 앱이 아니라 엔진이 없었습니다</h1>
-        <p class="post-summary">AGPilot0003의 E2E 여섯 개가 Engine Offline으로 타임아웃되던 문제를 Playwright가 백엔드를 직접 띄우게 고쳤습니다. 그 과정에서 드러난 준비 대기 레이스와, 마지막까지 남아 있던 Pages 배포 잡까지 정리한 기록입니다.</p>
+        <h1>Three Days of Red CI: The App Was Fine, the Engine Was Missing</h1>
+        <p class="post-summary">Six AGPilot0003 E2E specs were timing out on Engine Offline. The fix was letting Playwright start the backend itself — which then exposed a readiness race, and left one Pages deploy job still failing.</p>
         <div class="post-meta">
             <span class="badge">Troubleshooting</span>
-            <time datetime="2026-11-18">2026년 11월 18일</time>
-            <span>2분 읽기</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>3 min read</span>
+            
             
             
             <span class="post-tags">
@@ -168,23 +170,23 @@
     </header>
 
     <div class="md-body post-content">
-        <p>AGPilot0003은 브라우저에서 도면을 열고 편집하는 CAD 앱입니다. 프런트는 Vue 3 + Vite, 도면 계산은 FastAPI로 만든 <strong>CoverFilm 지오메트리 엔진</strong>이 맡습니다. 단위 테스트는 계속 초록불이었습니다. 그런데 <code>main</code>의 CI는 사흘 넘게 빨간불이었습니다.</p>
-<h2>증상</h2>
+        <p>AGPilot0003 is a CAD app that opens and edits drawings in the browser. The front end is Vue 3 + Vite, and the geometry work is done by the <strong>CoverFilm geometry engine</strong>, a FastAPI service. Unit tests stayed green the whole time. Meanwhile <code>main</code>'s CI had been red for more than three days.</p>
+<h2>Symptoms</h2>
 <ul>
-<li><code>build</code> 잡이 <code>Run E2E tests</code> 단계에서 죽습니다.</li>
-<li>화면의 엔진 상태 배지(<code>data-testid=&quot;cf-backend-status&quot;</code>)가 계속 <strong>Engine Offline</strong>입니다.</li>
-<li>CoverFilm·CAD 코어를 다루는 E2E 여섯 개가 전부 타임아웃됩니다.</li>
-<li>반면 Jest 단위 테스트는 정상이었습니다. 354개 스위트 중 352개 통과(2개 스킵), 테스트 2,463개 통과(2개 스킵).</li>
+<li>The <code>build</code> job dies at <code>Run E2E tests</code>.</li>
+<li>The engine status badge on screen (<code>data-testid=&quot;cf-backend-status&quot;</code>) keeps reading <strong>Engine Offline</strong>.</li>
+<li>All six E2E specs covering CoverFilm and the CAD core time out.</li>
+<li>Jest unit tests are fine: 352 of 354 suites passing (2 skipped), 2,463 tests passing (2 skipped).</li>
 </ul>
-<p>즉 <strong>코드가 깨진 게 아니라 테스트가 기대하는 환경이 없었습니다.</strong> CI 로그에 남은 실패는 이런 모양이었습니다.</p>
+<p>So <strong>the code was not broken; the environment the specs expected was missing.</strong> The failure in the CI log looked like this.</p>
 <pre class="code-block" data-lang="text"><code class="hljs language-text">19 × locator resolved to &lt;span data-testid=&quot;cf-backend-status&quot; class=&quot;cf-backend-tag is-offline&quot;&gt;Engine Offline&lt;/span&gt;
   - unexpected value &quot;Engine Offline&quot;
 </code></pre>
-<h2>원인: 스펙은 진짜 엔진을 요구합니다</h2>
-<p>문제의 여섯 스펙은 화면만 확인하는 테스트가 아닙니다. <code>Engine Online</code>을 확인한 뒤, <strong>실제로 DXF 파일을 <code>127.0.0.1:8000</code>의 엔진에 올려</strong> 도면을 가져옵니다. README 3장과 <code>docs/USER_GUIDE.md</code>가 안내하는 로컬 실행 절차도 그래서 &quot;백엔드를 먼저 띄우라&quot;로 시작합니다.</p>
-<p>개발자 컴퓨터에서는 손으로 띄운 엔진이 그 자리에 있었습니다. CI에는 아무도 띄워 주지 않았습니다. <code>playwright.config.ts</code>의 <code>webServer</code>에는 Vite 서버 하나만 있었기 때문입니다. 앱 결함이 아니라 <strong>구성 누락</strong>이었습니다.</p>
-<h2>해결 1 · Playwright가 엔진을 함께 띄우게 (PR #2 · <code>918fd17a</code>)</h2>
-<p>워크플로 파일을 고치는 방법도 있었지만, 그러면 로컬과 CI의 실행 조건이 다시 갈라집니다. 그래서 <code>webServer</code>를 배열로 바꿔 <strong>앱과 엔진을 한 명령으로 함께 띄우게</strong> 했습니다.</p>
+<h2>Cause: those specs require a real engine</h2>
+<p>The six specs do not merely check the screen. They confirm <code>Engine Online</code>, then <strong>actually upload a DXF file to the engine at <code>127.0.0.1:8000</code></strong> and read the drawing back. That is also why the local run instructions in the README and in <code>docs/USER_GUIDE.md</code> begin with &quot;start the backend first&quot;.</p>
+<p>On a developer's machine, an engine started by hand was sitting there. In CI nobody started one, because <code>playwright.config.ts</code> listed only the Vite server in <code>webServer</code>. Not an app defect — <strong>a missing piece of configuration</strong>.</p>
+<h2>Fix 1 · Let Playwright start the engine too (PR #2 · <code>918fd17a</code>)</h2>
+<p>Editing the workflow file was an option, but that splits the local and CI conditions apart again. Instead <code>webServer</code> became an array, so <strong>the app and the engine come up together from one command</strong>.</p>
 <pre class="code-block" data-lang="ts"><code class="hljs language-ts"><span class="hljs-attr">webServer</span>: [
   {
     <span class="hljs-attr">command</span>: <span class="hljs-string">`pnpm dev --host 127.0.0.1 --port <span class="hljs-subst">${PORT}</span>`</span>,
@@ -195,45 +197,45 @@
   {
     <span class="hljs-attr">command</span>: backendCommand,               <span class="hljs-comment">// scripts/start-e2e-backend.sh | .ps1</span>
     <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;http://127.0.0.1:8000/api/v1/health&#x27;</span>,
-    <span class="hljs-attr">timeout</span>: <span class="hljs-number">300_000</span>,                      <span class="hljs-comment">// 첫 실행은 venv 생성 + 의존성 설치</span>
+    <span class="hljs-attr">timeout</span>: <span class="hljs-number">300_000</span>,                      <span class="hljs-comment">// the first run creates a venv and installs deps</span>
     <span class="hljs-attr">reuseExistingServer</span>: !process.<span class="hljs-property">env</span>.<span class="hljs-property">CI</span>
   }
 ]
 </code></pre>
-<p>기동 스크립트는 README에 적혀 있던 수동 절차를 그대로 옮긴 것입니다.</p>
+<p>The startup script is the manual procedure from the README, moved into code.</p>
 <ul>
-<li><code>backend/.venv</code>가 없으면 만들고, <code>backend/requirements.txt</code>를 설치합니다.</li>
-<li>요구사항 파일이 바뀌면 다시 설치합니다. 설치 시점의 해시를 <code>.requirements.sha</code>에 남겨 두고 비교합니다.</li>
-<li>마지막에 <code>uvicorn app.main:app</code>을 <code>127.0.0.1:8000</code>에 올립니다.</li>
-<li>Windows는 같은 일을 하는 <code>start-e2e-backend.ps1</code>을 씁니다.</li>
+<li>Create <code>backend/.venv</code> if it is missing, then install <code>backend/requirements.txt</code>.</li>
+<li>Reinstall when the requirements file changes, by comparing against a hash left in <code>.requirements.sha</code>.</li>
+<li>Finally start <code>uvicorn app.main:app</code> on <code>127.0.0.1:8000</code>.</li>
+<li>Windows uses <code>start-e2e-backend.ps1</code>, which does the same thing.</li>
 </ul>
-<p><code>reuseExistingServer: !process.env.CI</code> 덕분에 로컬에서는 이미 띄워 둔 엔진을 그대로 쓰고, CI에서는 항상 새로 띄웁니다. <strong>스펙은 한 줄도 고치지 않았습니다. 모킹도, 스킵도 없습니다.</strong></p>
-<p>로컬에서 확인한 값은 이렇습니다.</p>
+<p>Because of <code>reuseExistingServer: !process.env.CI</code>, local runs reuse an engine already running and CI always starts a fresh one. <strong>Not one line of any spec changed. No mocking, no skips.</strong></p>
+<p>Numbers measured locally:</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>상황</th>
-<th>소요</th>
+<th>Situation</th>
+<th>Time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>첫 실행 (venv 생성 + 의존성 설치 + uvicorn)</td>
-<td>약 140초</td>
+<td>First run (venv, install, uvicorn)</td>
+<td>about 140 s</td>
 </tr>
 <tr>
-<td>이미 준비된 뒤</td>
-<td>약 9초</td>
+<td>Once prepared</td>
+<td>about 9 s</td>
 </tr>
 </tbody>
-</table></div><p>이 PR의 검증 런(<code>44195201490</code>)에서 E2E 36개가 5분 42초 만에 전부 통과했습니다. 엔진 배지도 <code>Engine Online</code>으로 바뀌었습니다.</p>
-<h2>해결 2 · 엔진이 살아나자 드러난 레이스 (PR #3 · <code>82acca1d</code>)</h2>
-<p>엔진 문제를 걷어내자, 기다리고 있던 결함이 모습을 드러냈습니다. 머지 후 <code>main</code> 런(<code>44200297047</code>)에서 <code>nested INSERT Off vs Freeze follows AutoCAD layer semantics</code> 스펙 하나가 <strong>세 번의 시도 모두</strong> <code>null</code>로 실패했습니다. 나머지 35개는 통과했습니다.</p>
-<p>원인은 스펙의 준비 대기였습니다.</p>
+</table></div><p>In this PR's verification run (<code>44195201490</code>), all 36 E2E tests passed in 5 minutes 42 seconds. The engine badge read <code>Engine Online</code>.</p>
+<h2>Fix 2 · The race the engine exposed (PR #3 · <code>82acca1d</code>)</h2>
+<p>With the engine problem out of the way, a waiting defect surfaced. On <code>main</code> after the merge (<code>44200297047</code>), one spec — <code>nested INSERT Off vs Freeze follows AutoCAD layer semantics</code> — failed with <code>null</code> on <strong>all three attempts</strong>. The other 35 passed.</p>
+<p>The cause was the spec's readiness wait.</p>
 <pre class="code-block" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">await</span> <span class="hljs-title function_">expect</span>(page.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&#x27;.ml-cad-container&#x27;</span>)).<span class="hljs-title function_">toBeVisible</span>({ <span class="hljs-attr">timeout</span>: <span class="hljs-number">30_000</span> })
-<span class="hljs-keyword">await</span> page.<span class="hljs-title function_">waitForTimeout</span>(<span class="hljs-number">1500</span>)   <span class="hljs-comment">// 여기서 1.5초만 기다리고 바로 읽었습니다</span>
+<span class="hljs-keyword">await</span> page.<span class="hljs-title function_">waitForTimeout</span>(<span class="hljs-number">1500</span>)   <span class="hljs-comment">// waited 1.5 s, then read</span>
 </code></pre>
-<p><code>window.AcApDocManager.instance</code>는 <code>App.vue</code>의 <code>initialize()</code>가 <code>@mlightcad/cad-simple-viewer</code> 동적 임포트를 끝낸 뒤에야 생깁니다. 업로드한 INSERT가 모델 공간에 도착하는 것도 그와 별개입니다. 컨테이너가 보인 시점과 준비가 끝난 시점 사이에는 아무 보장이 없으니, 부하가 걸린 러너에서는 1.5초 뒤에 읽은 값이 <code>null</code>이었습니다. 로컬에서는 대개 통과하고 CI에서만 무너지는 전형적인 플레이크입니다.</p>
-<p>고정 대기를 <strong>준비 상태 폴링</strong>으로 바꿨습니다.</p>
+<p><code>window.AcApDocManager.instance</code> only exists after <code>App.vue</code>'s <code>initialize()</code> finishes the dynamic import of <code>@mlightcad/cad-simple-viewer</code>, and the uploaded INSERT reaching model space is a separate matter again. Nothing guarantees the gap between &quot;container visible&quot; and &quot;ready&quot;, so on a loaded runner the value read 1.5 seconds later was <code>null</code>. The classic flake that mostly passes locally and collapses only in CI.</p>
+<p>The fixed wait became <strong>readiness polling</strong>.</p>
 <pre class="code-block" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">await</span> expect
   .<span class="hljs-title function_">poll</span>(
     <span class="hljs-title function_">async</span> () =&gt; (<span class="hljs-keyword">await</span> <span class="hljs-title function_">readNestedInsertSceneState</span>(page))?.<span class="hljs-property">insertObjectId</span>,
@@ -241,72 +243,72 @@
   )
   .<span class="hljs-title function_">toBeTruthy</span>()
 </code></pre>
-<p>검증하는 내용과 커버리지는 그대로 두고, 기다리는 방식만 바꿨습니다. 기다릴 조건이 있으면 시간을 정하지 말고 조건을 기다리는 편이 맞습니다.</p>
-<h2>해결 3 · 마지막 빨간불은 테스트가 아니었습니다 (<code>8ff203e9</code>)</h2>
-<p>두 PR을 머지한 뒤에도 CI는 아직 빨간불이었습니다. 이번에는 다른 잡이 문제였습니다. <code>build</code> 잡은 초록불인데 <code>deploy-pages</code> 잡이 실패했습니다.</p>
+<p>What is verified and what is covered stayed the same; only the waiting changed. When there is a condition to wait for, wait for the condition instead of naming a duration.</p>
+<h2>Fix 3 · The last red light was not a test (<code>8ff203e9</code>)</h2>
+<p>After both PRs were merged, CI was still red. This time a different job was the problem: <code>build</code> was green while <code>deploy-pages</code> failed.</p>
 <pre class="code-block" data-lang="text"><code class="hljs language-text">Get Pages site failed. Please verify that the repository has Pages enabled
 and configured to build using GitHub Actions...
 Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
 </code></pre>
-<p>이 저장소는 백엔드 엔진이 필요한 프로젝트라 정적 Pages 배포를 쓰지 않습니다. 그런데 워크플로에는 예전 구성이 그대로 남아 매번 배포를 시도하고 있었습니다. 테스트와 무관한 잡이 전체 CI의 결과를 계속 failure로 만들고 있었던 것입니다.</p>
-<p><code>ci.yml</code>에서 <code>upload-pages</code>와 <code>deploy-pages</code> 두 잡을 걷어냈습니다(27줄 삭제). 빌드 잡 안의 가이드 빌드 단계는 그대로 두었습니다.</p>
-<h2>결과</h2>
-<p>마지막 커밋 <code>8ff203e9</code>의 런(<code>44209661363</code>)에서 <code>build</code> 잡이 전 구간 초록불로 끝났습니다.</p>
+<p>This repository needs a backend engine, so it does not use static Pages deployment. But the workflow still carried the old configuration and attempted a deploy every run, and a job unrelated to the tests kept marking the whole CI run as a failure.</p>
+<p>I removed the <code>upload-pages</code> and <code>deploy-pages</code> jobs from <code>ci.yml</code> (27 lines deleted), leaving the guide build step inside the build job untouched.</p>
+<h2>Result</h2>
+<p>On the final commit <code>8ff203e9</code> (<code>44209661363</code>), the <code>build</code> job ran green end to end.</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>항목</th>
-<th>결과</th>
+<th>Item</th>
+<th>Result</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Jest 단위 테스트</td>
-<td>2,463 통과 · 2 스킵 (스위트 352 통과 · 2 스킵)</td>
+<td>Jest unit tests</td>
+<td>2,463 passed · 2 skipped (352 suites passed · 2 skipped)</td>
 </tr>
 <tr>
 <td>Playwright E2E</td>
-<td>36 통과 · 1 스킵</td>
+<td>36 passed · 1 skipped</td>
 </tr>
 <tr>
-<td><code>build</code> 잡</td>
+<td><code>build</code> job</td>
 <td>success</td>
 </tr>
 <tr>
-<td>전체 CI</td>
+<td>Whole CI</td>
 <td>success</td>
 </tr>
 </tbody>
-</table></div><p>세 커밋의 역할을 정리하면 이렇습니다.</p>
+</table></div><p>The three commits, and what each one did.</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>커밋</th>
-<th>내용</th>
-<th>결과</th>
+<th>Commit</th>
+<th>Change</th>
+<th>Outcome</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>918fd17a</code> (PR #2)</td>
-<td>Playwright가 CoverFilm 엔진을 함께 기동</td>
-<td>Engine Offline 해소, E2E 6종 복구</td>
+<td>Playwright starts the CoverFilm engine with the app</td>
+<td>Engine Offline resolved, six E2E specs restored</td>
 </tr>
 <tr>
 <td><code>82acca1d</code> (PR #3)</td>
-<td>nested INSERT 스펙의 고정 대기 → 30초 폴링</td>
-<td>플레이크 제거</td>
+<td>Fixed wait in the nested INSERT spec → 30 s polling</td>
+<td>Flake removed</td>
 </tr>
 <tr>
 <td><code>8ff203e9</code></td>
-<td>Pages 업로드·배포 잡 제거</td>
-<td>전체 CI success</td>
+<td>Removed the Pages upload and deploy jobs</td>
+<td>Whole CI green</td>
 </tr>
 </tbody>
-</table></div><h2>배운 것</h2>
+</table></div><h2>What I learned</h2>
 <ul>
-<li><strong>빨간 CI가 항상 코드 문제는 아닙니다.</strong> 먼저 &quot;이 테스트가 무엇을 전제하는가&quot;를 확인해야 합니다. 여기서는 엔진 프로세스 하나였고, 그 누락이 여섯 스펙을 한꺼번에 죽였습니다.</li>
-<li><strong>고친 뒤에 드러나는 실패는 진전입니다.</strong> 엔진이 없을 때는 가려져 있던 레이스가 엔진을 켜자 바로 나왔습니다. 가려진 결함을 세는 것보다 하나씩 걷어내는 편이 빠릅니다.</li>
-<li><strong>고정 대기는 언젠가 터집니다.</strong> <code>waitForTimeout(1500)</code>은 로컬에서 잘 통과합니다. 조건이 분명하면 <code>expect.poll</code>처럼 조건을 기다려야 합니다.</li>
-<li><strong>롤업이 아니라 잡을 봐야 합니다.</strong> 테스트가 다 초록불이어도 워크플로 구성이 낡아 있으면 CI는 계속 빨간불입니다. 실패한 잡 이름을 먼저 읽는 습관이 시간을 아낍니다.</li>
+<li><strong>Red CI is not always a code problem.</strong> First ask what the test assumes. Here it was one engine process, and its absence killed six specs at once.</li>
+<li><strong>A failure that appears after a fix is progress.</strong> The race was hidden while the engine was missing and showed up the moment it started. Uncovering hidden defects one at a time is faster than counting them.</li>
+<li><strong>A fixed wait will break eventually.</strong> <code>waitForTimeout(1500)</code> passes fine locally. When the condition is clear, wait for it — <code>expect.poll</code> and the like.</li>
+<li><strong>Read jobs, not the rollup.</strong> Tests can all be green while a stale workflow configuration keeps CI red. Reading the name of the failing job first saves time.</li>
 </ul>
 
     </div>
@@ -314,7 +316,7 @@ Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
     <nav class="post-nav" aria-label="Post navigation">
         <a class="post-nav-item" href="/diary/">
             <span class="post-nav-label">Diary</span>
-            <strong>전체 글 목록</strong>
+            <strong>All posts</strong>
         </a>
         <a class="post-nav-item" href="/diary/categories/troubleshooting/">
             <span class="post-nav-label">Category</span>
@@ -326,13 +328,13 @@ Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
     <nav class="post-pager" aria-label="Previous and next posts">
         
         <a class="pager-item pager-newer" href="/diary/posts/2026-11-18-harness-layer-concept-and-usage/">
-            <span>← 최신 글</span>
+            <span>← Newer</span>
             <strong>모델은 엔진, 하네스는 핸들: Harness Layer 이해하기</strong>
         </a>
         
         
         <a class="pager-item pager-older" href="/diary/posts/2026-11-18-git-basics-for-beginners/">
-            <span>이전 글 →</span>
+            <span>Older →</span>
             <strong>처음 시작하는 Git: 저장부터 협업까지 한 번에</strong>
         </a>
         

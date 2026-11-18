@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
-    <title>Shutterplate: 13가지 프레임과 4컷 FYRA 04 · HD2&#39;s Diary</title>
-    <meta name="description" content="사진을 서버로 보내지 않고 브라우저 안에서만 EXIF를 읽어 프레임을 입히는 스튜디오. 13종 프레임과 4컷 인생네컷을 정리합니다.">
+    <title>Shutterplate: Thirteen Frames and the Four-Cut FYRA 04 · HD2&#39;s Diary</title>
+    <meta name="description" content="A studio that reads EXIF inside the browser and lays a film frame over the photo — never uploading the picture. Thirteen single-frame presets, plus a four-cut strip.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
-    <meta property="og:title" content="Shutterplate: 13가지 프레임과 4컷 FYRA 04 · HD2&#39;s Diary">
-    <meta property="og:description" content="사진을 서버로 보내지 않고 브라우저 안에서만 EXIF를 읽어 프레임을 입히는 스튜디오. 13종 프레임과 4컷 인생네컷을 정리합니다.">
+    <meta property="og:title" content="Shutterplate: Thirteen Frames and the Four-Cut FYRA 04 · HD2&#39;s Diary">
+    <meta property="og:description" content="A studio that reads EXIF inside the browser and lays a film frame over the photo — never uploading the picture. Thirteen single-frame presets, plus a four-cut strip.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -152,12 +152,14 @@
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.15</p>
-        <h1>Shutterplate: 13가지 프레임과 4컷 FYRA 04</h1>
-        <p class="post-summary">사진을 서버로 보내지 않고 브라우저 안에서만 EXIF를 읽어 프레임을 입히는 스튜디오. 13종 프레임과 4컷 인생네컷을 정리합니다.</p>
+        <h1>Shutterplate: Thirteen Frames and the Four-Cut FYRA 04</h1>
+        <p class="post-summary">A studio that reads EXIF inside the browser and lays a film frame over the photo — never uploading the picture. Thirteen single-frame presets, plus a four-cut strip.</p>
         <div class="post-meta">
             <span class="badge">Devlog</span>
-            <time datetime="2026-11-15">2026년 11월 15일</time>
-            <span>1분 읽기</span>
+            
+            <time datetime="2026-11-15">2026.11.15</time>
+            <span>2 min read</span>
+            
             
             
             <span class="post-tags">
@@ -168,88 +170,88 @@
     </header>
 
     <div class="md-body post-content">
-        <p>Shutterplate는 사진 한 장을 넣으면 필름 프레임을 입혀 다시 내려주는 스튜디오입니다. 정확히는 <strong>브라우저 안에서만</strong> 그렇습니다. 사진은 어디로도 전송되지 않고, EXIF도, 캔버스도, 저장도 모두 방문자의 기기 안에서 끝납니다.</p>
-<h2>원칙 세 가지</h2>
-<p><strong>1. 사진은 브라우저 밖으로 나가지 않습니다.</strong> EXIF는 로컬 <code>exifr</code>로 읽고, 합성은 <code>&lt;canvas&gt;</code>에서 합니다. 서버가 없으니 원본이 남을 곳도 없습니다. 대신 결과물의 해상도는 원본을 따라갑니다. 4컷은 상한을 7200px(약 10MP)로 두고, 그보다 큰 사진은 4096 → 3072 → 2048px 순서로 낮춰 다시 그립니다. 브라우저마다 캔버스 상한이 달라서 한 번에 실패하지 않도록 단계를 두었습니다.</p>
-<p><strong>2. EXIF 원문을 고치지 않습니다.</strong> 여기서 한 번 원칙을 세우고 나니 코드가 달라졌습니다. 카메라 제조사 표기를 코드에서 정규화하지 않습니다. <code>SAMSUNG</code>은 <code>SAMSUNG</code>으로 남습니다. 소문자로 바꾸는 순간 그건 원본 정보가 아니라 우리가 만든 정보가 되기 때문입니다. 그래서 <code>Clean Horizon</code>의 기기 표기 자리는 텍스트를 찍는 대신 <strong>브랜드 엠블럼 + 모델명</strong>을 붙이는 방식으로 바꿨습니다. 원문은 그대로 두고, 보이는 방식만 다듬은 것입니다.</p>
-<p><strong>3. 결과물은 원본 해상도로.</strong> 미리보기는 가볍게, 저장은 원본 크기로 합니다. 저장 버튼 옆에 결과 픽셀 수를 항상 적어 두는 이유이기도 합니다.</p>
-<h2>13가지 프레임</h2>
-<p>프레임은 단일컷 11종과 멀티컷 2종으로 나뉩니다.</p>
+        <p>Shutterplate is a studio that takes one photo, lays a film frame over it, and hands it back. Precisely: <strong>inside the browser only</strong>. The photo is never transmitted anywhere. EXIF, canvas work, and saving all finish on the visitor's device.</p>
+<h2>Three rules</h2>
+<p><strong>1. The photo never leaves the browser.</strong> EXIF is read locally with <code>exifr</code>, and compositing happens on <code>&lt;canvas&gt;</code>. With no server, there is nowhere for the original to be left behind. The output resolution follows the original. For four-cut output the cap is 7200px (about 10 MP); anything larger is redrawn at 4096 → 3072 → 2048px in turn, because canvas limits differ between browsers and the steps keep a single failure from ending the run.</p>
+<p><strong>2. The EXIF text is never edited.</strong> Once I fixed this rule, the code changed with it. Camera maker strings are not normalised. <code>SAMSUNG</code> stays <code>SAMSUNG</code>, because lowercasing it turns original information into information I invented. So the device line in <code>Clean Horizon</code> stopped rendering text and started placing <strong>a brand emblem plus the model name</strong>. The source string stays as it is; only the way it is shown was refined.</p>
+<p><strong>3. Output at the original resolution.</strong> Preview light, save at full size. That is also why the pixel count of the result sits next to the save button at all times.</p>
+<h2>Thirteen frames</h2>
+<p>The frames divide into eleven single-cut and two multi-cut presets.</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>구분</th>
-<th>프레임</th>
+<th>Group</th>
+<th>Frames</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>기본 8종</td>
+<td>Eight originals</td>
 <td>Clean Horizon, Classic Gallery, Dual Deck, Strap Bar, Film Sprocket, Studio Dark, Minimal Edge, Pro Studio</td>
 </tr>
 <tr>
-<td>신규 단일 3종</td>
+<td>Three newer single-cut</td>
 <td>Instant Polaroid, Frosted Glass, Editorial Cover</td>
 </tr>
 <tr>
-<td>멀티컷 2종</td>
+<td>Two multi-cut</td>
 <td>Contact Sheet, FYRA 04</td>
 </tr>
 </tbody>
-</table></div><p>멀티컷은 목록 맨 뒤에 둡니다. 한 장을 다루는 흐름과 네 장을 다루는 흐름은 다르기 때문에, 같은 줄에 섞어 두면 실수로 4칸짜리를 고르게 됩니다.</p>
-<p><img src="/diary/assets/images/shutterplate-editor.png" alt="Shutterplate 편집 화면. 좌측 캔버스에 Clean Horizon 프레임, 우측에 EXIF 인스펙터, 하단에 13종 프레임 라이브러리가 있습니다."></p>
+</table></div><p>The multi-cut presets sit at the end of the list. Working with one photo and working with four are different flows, and mixing them into the same row means someone picks the four-slot layout by accident.</p>
+<p><img src="/diary/assets/images/shutterplate-editor.png" alt="The Shutterplate editor: Clean Horizon on the canvas at left, the EXIF inspector at right, the thirteen-frame library along the bottom"></p>
 <h2>FYRA 04</h2>
-<p><code>FYRA 04</code>는 네 컷을 한 장의 필름 스트립으로 묶는 프레임입니다. 이름은 네 개를 뜻하는 말에서 가져왔고, 프레임을 다시 누르면 여섯 가지 테마가 열립니다.</p>
+<p><code>FYRA 04</code> binds four cuts into a single strip of film. The name comes from the word for four, and pressing the frame again opens six themes.</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>테마</th>
-<th>성격</th>
+<th>Theme</th>
+<th>Character</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Classic Strip</td>
-<td>흰 여백의 정통 4컷</td>
+<td>The orthodox four-cut with white margins</td>
 </tr>
 <tr>
 <td>Nordic Grid</td>
-<td>격자와 넓은 여백</td>
+<td>A grid with generous margins</td>
 </tr>
 <tr>
 <td>Dark Studio</td>
-<td>어두운 바탕에 사진이 떠 보이는 구성</td>
+<td>Photos floating above a dark ground</td>
 </tr>
 <tr>
 <td>Film Strip</td>
-<td>스프로켓이 있는 필름 스트립</td>
+<td>A film strip with sprockets</td>
 </tr>
 <tr>
 <td>Editorial Grid</td>
-<td>잡지 지면처럼 정렬한 구성</td>
+<td>Laid out like a magazine page</td>
 </tr>
 <tr>
 <td>Minimal Twin</td>
-<td>2×2 최소 구성</td>
+<td>A minimal 2×2</td>
 </tr>
 </tbody>
-</table></div><p>4칸은 순서대로 채워지고, 칸을 교체하거나 <code>⇄</code>로 자리를 바꿀 수 있습니다. 멀티컷을 고르면 일반 슬롯 UI는 숨고 우하단에 <code>▦ 4</code> 플로팅 제어가 나타납니다. 우상단 <code>4-CUT</code> 배지는 그대로 두고, 다시 눌렀을 때 열리는 테마 라벨만 좌하단으로 분리했습니다. 두 정보가 한 자리에 겹치면 어느 쪽을 눌러야 할지 알 수 없기 때문입니다.</p>
-<p>스프로켓 구멍은 단일컷과 <code>FYRA 04</code> 필름 스트립 모두 <strong>사진 경계에 맞춰</strong> 정렬합니다. 프레임 위에 구멍을 얹으면 아무리 예뻐도 필름처럼 보이지 않습니다.</p>
-<p><img src="/diary/assets/images/fyra04-frames.png" alt="Navy &amp; Lavender 다크 모드의 FYRA 04. 네 컷이 필름 스트립 한 장으로 묶여 있습니다."></p>
-<h2>글자도 프레임의 일부</h2>
-<p>캡션과 포토그래퍼 자리는 <code>프레임 기본 | 커스텀</code>으로 나뉩니다. 커스텀에서는 산세리프·세리프·모노·필기체 중에서 고르고, 볼드와 이탤릭을 걸 수 있습니다. 다만 EXIF 수치(조리개·셔터·ISO)의 글꼴은 바꾸지 않습니다. 촬영 정보는 디자인 요소가 아니라 기록이기 때문입니다.</p>
-<h2>검증과 남은 것</h2>
-<p>정식판 승격 시점에 테스트 1,460건이 통과했습니다. 프레임 13종, 4컷 합성, 해상도 폴백, 캡션 렌더링이 모두 여기에 포함됩니다.</p>
+</table></div><p>The four slots fill in order, and you can replace a slot or swap positions with <code>⇄</code>. Choosing a multi-cut hides the standard slot UI and raises a <code>▦ 4</code> floating control at the bottom right. The <code>4-CUT</code> badge stays at the top right; only the theme label that opens on a second press moved to the bottom left, because two pieces of information in one corner leave you unsure which one to press.</p>
+<p>Sprocket holes line up <strong>against the edge of the photo</strong> in both the single-cut and the <code>FYRA 04</code> strip. Holes pasted on top of the frame can be pretty, but they do not read as film.</p>
+<p><img src="/diary/assets/images/fyra04-frames.png" alt="FYRA 04 in Navy &amp; Lavender dark mode, four cuts bound into one film strip"></p>
+<h2>Type is part of the frame too</h2>
+<p>Caption and photographer slots split into <code>frame default | custom</code>. Custom offers a sans, a serif, a mono, and a script face, with bold and italic. The EXIF figures (aperture, shutter, ISO) keep their font, though: shooting data is a record, not a design element.</p>
+<h2>Verification and what remains</h2>
+<p>1,460 tests passed at the point the build was promoted to the regular release: all thirteen frames, four-cut compositing, the resolution fallback, and caption rendering.</p>
 <ul>
-<li>iOS 사파리와 안드로이드 카카오톡 인앱 브라우저에서의 저장은 실기기 확인이 남아 있습니다. 인앱 브라우저는 <code>data:</code> URL 다운로드를 막는 경우가 있어 별도 우회로를 두었습니다.</li>
-<li>필기체 캡션은 외부 폰트 한 건에 의존합니다. 오프라인에서도 같은 결과를 내려면 폰트를 함께 실어야 합니다.</li>
+<li>Saving on iOS Safari and in the Android KakaoTalk in-app browser still needs a check on real devices. In-app browsers sometimes block <code>data:</code> URL downloads, so there is a separate workaround path.</li>
+<li>Script captions depend on one external font. Producing the same result offline means shipping the font with the app.</li>
 </ul>
-<p>사진 앱을 만들면서 가장 많이 배운 것은 기능 목록이 아니라 순서였습니다. 원본을 건드리지 않는다는 원칙을 먼저 세우고 나면, 그 위에 얹는 장식은 얼마든지 늘릴 수 있습니다.</p>
+<p>What I learned most from building a photo app was not a feature list but an order. Set the rule that the original stays untouched first, and after that you can add as much decoration on top as you like.</p>
 
     </div>
 
     <nav class="post-nav" aria-label="Post navigation">
         <a class="post-nav-item" href="/diary/">
             <span class="post-nav-label">Diary</span>
-            <strong>전체 글 목록</strong>
+            <strong>All posts</strong>
         </a>
         <a class="post-nav-item" href="/diary/categories/devlog/">
             <span class="post-nav-label">Category</span>
@@ -261,14 +263,14 @@
     <nav class="post-pager" aria-label="Previous and next posts">
         
         <a class="pager-item pager-newer" href="/diary/posts/2026-11-16-soft-iris-and-navy-lavender/">
-            <span>← 최신 글</span>
-            <strong>Soft Iris와 Navy &amp; Lavender: 사이트 전체의 색을 한 벌로 맞춘 기록</strong>
+            <span>← Newer</span>
+            <strong>Soft Iris and Navy &amp; Lavender: One Set of Colours for the Whole Site</strong>
         </a>
         
         
         <a class="pager-item pager-older" href="/diary/posts/2026-11-13-shipping-pkpilot0006/">
-            <span>이전 글 →</span>
-            <strong>AGPilot0006, 그리고 HD2Lab 사이트를 하나로 묶는 중</strong>
+            <span>Older →</span>
+            <strong>AGPilot0006, and Pulling the HD2Lab Sites into One Place</strong>
         </a>
         
     </nav>

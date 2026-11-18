@@ -1,60 +1,61 @@
 ---
-title: "AGPilot0006, 그리고 HD2Lab 사이트를 하나로 묶는 중"
+title: "AGPilot0006, and Pulling the HD2Lab Sites into One Place"
 date: 2026-11-13
 category: Devlog
-summary: "AGPilot0006 배포, Web-HQ 허브 정리, 그리고 기록을 남길 자리를 새로 만든 한 주입니다."
+summary: "Shipping AGPilot0006, reorganising the Web-HQ hub, and making a place to keep the record. A week spent making scattered things run in one spot."
 tags: [pkpilot, web-hq, github-pages, devlog]
+lang: en
 layout: post
 ---
 
-> 안내: 이 글의 기록 대상은 문서 변환 파이프라인 `AGPilot0006`입니다. `PKPilot0006`은 2026-11-16에 별도로 만든 DOS Player로, 이 글과는 다른 앱입니다.
+> Note: the subject of this post is `AGPilot0006`, a document-conversion pipeline. `PKPilot0006` is a DOS Player built separately on 2026-11-16 — a different app entirely.
 
-이번 주는 새 기능을 크게 벌이기보다, 흩어져 있던 것들을 **한 곳에서 굴러가게** 만드는 데 시간을 썼습니다. `AGPilot0006`을 배포하고, 허브 사이트의 카드와 링크를 다시 맞추고, 기록을 남길 자리까지 만들었습니다.
+Instead of opening a big new feature this week, I spent the time making scattered things **run from one place**. I shipped `AGPilot0006`, realigned the cards and links on the hub site, and built somewhere to keep the record.
 
-## 이번 주에 바뀐 것
+## What changed this week
 
-- `AGPilot0006`을 배포했습니다 — 문서 변환 파이프라인을 정리하고, 빌드 결과물을 정적 호스팅했습니다.
-- `Web-HQ` 카드 구조를 정리했습니다 — 허브가 3개에서 4개로 늘고, 데스크톱은 2×2 그리드가 됐습니다.
-- 저장소 루트의 오래된 스크립트를 정리하고 `.gitignore`를 정비했습니다.
-- 이 Diary를 추가했습니다 — Eleventy 빌드와 `/diary/write/` 편집기로 시작했습니다.
+- Shipped `AGPilot0006` — tidied the document-conversion pipeline and statically hosted the build output.
+- Reorganised the `Web-HQ` card layout — the hubs went from three to four, and the desktop grid became 2×2.
+- Removed old scripts from the repository root and cleaned up `.gitignore`.
+- Added this Diary — Eleventy for the build, with a `/diary/write/` editor to start.
 
-## 커밋 로그
+## Commit log
 
-| 날짜 | 저장소 | 내용 |
+| Date | Repository | Change |
 | --- | --- | --- |
-| 11-11 | `AGPilot0006` | 변환 파이프라인 모듈 분리 |
-| 11-12 | `AGPilot0006` | 빌드 산출물 정적 배포 경로 수정 |
-| 11-13 | `HyangDan2.github.io` | Web-HQ 허브 카드 4개 구조로 개편 |
-| 11-13 | `HyangDan2.github.io` | Diary 기반 공사 시작 |
+| 11-11 | `AGPilot0006` | Split the conversion pipeline into modules |
+| 11-12 | `AGPilot0006` | Fixed the static publish path for build output |
+| 11-13 | `HyangDan2.github.io` | Reworked Web-HQ into four hub cards |
+| 11-13 | `HyangDan2.github.io` | Started building on Diary |
 
-## 빌드는 항상 같은 자리에서 틀립니다
+## The build always breaks in the same place
 
-이번에도 실패는 늘 같은 곳에서 나왔습니다. 로컬에서는 통과하는데 배포에서만 깨지는 일입니다.
+The failure came from the usual spot again this week: passes locally, breaks only in deployment.
 
 ```bash
-# 로컬에서는 통과, CI에서 실패
+# passes locally, fails in CI
 npm run build
 # Error: ENOENT: no such file or directory, open 'dist/index.html'
 ```
 
-원인은 단순했습니다. 빌드 스크립트가 **저장소 루트 기준 경로**를 쓰고 있었고, CI는 다른 작업 디렉터리에서 실행됐습니다. 스크립트 안에서 `process.cwd()`를 쓰는 대신 설정 파일 기준 상대 경로로 바꾸니 해결됐습니다.
+The cause was simple. The build script used paths **relative to the repository root**, while CI ran it from a different working directory. Switching from `process.cwd()` to paths relative to the config file fixed it.
 
-> 경로 문제는 코드 문제가 아니라 실행 위치 문제인 경우가 훨씬 많습니다. 실패했을 때 제일 먼저 찍어 볼 것은 `pwd`입니다.
+> A path problem is far more often a working-directory problem than a code problem. The first thing to print when something fails is `pwd`.
 
-## 구조는 결국 한 장으로 정리됩니다
+## The structure ends up on one page
 
-![네 개의 허브 카드가 2×2로 정리된 Web-HQ 화면](/diary/assets/images/2026-11-13-webhq-hubs-grid.png)
+![The Web-HQ screen with four hub cards in a 2×2 grid](/diary/assets/images/2026-11-13-webhq-hubs-grid.png)
 
-허브를 네 개로 늘리면서 각 사이트가 서로를 어떻게 가리킬지 다시 정리했습니다. ApplicationHub, GameHub, TechnicalHub, 그리고 Diary. 공통 규칙은 세 가지입니다.
+Going to four hubs meant deciding again how the sites point at each other: ApplicationHub, GameHub, TechnicalHub, and Diary. Three shared rules.
 
-1. 모든 페이지는 Web-HQ로 돌아오는 링크를 헤더에 둡니다.
-2. 색은 `#101110` 배경에 `#ff824f` 액센트 하나만 씁니다.
-3. 새 프로젝트는 카드 한 장으로만 설명합니다. 설명이 길어지면 그건 카드가 아니라 글입니다.
+1. Every page carries a link back to Web-HQ in its header.
+2. One colour scheme: `#101110` background, `#ff824f` accent, nothing else.
+3. A new project gets one card. When the description grows longer than that, it is a post, not a card.
 
-## 다음 주
+## Next week
 
-- Diary에 글을 계속 쌓겠습니다 (지금은 샘플 두 편뿐입니다)
-- PKPilot0002 지도 앱의 모바일 성능을 다시 재겠습니다
-- Web-HQ에 Diary 카드가 들어간 뒤 2×2 그리드가 실제로 균형이 맞는지 확인하겠습니다
+- Keep adding posts to the Diary (right now there are only two samples)
+- Measure the mobile performance of the PKPilot0002 map app again
+- Check whether the 2×2 grid is actually balanced once the Diary card sits in Web-HQ
 
-작게 배포하고, 자주 기록합니다. 이번 주는 그 두 가지를 지킨 주였습니다.
+Ship small, write it down often. This was a week that kept both.

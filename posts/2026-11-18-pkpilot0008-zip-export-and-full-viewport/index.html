@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>PKPilot0008: A Portable ZIP, and an App Shell That Fills the Viewport · HD2&#39;s Diary</title>
+    <meta name="description" content="Hash-addressed ZIP export for a Markdown document (posts/ plus assets/), and a 100vw × 100dvh shell with independent scroll panes. Also: the About page learned to say what the lab actually does.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="PKPilot0008: A Portable ZIP, and an App Shell That Fills the Viewport · HD2&#39;s Diary">
+    <meta property="og:description" content="Hash-addressed ZIP export for a Markdown document (posts/ plus assets/), and a 100vw × 100dvh shell with independent scroll panes. Also: the About page learned to say what the lab actually does.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-appsplay">
+</head>
+<body class="page-posts-2026-11-18-pkpilot0008-zip-export-and-full-viewport">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <article class="post shell">
+    <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/diary/">Diary</a>
+        <span aria-hidden="true">/</span>
+        <a href="/diary/categories/devlog/">Devlog</a>
+    </nav>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.18</p>
+        <h1>PKPilot0008: A Portable ZIP, and an App Shell That Fills the Viewport</h1>
+        <p class="post-summary">Hash-addressed ZIP export for a Markdown document (posts/ plus assets/), and a 100vw × 100dvh shell with independent scroll panes. Also: the About page learned to say what the lab actually does.</p>
+        <div class="post-meta">
+            <span class="badge">Devlog</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>4 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#pkpilot</span><span class="tag">#markdown</span><span class="tag">#jszip</span><span class="tag">#sha-256</span><span class="tag">#css</span><span class="tag">#devlog</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>PKPilot0008 is the Markdown viewer that was split out of this diary: open a <code>.md</code>, paste text, load from a URL, and read it as GFM. Two changes landed on it the same day. One is about <strong>what the app hands back</strong> — a <code>.zip</code> that a document can travel in. The other is about <strong>what the app itself is</strong> — a shell that fills the window instead of a page that scrolls.</p>
+<h2>Part 1 · Export that survives the trip out</h2>
+<p>Reading Markdown is easy until the document has images. Copy the text and the pictures stay behind; save as HTML and you get one file with base64 weight inside it. What is actually portable is a folder.</p>
+<p>So <code>ZIP 저장</code> builds this from the document currently open.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">{slug}-{hash8}.zip
+├── posts/
+│   └── {slug}-{hash8}.md
+└── assets/
+    ├── {hash12}.png
+    └── {hash12}.jpg
+</code></pre>
+<p><code>{hash8}</code> is the first eight hex characters of the SHA-256 of the <strong>final markdown after image paths have been rewritten</strong>, and <code>{hash12}</code> is the first twelve of the SHA-256 of the <strong>image bytes</strong>. Both names are content addresses rather than guesses.</p>
+<ul>
+<li>The same image appears once however often a document references it, because identical bytes hash to the same name.</li>
+<li>A changed document produces a different file name, so two exports never argue about which is newer.</li>
+<li>Two files called <code>image.png</code> from different folders cannot collide, and no filename has to be sanitised.</li>
+</ul>
+<p>SHA-256 comes from <code>crypto.subtle.digest</code>, with a pure-JS fallback for pages served over plain HTTP or from <code>file://</code>, where <code>crypto.subtle</code> is unavailable. The fallback was checked against Python's <code>hashlib</code> at the empty string, at the 55, 56, and 64-byte block boundaries, and on eight PNG samples.</p>
+<h3>Three ways an image gets in</h3>
+<ul>
+<li><strong><code>data:image/…;base64</code></strong> is decoded directly out of the document.</li>
+<li><strong><code>http(s)</code> and relative paths</strong> are fetched. If CORS blocks the read, the original URL stays in the body and the completion toast reports how many images were left out.</li>
+<li><strong>Local files</strong> opened alongside the document — the file input takes <code>multiple</code> and <code>image/*</code>, and files can be dropped anywhere on the window. They are matched by file name and relative path, previewed immediately through <code>blob:</code> URLs, and placed into <code>assets/</code>.</li>
+</ul>
+<p>Only real image references are touched: <code>![alt](url)</code> with an optional title, and <code>&lt;img src=&quot;...&quot;&gt;</code>. Anything inside a fenced code block or inline code is left exactly as written, because a document about Markdown is full of examples that look like images but are not.</p>
+<p>JSZip 3.10.1 is vendored as <code>js/vendor/jszip.min.js</code> and loaded with the page rather than from a CDN — the rest of the site works offline and this should not be the one thing that does not.</p>
+<h3>One regression, mine</h3>
+<p>The ZIP shipped, then a check of the other export path found a defect I had introduced. To preview local images, the body had been rewritten to <code>blob:</code> addresses; <code>HTML 저장</code> then saved those addresses into the file, so images broke outside the browser session. The fix remembers the original path in <code>data-origin-src</code> and writes local files back by that name at export time, and rewrites relative paths in URL-loaded documents to absolute ones. That went out as a second PR, and the live checks were run again from scratch.</p>
+<p>Verification: 74 local browser checks covering base64, local files, CORS success and failure, relative and root-relative paths, SVG, duplicate elimination, code-fence protection, frontmatter preservation, and archive contents — the name inside <code>posts/</code> really does equal the hash of the bytes inside it. Then 20 live checks on the deployed site, including a real post from GitHub with three images.</p>
+<h2>Part 2 · 100vw × 100dvh: the page becomes a shell</h2>
+<p>The viewer had been a website: a shell capped at 1344px with 96px side padding, a heading, an explanation, a notes block, a footer, and the document somewhere in the middle. Fine for reading one file; wrong for handling documents all day. The heading and notes pushed the main content down, and the window itself scrolled, so the toolbar left the screen the moment you started reading.</p>
+<p>It is now an app shell.</p>
+<ul>
+<li><code>.shell</code>'s width cap and side padding are gone; the frame runs edge to edge.</li>
+<li><code>body</code> is <code>height: 100dvh; overflow: hidden</code> in a column flex (with a <code>100vh</code> fallback for older browsers), so the window never scrolls.</li>
+<li>Four bands stack at the top: the 52px slim header (brand, <code>?</code> help, Web-HQ), then <code>io-bar</code>, <code>url-bar</code>, and <code>doc-bar</code>. Below them <code>.doc-layout</code> takes every remaining pixel with <code>flex: 1; min-height: 0</code>.</li>
+<li>Measured at 1440×900: 52 + 134 + 714 = 900, <code>window.scrollY</code> stays 0, and there is no overflow on either axis. At 1919×992 in a real browser: 52 + 134 + 806 = 992.</li>
+</ul>
+<p><code>min-height: 0</code> is the small line that makes it work. Without it, a flex child refuses to shrink below its content and the layout pushes past the viewport.</p>
+<h3>Two scroll panes, and code that no longer assumes <code>window</code></h3>
+<p>The table of contents and the document now scroll independently: <code>.toc</code> and <code>.doc</code> each get <code>overflow-y: auto</code> with <code>overscroll-behavior: contain</code>, and the TOC header stays fixed while only the list moves.</p>
+<p>That change invalidated code assuming a page scroll, so <code>app.js</code> was rewritten around the new container:</p>
+<ul>
+<li>Clicking a TOC entry measures against <code>.doc</code> and lands the heading 14px below the panel top, preventing the default anchor jump so the <code>#md=</code> share hash is preserved.</li>
+<li>The scroll spy uses <code>IntersectionObserver</code> with <code>root: .doc</code>, plus a position-based decision, so a long document highlights exactly the section clicked and scrolls the TOC itself when the active entry falls outside the visible list.</li>
+<li>A <code>Back to top</code> button appears in <code>doc-bar</code> after 320px of scroll and returns <code>.doc</code> to 0.</li>
+<li>Opening a new document resets both panes.</li>
+</ul>
+<p>Reading width is handled separately from the frame: backgrounds and borders run to the viewport edge, while the text column inside <code>.doc-inner</code> is capped at 960px and centred. <code>overflow-wrap</code> moved from <code>anywhere</code> to <code>break-word</code>, which stopped inline code from breaking mid-identifier into unmatched fragments.</p>
+<h3>The help that used to push the page</h3>
+<p>The old <code>.page-head</code> line and the three notes blocks (CORS, ZIP, share links), plus the footer, moved into a <code>?</code> dialog in the header. It opens on demand, closes with Esc, and no longer occupies vertical space. The page still has its <code>&lt;h1&gt;</code>, visually hidden, for structure.</p>
+<h3>Verification, including the parts that usually break</h3>
+<p>Printing is the classic casualty of a fixed-height layout, so <code>@media print</code> unwinds it: <code>height: auto; overflow: visible; display: block</code> on the html, body, layout, and document. In print media the document measured 1521px against a 900px viewport and came out as two A4 pages with nothing clipped.</p>
+<p>Everything else was checked for regressions on the live site: opening a file, pasting, loading a GitHub <code>raw</code> URL, ZIP export, HTML save, restoring a <code>#md=</code> share link, and the light/dark toggle. Mobile: no horizontal overflow at 320, 390, 768, or 844×390, and the TOC drawer opens, navigates, and closes itself. Console errors: zero.</p>
+<h2>Part 3 · The About page stops being a brochure</h2>
+<p>The same week, <code>/about/</code> on Web-HQ was rewritten. It had existed as a page only since the navigation rebuild, and it still read like a description of a design studio. Its opening line is now <strong>&quot;Beyond Dimensions, Built for Real.&quot;</strong>, over a lab statement rather than a slogan: AI systems, computer vision, and workflow automation converging into production software.</p>
+<p>Three paragraphs carry the story.</p>
+<ul>
+<li><strong>One builder, amplified by AI.</strong> — work that used to need a team, from CAD parsers to browser-native image studios to multi-agent pipelines, can now be designed, tested, and shipped end to end.</li>
+<li><strong>Built to be used, not just shown.</strong> — every project starts from real friction: zero-server EXIF frames, local-first Markdown publishing, transit-aware meeting points, monitors that run unattended.</li>
+<li><strong>Open by default.</strong> — code, architecture decisions, failures, and notes live together, so each shipped system becomes the ground for the next.</li>
+</ul>
+<p>The four hub descriptions were rewritten to match what each hub actually holds, the contact block became an invitation to technical collaboration, and the meta, Open Graph, and footer copy now repeat the same phrase as the hero. The artwork above it was swapped twice in the same afternoon, which is a reminder that a headline is easier to get right than an image.</p>
+<h2>What this pair of changes has in common</h2>
+<p>A viewer that only displays Markdown is a page. A viewer that can take a document in, keep it, hand it back as a portable folder, and fill the window while doing it is a tool. The ZIP work asked <em>what leaves this app</em>; the shell work asked <em>what this app is while the document is open</em>. Neither is a feature, and both changed how the app feels to use.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/categories/devlog/">
+            <span class="post-nav-label">Category</span>
+            <strong>Devlog</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        
+        <a class="pager-item pager-newer" href="/diary/posts/2026-11-18-one-control-per-job-theme-toggles-and-hud/">
+            <span>← Newer</span>
+            <strong>One Control per Job: Duplicate Theme Toggles, and a HUD That Measures Its Stage</strong>
+        </a>
+        
+        
+        <a class="pager-item pager-older" href="/diary/posts/2026-11-18-onprem-pip-npm-offline-install/">
+            <span>Older →</span>
+            <strong>닫힌 망에 패키지를 들이는 법: pip·npm 오프라인 설치</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
-    <title>DOOM에서 키가 안 먹히던 이유: js-dos v8과 DEFAULT.CFG · HD2&#39;s Diary</title>
-    <meta name="description" content="가짜 KeyboardEvent는 통하지 않았고, 진짜 범인은 doom.jsdos 안의 DEFAULT.CFG였습니다. 원인을 좁힌 순서와 가로 풀스크린 오버레이 해결을 기록합니다.">
+    <title>Why the Keys Did Nothing in DOOM: js-dos v8 and DEFAULT.CFG · HD2&#39;s Diary</title>
+    <meta name="description" content="Synthetic KeyboardEvents were not the answer. The real culprit was DEFAULT.CFG inside doom.jsdos. How I narrowed it down, plus the landscape fullscreen overlay.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
-    <meta property="og:title" content="DOOM에서 키가 안 먹히던 이유: js-dos v8과 DEFAULT.CFG · HD2&#39;s Diary">
-    <meta property="og:description" content="가짜 KeyboardEvent는 통하지 않았고, 진짜 범인은 doom.jsdos 안의 DEFAULT.CFG였습니다. 원인을 좁힌 순서와 가로 풀스크린 오버레이 해결을 기록합니다.">
+    <meta property="og:title" content="Why the Keys Did Nothing in DOOM: js-dos v8 and DEFAULT.CFG · HD2&#39;s Diary">
+    <meta property="og:description" content="Synthetic KeyboardEvents were not the answer. The real culprit was DEFAULT.CFG inside doom.jsdos. How I narrowed it down, plus the landscape fullscreen overlay.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -152,12 +152,14 @@
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Troubleshooting · 2026.11.16</p>
-        <h1>DOOM에서 키가 안 먹히던 이유: js-dos v8과 DEFAULT.CFG</h1>
-        <p class="post-summary">가짜 KeyboardEvent는 통하지 않았고, 진짜 범인은 doom.jsdos 안의 DEFAULT.CFG였습니다. 원인을 좁힌 순서와 가로 풀스크린 오버레이 해결을 기록합니다.</p>
+        <h1>Why the Keys Did Nothing in DOOM: js-dos v8 and DEFAULT.CFG</h1>
+        <p class="post-summary">Synthetic KeyboardEvents were not the answer. The real culprit was DEFAULT.CFG inside doom.jsdos. How I narrowed it down, plus the landscape fullscreen overlay.</p>
         <div class="post-meta">
             <span class="badge">Troubleshooting</span>
-            <time datetime="2026-11-16">2026년 11월 16일</time>
-            <span>2분 읽기</span>
+            
+            <time datetime="2026-11-16">2026.11.16</time>
+            <span>2 min read</span>
+            
             
             
             <span class="post-tags">
@@ -168,97 +170,97 @@
     </header>
 
     <div class="md-body post-content">
-        <p>DOS Player(PKPilot0006)는 브라우저에서 고전 DOS 게임을 바로 실행하는 앱입니다. <code>js-dos</code> v8(WASM DOSBox) 위에 공개 프리웨어 번들을 얹었고, 첫 배포 때 <code>Digger</code>, DOOM 셰어웨어, Dhrystone 2 세 가지로 부팅을 확인했습니다. 부팅은 잘 됐습니다. 문제는 그다음이었습니다. <strong>가상 패드를 눌러도 게임이 움직이지 않았습니다.</strong></p>
-<h2>증상</h2>
+        <p>DOS Player (PKPilot0006) runs classic DOS games straight in the browser. It puts public freeware bundles on top of <code>js-dos</code> v8 (WASM DOSBox), and the first deployment was checked by booting three of them: <code>Digger</code>, the DOOM shareware episode, and Dhrystone 2. Booting worked. The problem came next: <strong>pressing the on-screen pad did nothing in the game.</strong></p>
+<h2>Symptoms</h2>
 <ul>
-<li>화면은 정상적으로 뜨고, 마우스 클릭으로 메뉴는 열립니다.</li>
-<li>모바일 가상 패드의 방향 버튼을 눌러도 시야가 돌지 않습니다.</li>
-<li>데스크톱에서 물리 키보드로 WASD를 눌러도 마찬가지입니다.</li>
+<li>The screen renders fine, and mouse clicks open menus.</li>
+<li>Pressing the direction buttons on the mobile pad does not turn the view.</li>
+<li>Physical WASD on a desktop keyboard behaves the same way.</li>
 </ul>
-<p>즉 입력만 죽어 있었습니다. 이럴 때 가장 흔한 원인은 포커스입니다. 에뮬레이터 캔버스가 포커스를 잃으면 키 이벤트가 document로 가고, 게임은 아무것도 받지 못합니다.</p>
-<h2>1단계: 합성 이벤트는 통하지 않는다</h2>
-<p>첫 시도는 포커스를 우회하는 것이었습니다. 캔버스 대신 <code>window</code>에 <code>KeyboardEvent</code>를 직접 만들어 던지면 어디에 포커스가 있든 전달될 것이라고 생각했습니다.</p>
-<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-comment">// 이렇게 하면 될 줄 알았습니다</span>
+<p>Input, and only input, was dead. The usual suspect here is focus: once the emulator canvas loses focus, key events go to the document and the game receives nothing.</p>
+<h2>Step 1: synthetic events do not travel</h2>
+<p>The first attempt was to sidestep focus. Instead of the canvas, dispatch a hand-built <code>KeyboardEvent</code> on <code>window</code> and it should arrive wherever focus happens to be.</p>
+<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-comment">// what I assumed would work</span>
 <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, { <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;ArrowUp&#x27;</span>, <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span> }));
 </code></pre>
-<p>결과는 무반응이었습니다. 원인은 js-dos v8의 구조에 있었습니다. v8은 키보드 입력을 DOM 이벤트가 아니라 <strong>CommandInterface(<code>ci</code>)</strong> 로 받습니다. 에뮬레이터가 준비되면 <code>ci.sendKeyEvent(keyObject, down)</code>로 키를 밀어 넣어야 하고, 합성 이벤트는 그 경로를 타지 않습니다. v8 내부의 키 코드 테이블도 DOM의 <code>keyCode</code>와 값이 다릅니다. 예를 들어 <code>Escape</code>는 27이 아니라 256입니다.</p>
-<p>그래서 입력 경로를 하나로 모았습니다.</p>
+<p>Nothing happened. The reason sits in the shape of js-dos v8. v8 receives keyboard input not as DOM events but through its <strong>CommandInterface (<code>ci</code>)</strong>. Once the emulator is ready, keys have to be pushed with <code>ci.sendKeyEvent(keyObject, down)</code>, and synthetic events never take that path. The key-code table inside v8 also differs from DOM <code>keyCode</code> values: <code>Escape</code>, for instance, is 256, not 27.</p>
+<p>So I funnelled input through one path.</p>
 <pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">sendKey</span>(<span class="hljs-params">code, down</span>) {
   <span class="hljs-keyword">const</span> kbd = <span class="hljs-variable constant_">KBD</span>[code];            <span class="hljs-comment">// { key, keyCode, location }</span>
   <span class="hljs-keyword">if</span> (state.<span class="hljs-property">ci</span> &amp;&amp; state.<span class="hljs-property">ci</span>.<span class="hljs-property">sendKeyEvent</span>) {
-    state.<span class="hljs-property">ci</span>.<span class="hljs-title function_">sendKeyEvent</span>(kbd, down);   <span class="hljs-comment">// 에뮬레이터가 직접 받습니다</span>
+    state.<span class="hljs-property">ci</span>.<span class="hljs-title function_">sendKeyEvent</span>(kbd, down);   <span class="hljs-comment">// the emulator receives it directly</span>
     <span class="hljs-keyword">return</span>;
   }
-  <span class="hljs-comment">// ci가 준비되기 전에만 합성 이벤트로 폴백</span>
+  <span class="hljs-comment">// fall back to synthetic events only before ci exists</span>
   target.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(down ? <span class="hljs-string">&#x27;keydown&#x27;</span> : <span class="hljs-string">&#x27;keyup&#x27;</span>, { <span class="hljs-attr">key</span>: kbd.<span class="hljs-property">key</span>, code }));
 }
 </code></pre>
-<p>이렇게 바꾸고 나서야 메뉴 조작과 Esc가 먹히기 시작했습니다.</p>
-<h2>2단계: 그래도 위·아래는 아무 일도 없었다</h2>
-<p>Esc는 되는데 DOOM에서 시야가 돌지 않았습니다. 여기서 한 번 더 파고들었습니다. 원인은 코드가 아니라 <strong>번들 안에 들어 있던 설정 파일</strong>이었습니다.</p>
-<p><code>doom.jsdos</code> 압축을 풀면 안에 <code>DEFAULT.CFG</code>가 있습니다. 그 파일의 키 배열은 이렇습니다.</p>
+<p>Only after this change did menu navigation and Esc start working.</p>
+<h2>Step 2: up and down still did nothing</h2>
+<p>Esc worked; the view in DOOM still did not turn. So I dug one level deeper, and the cause was not code but <strong>a settings file inside the bundle</strong>.</p>
+<p>Unzip <code>doom.jsdos</code> and there is a <code>DEFAULT.CFG</code>. Its key bindings look like this.</p>
 <div class="table-wrap"><table><thead>
 <tr>
-<th>설정</th>
-<th>값</th>
-<th>의미</th>
+<th>Setting</th>
+<th>Value</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>key_up</code> / <code>key_down</code></td>
-<td><code>W</code> / <code>S</code> (스캔코드 17 / 31)</td>
-<td>전진·후진</td>
+<td><code>W</code> / <code>S</code> (scancodes 17 / 31)</td>
+<td>forward, backward</td>
 </tr>
 <tr>
 <td><code>key_strafeleft</code> / <code>key_straferight</code></td>
 <td><code>A</code> / <code>D</code></td>
-<td>좌우 평행 이동</td>
+<td>strafe left and right</td>
 </tr>
 <tr>
 <td><code>key_left</code> / <code>key_right</code></td>
-<td>좌·우 방향키</td>
-<td>회전</td>
+<td>left and right arrows</td>
+<td>turn</td>
 </tr>
 <tr>
 <td><code>key_fire</code></td>
 <td><code>Ctrl</code></td>
-<td>사격</td>
+<td>fire</td>
 </tr>
 <tr>
 <td><code>key_use</code></td>
 <td><code>Space</code></td>
-<td>문 열기</td>
+<td>open doors</td>
 </tr>
 <tr>
 <td><code>key_speed</code></td>
 <td><code>Shift</code></td>
-<td>달리기</td>
+<td>run</td>
 </tr>
 </tbody>
-</table></div><p>즉 이 DOOM은 <strong>위·아래 방향키를 게임플레이에 쓰지 않습니다.</strong> 1993년의 관례대로 W/S로 걷습니다. 패드가 아무리 정확하게 <code>↑</code>를 보내도 게임은 그 키를 기다리지 않으니 아무 일도 일어나지 않습니다.</p>
-<p>해결은 게임이 듣는 키를 보내는 것이었습니다. DOOM 프로필의 패드는 위·아래에 <strong>두 키를 함께</strong> 보냅니다.</p>
+</table></div><p>In other words, this DOOM <strong>does not use the up and down arrows for gameplay</strong>. It walks with W and S, as the 1993 conventions had it. However precisely the pad sends <code>↑</code>, the game is not waiting for that key, so nothing happens.</p>
+<p>The fix was to send the keys the game listens for. The pad in the DOOM profile sends <strong>both keys</strong> for up and down.</p>
 <ul>
-<li>게임플레이: <code>W</code> / <code>S</code></li>
-<li>메뉴: <code>↑</code> / <code>↓</code> (Esc 메뉴는 방향키로 움직입니다)</li>
+<li>Gameplay: <code>W</code> / <code>S</code></li>
+<li>Menus: <code>↑</code> / <code>↓</code> (the Esc menu moves with the arrows)</li>
 </ul>
-<p>이후 사용자가 직접 키를 바꿀 수 있도록 <code>키 설정</code> 모달도 붙였습니다. 10개 동작을 다시 매핑하고, 결과는 <code>localStorage</code>에 남습니다. <code>Digger</code>처럼 방향키를 그대로 쓰는 번들은 기본 프로필을 씁니다.</p>
-<p><img src="/diary/assets/images/dos-doom-play.png" alt="키 매핑을 고친 뒤의 DOOM. 사격·이동이 모두 동작합니다."></p>
-<h2>3단계: 가로 화면에서 손가락 두 개</h2>
-<p>입력이 살아나자 다음 문제가 보였습니다. 세로 화면에서는 지도와 패드가 게임 화면을 절반이나 가립니다. 그래서 가로에서는 에뮬레이터를 화면 전체로 띄우는 오버레이를 만들었습니다.</p>
-<p><img src="/diary/assets/images/dos-landscape-overlay.png" alt="가로 풀스크린 오버레이. 왼쪽 D-pad, 오른쪽 액션 패드, 상단에 미니 컨트롤 바가 있습니다."></p>
+<p>I then added a <code>Key settings</code> modal so the keys could be remapped by hand: ten actions, with the result kept in <code>localStorage</code>. Bundles that use the arrows as they are, like <code>Digger</code>, keep the default profile.</p>
+<p><img src="/diary/assets/images/dos-doom-play.png" alt="DOOM after the key-mapping fix — firing and movement both work"></p>
+<h2>Step 3: two thumbs in landscape</h2>
+<p>With input alive, the next problem was visible. In portrait, the map and the pad cover half the game screen. So in landscape the emulator now opens in a full-screen overlay.</p>
+<p><img src="/diary/assets/images/dos-landscape-overlay.png" alt="The landscape fullscreen overlay: D-pad at lower left, action pad at lower right, mini control bar on top"></p>
 <ul>
-<li>왼쪽 아래에 D-pad, 오른쪽 아래에 액션 패드(<code>A/B/C/D/E/F</code>)를 두고, 버튼마다 실제 키를 표시했습니다.</li>
-<li>오른쪽 위에 미니 컨트롤 바(패드 숨김 · 가상 키보드 · 소리 · 나가기)를 두어 게임 화면을 가리지 않게 했습니다.</li>
-<li>PC(<code>hover</code> + <code>fine pointer</code>)에서는 가상 패드를 기본으로 숨기고, <code>⋮</code> 메뉴에서 강제로 켤 수 있게 했습니다. 큰 화면에서 화면 절반을 패드가 차지하면 안 됩니다.</li>
-<li>가상 키보드는 숨김 <code>&lt;input&gt;</code>에 포커스를 주고 안드로이드 IME의 조합 입력(229)을 처리합니다. 한글 자판이 켜져 있어도 영문 키가 그대로 들어가게 하려는 것입니다.</li>
-<li>iOS 사파리는 화면 고정(orientation lock)이 정책상 막혀 있어 이 기능에서 제외했습니다.</li>
+<li>A D-pad at the lower left and an action pad (<code>A/B/C/D/E/F</code>) at the lower right, with the real key printed on each button.</li>
+<li>A mini control bar at the upper right (hide pad, virtual keyboard, sound, exit) so the game area stays unobstructed.</li>
+<li>On PC (<code>hover</code> + <code>fine pointer</code>) the virtual pad is hidden by default, with a force option in the <code>⋮</code> menu. On a large screen the pad must not own half the display.</li>
+<li>The virtual keyboard focuses a hidden <code>&lt;input&gt;</code> and handles Android IME composition (229), so Latin keys arrive even when a Korean keyboard is active.</li>
+<li>iOS Safari is excluded from this feature: orientation lock is blocked by policy there.</li>
 </ul>
-<h2>배운 것</h2>
+<h2>What I learned</h2>
 <ul>
-<li>에뮬레이터 입력은 &quot;이벤트&quot;가 아니라 <strong>&quot;명령&quot;</strong> 입니다. 라이브러리가 준 인터페이스를 먼저 찾아야 합니다.</li>
-<li>번들 안의 설정 파일이 UI보다 우선합니다. <code>.jsdos</code>나 <code>.zip</code>을 받았다면 압축을 풀어 내부 설정까지 확인해야 합니다.</li>
-<li>&quot;안 된다&quot;는 신고를 세 단계로 쪼개면 원인이 매번 달랐습니다. 포커스, 키 코드, 게임 설정. 한 번에 고치려 했다면 세 번 헤맸을 것입니다.</li>
+<li>Emulator input is <strong>a command, not an event</strong>. Find the interface the library provides before anything else.</li>
+<li>A settings file inside the bundle outranks the UI. If you have a <code>.jsdos</code> or <code>.zip</code>, unpack it and read the internal configuration.</li>
+<li>Split &quot;it does not work&quot; into stages and the cause changes each time: focus, then key codes, then game settings. Trying to fix all three at once would have cost three rounds of wandering.</li>
 </ul>
 
     </div>
@@ -266,7 +268,7 @@
     <nav class="post-nav" aria-label="Post navigation">
         <a class="post-nav-item" href="/diary/">
             <span class="post-nav-label">Diary</span>
-            <strong>전체 글 목록</strong>
+            <strong>All posts</strong>
         </a>
         <a class="post-nav-item" href="/diary/categories/troubleshooting/">
             <span class="post-nav-label">Category</span>
@@ -278,14 +280,14 @@
     <nav class="post-pager" aria-label="Previous and next posts">
         
         <a class="pager-item pager-newer" href="/diary/posts/2026-11-17-solver-and-markdown-tools/">
-            <span>← 최신 글</span>
-            <strong>Solver와 마크다운 도구: 판독 앱, 그리고 다이어리에서 글쓰기를 떼어낸 이유</strong>
+            <span>← Newer</span>
+            <strong>Solver and the Markdown Tools: A Reading App, and Why Writing Left the Diary</strong>
         </a>
         
         
         <a class="pager-item pager-older" href="/diary/posts/2026-11-16-soft-iris-and-navy-lavender/">
-            <span>이전 글 →</span>
-            <strong>Soft Iris와 Navy &amp; Lavender: 사이트 전체의 색을 한 벌로 맞춘 기록</strong>
+            <span>Older →</span>
+            <strong>Soft Iris and Navy &amp; Lavender: One Set of Colours for the Whole Site</strong>
         </a>
         
     </nav>
