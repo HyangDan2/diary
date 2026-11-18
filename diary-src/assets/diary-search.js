@@ -220,6 +220,12 @@
             renderIdle(state);
             return;
         }
+        // Until the index arrives, typing must not pretend there are no matches.
+        if (!state.ready) {
+            if (state.clear) state.clear.hidden = false;
+            paintStatus(state, [["검색 준비 중…", null]]);
+            return;
+        }
 
         const terms = termsOf(state.input.value);
         const matched = state.index.filter((post) => inScope(post, state) && matches(post, terms));
@@ -381,7 +387,6 @@
         state.base = state.indexUrl.replace(/[^/]*$/, "");
         state.defaultRows = state.defaultBox ? Array.from(state.defaultBox.querySelectorAll(".post-row")) : [];
         state.defaultHeading = state.heading ? state.heading.textContent : "";
-        root.diarySearch = state; // handy when checking the page by hand
 
         state.input.addEventListener("input", () => schedule(state));
         state.input.addEventListener("keydown", (event) => {
