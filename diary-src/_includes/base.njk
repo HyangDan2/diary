@@ -16,7 +16,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="{{ '/assets/hd2-theme.css' | url }}?v=20261117-navy">
     <script src="{{ '/assets/hd2-theme.js' | url }}?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261118-accordion">
+    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261118-search">
 </head>
 <body class="page-{{ page.url | slugify }}">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -101,7 +101,7 @@
             <a href="{{ site.hqUrl }}">{{ site.hqLabel }} <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
-    {% if pageScript %}<script src="{{ pageScript | url }}" defer></script>{% endif %}
+    {% if pageScript %}<script src="{{ pageScript | url }}?v=20261118-search" defer></script>{% endif %}
     <script src="{{ '/assets/diary-nav.js' | url }}?v=20261118-accordion" defer></script>
 </body>
 </html>

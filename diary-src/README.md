@@ -46,17 +46,20 @@ own category page and card.
 
 ```
 eleventy.config.js       markdown-it + highlight.js, filters, collections
+search.11ty.js           /diary/search.json — the search index, written on every build
+lib/search-index.js      subheadings + opening text -> the index's `keywords` field
 lib/utils.js             slug/date helpers
 lib/categories.js        the four default categories
 _data/site.js            site name, repo, post directory
 _includes/base.njk       header (HD2Lab | HD2's Diary), footer, shell
 _includes/post.njk       post layout
-_includes/parts/…        post list + empty state macros
-index.njk                /diary/          category cards + recent posts
+_includes/parts/…        post list (with #tag chips), search bar, empty state macros
+index.njk                /diary/          category cards + search + recent posts
 categories-index.njk     /diary/categories/  all four drawers
-categories.njk           /diary/categories/<slug>/
+categories.njk           /diary/categories/<slug>/   (search scoped to the category)
 posts/*.md               the posts
 assets/diary.css         diary theme (mirrors Web-HQ tokens)
+assets/diary-search.js   search box + #tag filtering (reads search.json)
 assets/hd2-theme.css/js  shared HD2Lab light/dark toggle
 assets/favicon*          favicons (self-contained copy)
 assets/images/           post screenshots
@@ -77,7 +80,7 @@ node build.mjs                      # or: npm run build   (from the repository r
 git add -A && git commit -m "post: …" && git push
 ```
 
-`build.mjs` runs `eleventy` here, then replaces the root `index.html`, `posts/`, `categories/`, and
-`assets/` with the fresh `_site/` contents — the published URLs (`/diary/`, `/diary/posts/…`,
-`/diary/categories/…`, `/diary/assets/…`) stay exactly the same. `_site/` and `node_modules/` are
-in `.gitignore`; the root output is committed.
+`build.mjs` runs `eleventy` here, then replaces the root `index.html`, `search.json`, `posts/`, `categories/`, and
+`assets/` with the fresh `_site/` contents — the published URLs (`/diary/`, `/diary/search.json`,
+`/diary/posts/…`, `/diary/categories/…`, `/diary/assets/…`) stay exactly the same. `_site/` and
+`node_modules/` are in `.gitignore`; the root output is committed.

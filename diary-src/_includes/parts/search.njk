@@ -1,0 +1,50 @@
+{% macro searchBar(options) %}
+{% set mode = options.mode or 'home' %}
+{% set label = options.label or '전체' %}
+<div class="diary-search"
+     data-diary-search
+     data-mode="{{ mode }}"
+     data-total-label="{{ label }}"
+     {% if options.category %}data-category="{{ options.category }}"{% endif %}
+     data-index-url="{{ '/search.json' | url }}">
+    <div class="search-field">
+        <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </span>
+        <input class="search-input"
+               type="search"
+               id="diary-search-{{ mode }}"
+               data-search-input
+               placeholder="{{ options.placeholder or '제목 · 요약 · 태그로 검색' }}"
+               aria-label="Diary 글 검색"
+               autocomplete="off"
+               spellcheck="false"
+               enterkeyhint="search">
+        <button class="search-clear" type="button" data-search-clear aria-label="검색어 지우기" hidden>
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <div class="search-foot">
+        <p class="search-status" data-search-status role="status" aria-live="polite">
+            <span>{{ label }} </span><strong>{{ options.total or 0 }}</strong><span>편 · 제목·요약·태그로 검색</span>
+        </p>
+        {% if mode == 'home' and options.categories %}
+        <div class="search-scopes" role="group" aria-label="카테고리 필터">
+            <button class="scope-chip" type="button" data-scope="" aria-pressed="true">전체</button>
+            {% for category in options.categories %}
+            <button class="scope-chip" type="button" data-scope="{{ category.slug }}" aria-pressed="false">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro searchResults() %}
+<div class="search-results" data-search-results hidden>
+    <ul class="post-list" data-search-result-list></ul>
+    <div class="empty-state search-empty" data-search-empty hidden>
+        <p data-search-empty-text>조건에 맞는 기록이 없다. 다른 단어로 찾아보자.</p>
+    </div>
+</div>
+{% endmacro %}

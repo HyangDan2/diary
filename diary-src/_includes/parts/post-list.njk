@@ -1,7 +1,7 @@
 {% macro postList(posts, showCategory = true) %}
 <ul class="post-list">
     {% for post in posts %}
-    <li class="post-row">
+    <li class="post-row" data-post-url="{{ post.url }}">
         <a class="post-row-link" href="{{ post.url | url }}">
             <span class="post-row-meta">
                 <time datetime="{{ post.date | htmlDate }}">{{ post.date | displayDate }}</time>
@@ -13,6 +13,10 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        {% set tagItems = post.data.tags | tagList %}
+        <div class="post-row-tags"{% if not tagItems.length %} data-empty="true"{% endif %}>
+            {% for tag in tagItems %}<button class="post-tag" type="button" data-tag="{{ tag }}" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>{{ tag }}</button>{% endfor %}
+        </div>
     </li>
     {% endfor %}
 </ul>

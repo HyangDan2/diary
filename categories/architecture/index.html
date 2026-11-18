@@ -16,7 +16,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261118-accordion">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261118-search">
 </head>
 <body class="page-categories-architecture">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -93,6 +93,7 @@
     <main id="main">
         
 
+
 <section class="page-hero shell">
     <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/diary/">Diary</a>
@@ -119,9 +120,52 @@
     </div>
     
         
+
+
+<div class="diary-search"
+     data-diary-search
+     data-mode="category"
+     data-total-label="Architecture"
+     data-category="architecture"
+     data-index-url="/diary/search.json">
+    <div class="search-field">
+        <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </span>
+        <input class="search-input"
+               type="search"
+               id="diary-search-category"
+               data-search-input
+               placeholder="Architecture 글 안에서 검색"
+               aria-label="Diary 글 검색"
+               autocomplete="off"
+               spellcheck="false"
+               enterkeyhint="search">
+        <button class="search-clear" type="button" data-search-clear aria-label="검색어 지우기" hidden>
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <div class="search-foot">
+        <p class="search-status" data-search-status role="status" aria-live="polite">
+            <span>Architecture </span><strong>3</strong><span>편 · 제목·요약·태그로 검색</span>
+        </p>
+        
+    </div>
+</div>
+
+        
+<div class="search-results" data-search-results hidden>
+    <ul class="post-list" data-search-result-list></ul>
+    <div class="empty-state search-empty" data-search-empty hidden>
+        <p data-search-empty-text>조건에 맞는 기록이 없다. 다른 단어로 찾아보자.</p>
+    </div>
+</div>
+
+        <div data-search-default>
+            
 <ul class="post-list">
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-18-unified-nav-accordion-and-about/">
         <a class="post-row-link" href="/diary/posts/2026-11-18-unified-nav-accordion-and-about/">
             <span class="post-row-meta">
                 <time datetime="2026-11-18">2026.11.18</time>
@@ -133,9 +177,13 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="navigation" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>navigation</button><button class="post-tag" type="button" data-tag="design-system" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>design-system</button><button class="post-tag" type="button" data-tag="accessibility" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>accessibility</button><button class="post-tag" type="button" data-tag="css" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>css</button><button class="post-tag" type="button" data-tag="architecture" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>architecture</button>
+        </div>
     </li>
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-16-soft-iris-and-navy-lavender/">
         <a class="post-row-link" href="/diary/posts/2026-11-16-soft-iris-and-navy-lavender/">
             <span class="post-row-meta">
                 <time datetime="2026-11-16">2026.11.16</time>
@@ -147,9 +195,13 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="theme" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>theme</button><button class="post-tag" type="button" data-tag="design-system" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>design-system</button><button class="post-tag" type="button" data-tag="css" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>css</button><button class="post-tag" type="button" data-tag="architecture" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>architecture</button>
+        </div>
     </li>
     
-    <li class="post-row">
+    <li class="post-row" data-post-url="/posts/2026-11-10-static-site-editor-eleventy/">
         <a class="post-row-link" href="/diary/posts/2026-11-10-static-site-editor-eleventy/">
             <span class="post-row-meta">
                 <time datetime="2026-11-10">2026.11.10</time>
@@ -161,10 +213,15 @@
             </span>
             <span class="post-row-arrow" aria-hidden="true">↗</span>
         </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="eleventy" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>eleventy</button><button class="post-tag" type="button" data-tag="github-pages" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>github-pages</button><button class="post-tag" type="button" data-tag="editor" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>editor</button><button class="post-tag" type="button" data-tag="architecture" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>architecture</button>
+        </div>
     </li>
     
 </ul>
 
+        </div>
     
 </section>
 
@@ -207,7 +264,7 @@
             <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
-    
+    <script src="/diary/assets/diary-search.js?v=20261118-search" defer></script>
     <script src="/diary/assets/diary-nav.js?v=20261118-accordion" defer></script>
 </body>
 </html>

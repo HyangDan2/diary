@@ -2,8 +2,10 @@
 layout: base.njk
 title: ""
 description: "HD2Lab의 개발 기록. Devlog, Architecture, Troubleshooting, Notes — 만들고 부수고 다시 세운 이야기."
+pageScript: "/assets/diary-search.js"
 ---
 {% import "parts/post-list.njk" as parts %}
+{% import "parts/search.njk" as search %}
 {% set posts = collections.diaryPosts %}
 {% set categories = collections.diaryCategories %}
 {% set recent = posts.slice(0, 5) %}
@@ -71,7 +73,11 @@ description: "HD2Lab의 개발 기록. Devlog, Architecture, Troubleshooting, No
         <p>{% if posts | length %}지금까지 {{ posts | length }}편{% else %}첫 글을 기다리는 중{% endif %}</p>
     </div>
     {% if posts | length %}
-        {{ parts.postList(recent) }}
+        {{ search.searchBar({ mode: 'home', total: posts | length, categories: categories, placeholder: '제목 · 요약 · 태그로 검색 (예: git, exif, ci)' }) }}
+        {{ search.searchResults() }}
+        <div data-search-default>
+            {{ parts.postList(recent) }}
+        </div>
     {% else %}
         {{ parts.emptyState('아직 남긴 기록이 없다.') }}
     {% endif %}
