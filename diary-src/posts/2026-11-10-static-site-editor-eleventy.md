@@ -7,6 +7,8 @@ tags: [eleventy, github-pages, editor, architecture]
 layout: post
 ---
 
+> **2026-11-18 기준 안내:** 이 글은 `HyangDan2/diary` 독립 저장소 분리 및 `/diary/write/` 편집기 분리(PKPilot0007·0008 이관) 이전의 기록입니다.
+
 블로그를 하나 더 만들면서 제일 먼저 정한 것은 **서버를 두지 않는 것**이었습니다. 관리할 것이 늘면 결국 안 쓰게 됩니다. 대신 브라우저가 전부 하고, GitHub이 저장소와 배포를 맡습니다.
 
 ## 구조
