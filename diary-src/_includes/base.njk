@@ -1,11 +1,14 @@
+{#- the language this page is written in: a post's own `lang`, or its drawer's — Notes stays Korean, the English drawers are English -#}
+{%- set pageLang = (lang or '') | docLang(categoryPage) -%}
+{%- set pageDescription = description or summary or (categoryPage.blurbEn if categoryPage and pageLang == 'en' else site.description) -%}
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="{{ pageLang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
     <title>{% if categoryPage %}{{ categoryPage.name }} · {% elif title %}{{ title }} · {% endif %}{{ site.name }}</title>
-    <meta name="description" content="{{ description or summary or site.description }}">
+    <meta name="description" content="{{ pageDescription }}">
     <meta property="og:type" content="{% if page.url and page.url.includes('/posts/') %}article{% else %}website{% endif %}">
     <meta property="og:site_name" content="HD2Lab · {{ site.name }}">
     <meta property="og:title" content="{% if categoryPage %}{{ categoryPage.name }} · {% elif title %}{{ title }} · {% endif %}{{ site.name }}">

@@ -56,15 +56,33 @@ export function koreanDate(date) {
   }).format(d);
 }
 
-/** Human label for a date, e.g. `3일 전` — falls back to the display date. */
-export function relativeDate(date) {
+/** Human label for a date, e.g. `3일 전` / `3 days ago` — falls back to the display date. */
+export function relativeDate(date, lang = "ko") {
   if (!date) return "";
   const d = date instanceof Date ? date : new Date(date);
   if (Number.isNaN(d.getTime())) return "";
   const now = new Date();
   const days = Math.floor((now - d) / 86_400_000);
+  if (lang === "en") {
+    if (days <= 0) return "today";
+    if (days === 1) return "yesterday";
+    if (days < 30) return `${days} days ago`;
+    return displayDate(d);
+  }
   if (days <= 0) return "오늘";
   if (days === 1) return "어제";
   if (days < 30) return `${days}일 전`;
   return displayDate(d);
+}
+
+/**
+ * Which language a page is written in. A post carries its own `lang`; a category
+ * page follows its drawer — Notes stays Korean, the three English drawers are
+ * English; everything else (a Korean post, the Notes drawer) falls back to Korean.
+ */
+export function resolveDocLang(lang, categoryPage) {
+  const own = String(lang ?? "").trim().toLowerCase();
+  if (own === "en" || own === "ko") return own;
+  if (categoryPage && categoryPage.slug) return categoryPage.slug === "notes" ? "ko" : "en";
+  return "ko";
 }

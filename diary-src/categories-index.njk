@@ -1,7 +1,8 @@
 ---
 layout: base.njk
-title: "카테고리"
-description: "HD2Lab Diary의 네 개 서랍 — Devlog, Architecture, Troubleshooting, Notes."
+title: "Categories"
+lang: en
+description: "The four quiet drawers of HD2Lab's Diary — Devlog, Architecture, Troubleshooting and Notes."
 permalink: "/categories/index.html"
 ---
 
@@ -15,8 +16,8 @@ permalink: "/categories/index.html"
         <span aria-current="page">Categories</span>
     </nav>
     <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Categories</p>
-    <h1>네 개의 서랍.</h1>
-    <p class="page-hero-lede">글은 주제별로 쌓인다. 서랍을 열면 그 주제의 전체 목록이 나온다.</p>
+    <h1>Four quiet drawers.</h1>
+    <p class="page-hero-lede">Thoughts settle by theme. Open a drawer to see everything kept inside it.</p>
     <div class="page-hero-meta">
         <span class="badge">{{ categories | length }} categories</span>
         <span class="badge">{{ posts | length }} post{% if posts | length != 1 %}s{% endif %}</span>
@@ -27,19 +28,19 @@ permalink: "/categories/index.html"
     <div class="section-heading">
         <div>
             <p class="eyebrow">All drawers</p>
-            <h2 id="categories-all-title">서랍 전체.</h2>
+            <h2 id="categories-all-title">Every drawer.</h2>
         </div>
-        <p>만든 것, 지은 것, 깨진 것, 적어 둔 것.</p>
+        <p>Things made, things designed, things broken, things jotted down.</p>
     </div>
     <nav class="category-grid" aria-label="Diary categories">
         {% for category in categories %}
         <a class="category-card" href="{{ ('/categories/' + category.slug + '/') | url }}">
             <span class="card-index">{{ category.index }} / {{ category.name | upper }}</span>
             <span class="category-name">{{ category.name }}</span>
-            <span class="category-blurb">{{ category.blurb or '이 주제로 쓴 글 모음.' }}</span>
+            <span class="category-blurb">{{ category.blurbEn or category.blurb or 'A small collection on this theme.' }}</span>
             <span class="category-foot">
                 <span class="category-count">{{ category.count }} post{% if category.count != 1 %}s{% endif %}</span>
-                <span class="category-latest">{% if category.latest %}최근 {{ category.latest | relativeDate }}{% else %}아직 글 없음{% endif %}</span>
+                <span class="category-latest">{% if category.latest %}Latest {{ category.latest | relativeDate('en') }}{% else %}No notes yet{% endif %}</span>
             </span>
         </a>
         {% endfor %}
@@ -48,8 +49,8 @@ permalink: "/categories/index.html"
 
 <section class="cta-band shell">
     <div>
-        <h2>서랍 전체를<br><span>한 번에.</span></h2>
-        <p>최근 기록은 Diary 홈에서, 만든 것들은 Web-HQ에서 본다.</p>
+        <h2>Every drawer,<br><span>all at once.</span></h2>
+        <p>Recent notes stay on the Diary home; the things I build live on Web-HQ.</p>
     </div>
-    <a class="button button-primary" href="{{ '/' | url }}">Diary 홈으로 <span aria-hidden="true">↗</span></a>
+    <a class="button button-primary" href="{{ '/' | url }}">Back to the Diary home <span aria-hidden="true">↗</span></a>
 </section>

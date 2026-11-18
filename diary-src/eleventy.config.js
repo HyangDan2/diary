@@ -1,7 +1,7 @@
 import markdownIt from "markdown-it";
 import hljs from "highlight.js";
 import { CATEGORIES, DEFAULT_CATEGORY, findCategory } from "./lib/categories.js";
-import { displayDate, htmlDate, koreanDate, relativeDate, slugify, postSlugFromPath } from "./lib/utils.js";
+import { displayDate, htmlDate, koreanDate, relativeDate, resolveDocLang, slugify, postSlugFromPath } from "./lib/utils.js";
 
 const LINE_NUMBERS = false;
 
@@ -59,6 +59,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("htmlDate", htmlDate);
   eleventyConfig.addFilter("koreanDate", koreanDate);
   eleventyConfig.addFilter("relativeDate", relativeDate);
+  eleventyConfig.addFilter("docLang", resolveDocLang);
   eleventyConfig.addFilter("limit", (array = [], count = array.length) => array.slice(0, count));
   eleventyConfig.addFilter("categoryName", (value) => findCategory(value)?.name ?? (value || DEFAULT_CATEGORY));
   eleventyConfig.addFilter("categorySlug", (value) => findCategory(value)?.slug ?? (slugify(value) || slugify(DEFAULT_CATEGORY)));
