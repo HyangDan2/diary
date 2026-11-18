@@ -1,23 +1,24 @@
 ---
-title: "Soft Iris와 Navy & Lavender: 사이트 전체의 색을 한 벌로 맞춘 기록"
+title: "Soft Iris and Navy & Lavender: One Set of Colours for the Whole Site"
 date: 2026-11-16
 category: Architecture
-summary: "라이트는 Soft Iris, 다크는 Navy & Lavender. CSS 변수 한 벌과 44px 토글 하나로 Web-HQ·3대 허브·PKPilot 전체의 테마를 통일한 구조를 정리합니다."
+summary: "Soft Iris in light, Navy & Lavender in dark. How one set of CSS variables and a single 44px toggle unified the theme of Web-HQ, the three hubs, and every PKPilot app."
 tags: [theme, design-system, css, architecture]
+lang: en
 layout: post
 ---
 
-Web-HQ와 세 개의 허브, 그리고 여러 개의 PKPilot 앱은 각자 자기 색을 갖고 있었습니다. 처음에는 그게 자연스러웠습니다. 앱마다 성격이 다르고, 하나씩 만들 때는 그 편이 빠르니까요. 문제는 그다음이었습니다. 같은 서비스인데 어떤 화면은 어두운 회색 바탕에 주황 액센트를 쓰고, 어떤 화면은 흰 바탕에 보라를 썼습니다. 새 앱을 만들 때마다 색을 다시 고민해야 했고, 다크 모드를 하나 붙이려면 여섯 개 화면을 각각 손봐야 했습니다.
+Web-HQ, the three hubs, and the various PKPilot apps each carried their own colour. At first that felt natural — every app has its own character, and building them one at a time, per-app colours were faster. The problem was what came after: the same service showed a dark grey ground with an orange accent on one screen and a white ground with violet on another. Every new app meant re-deciding colour, and adding a single dark mode meant touching six screens one by one.
 
-이번에 정리한 것은 색이 아니라 **색이 흘러가는 경로**입니다. 한 벌의 토큰, 한 벌의 토글, 그리고 앱마다 다른 자리만 남겼습니다.
+What I reorganised was not the colour but **the path the colour travels**: one set of tokens, one toggle, and only the differing position left to each app.
 
-## 하나의 토큰, 두 개의 팔레트
+## One token set, two palettes
 
-라이트 팔레트의 이름은 **Soft Iris**입니다. 흰 바탕에 아주 옅은 보라를 깔고, 액센트로 한 점만 보라를 씁니다. 다크 팔레트는 **Navy & Lavender**입니다. 같은 구성이지만 바탕이 남색으로 내려가고 액센트가 라벤더로 올라옵니다.
+The light palette is **Soft Iris**: a white ground with the faintest wash of violet, and violet used as a single accent point. The dark palette is **Navy & Lavender**: the same composition, with the ground dropped to navy and the accent lifted to lavender.
 
-색은 컴포넌트에 박지 않고 CSS 변수에 담았습니다. 그래서 테마 전환은 `<html data-theme="dark">` 한 줄로 끝납니다.
+Colours live in CSS variables rather than baked into components, so switching the theme is a single line: `<html data-theme="dark">`.
 
-| 토큰 | Soft Iris (라이트) | Navy & Lavender (다크) |
+| Token | Soft Iris (light) | Navy & Lavender (dark) |
 | --- | --- | --- |
 | `--bg` | `#FAFAFD` | `#0B1020` |
 | `--surface` | `#FFFFFF` | `#12192E` |
@@ -28,53 +29,53 @@ Web-HQ와 세 개의 허브, 그리고 여러 개의 PKPilot 앱은 각자 자�
 | `--accent` | `#8B6CE8` | `#A78BFA` |
 | `--accent-soft` | `#F1ECFE` | `rgba(167, 139, 250, .14)` |
 
-여기서 조용하지만 중요한 결정이 하나 있습니다. 액센트가 다크에서 한 단계 밝아집니다(`#8B6CE8` → `#A78BFA`). 같은 보라를 어두운 바탕에 그대로 얹으면 대비가 부족해져서 버튼이 배경에 잠깁니다. 색을 두 벌로 나눈 이유는 예쁘게 보이기 위해서가 아니라 **같은 역할이 같은 세기로 보이게** 하기 위해서였습니다.
+There is one quiet but important decision here: the accent gets one step brighter in dark (`#8B6CE8` → `#A78BFA`). The same violet laid on a dark ground loses contrast and the button sinks into the background. The colours were split in two not to look prettier but so that **the same role reads at the same strength**.
 
-![Soft Iris 라이트 모드의 ApplicationHub. 흰 바탕에 보라 액센트 하나, 우측 상단에 허브 간 이동 링크가 있습니다.](/diary/assets/images/apphub-soft-iris.png)
+![ApplicationHub in Soft Iris light mode: a white ground, one violet accent, and hub links at the upper right](/diary/assets/images/apphub-soft-iris.png)
 
-## 토글은 한 벌, 자리는 앱마다
+## One toggle, a position per app
 
-토글은 모든 라우트가 같은 파일을 씁니다. `assets/hd2-theme.css`와 `assets/hd2-theme.js` 두 개이고, 하위 앱들은 사이트 루트의 `/assets/`에서 그대로 받아 갑니다. 앱마다 복사해 넣으면 반드시 한 곳이 낡습니다.
+Every route uses the same toggle files: `assets/hd2-theme.css` and `assets/hd2-theme.js`, served from the site root's `/assets/` so that sub-apps pick them up unchanged. Copy them into each app and one copy is guaranteed to rot.
 
-동작 방식은 이렇습니다.
+How it behaves.
 
-- 저장 키는 `localStorage['hd2-theme']` 하나입니다. 값은 `light` 또는 `dark`, 기본은 `light`입니다.
-- 각 페이지는 `<head>`에서 인라인 스니펫 한 줄로 저장값을 첫 페인트 전에 적용합니다. 그래서 다크 모드에서 새로고침해도 흰 화면이 번쩍이지 않습니다.
-- `storage` 이벤트로 탭끼리 동기화하고, `<meta name="theme-color">`도 테마에 맞춰 갱신합니다.
-- 버튼에는 `aria-pressed`와 `aria-label`이 테마에 따라 바뀌고, 한국어 페이지면 한국어 라벨을 씁니다. `prefers-reduced-motion`이면 전환 애니메이션을 끕니다.
-- 앱 스크립트가 직접 다뤄야 할 때를 위해 `window.HD2Theme.get() / set() / toggle()`과 `hd2-theme-change` 이벤트를 열어 두었습니다.
+- One storage key, `localStorage['hd2-theme']`, holding `light` or `dark`; the default is `light`.
+- Each page applies the stored value before first paint with a one-line inline snippet in `<head>`, so a refresh in dark mode never flashes white.
+- A `storage` event keeps tabs in sync, and `<meta name="theme-color">` is updated with the theme.
+- The button's `aria-pressed` and `aria-label` change with the theme, and Korean pages get Korean labels. `prefers-reduced-motion` turns the transition off.
+- For app scripts that need to drive it directly, `window.HD2Theme.get() / set() / toggle()` and the `hd2-theme-change` event are exposed.
 
-앱마다 다른 것은 자리뿐입니다. 버튼의 위치·z-index·표면색은 `.hd2-theme-toggle`에 붙는 CSS 변수로 조정합니다.
+What differs per app is only the position. Placement, z-index, and surface colour are adjusted through CSS variables set on `.hd2-theme-toggle`.
 
-| 라우트 | 토글 자리 | 숨기는 경우 |
+| Route | Toggle position | Hidden when |
 | --- | --- | --- |
-| Web-HQ · 3대 허브 | 우하단 기본값 | 없음 |
-| PKPilot0002 Midpoint | 지도 확대/축소 스택 위 | 시트를 끝까지 올렸을 때 |
-| PKPilot0003 Shutterplate | 스테이지 우하단(데스크톱은 인스펙터 왼쪽) | 모달·시트가 열렸을 때 |
-| PKPilot0006 DOS Player | 셸 우하단 | 가로 풀스크린 플레이 중 |
+| Web-HQ · the three hubs | bottom right, default | never |
+| PKPilot0002 Midpoint | above the map zoom stack | the sheet is pulled fully up |
+| PKPilot0003 Shutterplate | bottom right of the stage (left of the inspector on desktop) | a modal or sheet is open |
+| PKPilot0006 DOS Player | bottom right of the shell | playing fullscreen in landscape |
 
-## 아이콘은 "가려는 곳"을 가리킨다
+## The icon points where you are going
 
-토글은 44px 원형입니다. 44px는 손가락으로 가장 편하게 누를 수 있는 최소 크기이고, `env(safe-area-inset-*)`를 더해 아이폰 홈 인디케이터와 겹치지 않게 했습니다.
+The toggle is a 44px circle. 44px is the smallest size a finger presses comfortably, and `env(safe-area-inset-*)` is added so it never collides with the iPhone home indicator.
 
-아이콘은 24×24 viewBox의 SVG를 19px로 그려 넣은 해와 달입니다. 두 아이콘을 모두 DOM에 두고, 지금 테마의 반대쪽만 CSS로 보여 줍니다. 라이트에서는 **달**, 다크에서는 **해**입니다. 지금 상태가 아니라 누르면 갈 곳을 보여 주는 편이, 버튼 하나로 두 상태를 오갈 때 덜 헷갈립니다.
+The icon is a sun and a moon drawn from a 24×24 viewBox SVG at 19px. Both sit in the DOM and CSS shows only the one opposite the current theme: **a moon** in light, **a sun** in dark. Showing where the button takes you, rather than what state you are in, is less confusing for a control that flips between two states.
 
-![Navy & Lavender 다크 모드의 Web-HQ. 남색 바탕에 라벤더 액센트, 우하단에 해 아이콘 토글이 있습니다.](/diary/assets/images/webhq-navy.png)
+![Web-HQ in Navy & Lavender dark mode: navy ground, lavender accent, and a sun toggle at the bottom right](/diary/assets/images/webhq-navy.png)
 
-## 검증은 화면마다, 두 번씩
+## Verified screen by screen, twice over
 
-테마는 "돌아가는 것처럼 보이는" 것과 "돌아가는 것"의 차이가 큰 작업입니다. 그래서 헤드리스 Chromium으로 일곱 개 라우트를 1440×900과 390×844 두 크기에서, 라이트와 다크 두 번씩 열어 확인했습니다.
+A theme is a job where "looks like it works" and "works" differ widely. So headless Chromium opened seven routes at 1440×900 and 390×844, each in light and dark.
 
-- 콘솔 오류 0, 페이지 오류 0, 가로 넘침 0
-- 토글 크기 44×44, 다른 컨트롤과 겹침 없음
-- 토글 클릭 → `data-theme=dark` + 저장, 새로고침과 라우트 이동에서도 유지
-- 라이트 모드 기준선과 픽셀 비교 → 차이는 토글 코너에만 국한
+- 0 console errors, 0 page errors, 0 horizontal overflow
+- Toggle measured 44×44, no overlap with other controls
+- Clicking the toggle sets `data-theme=dark` and stores it; it survives refresh and route changes
+- Pixel comparison against the light-mode baseline: the only differences are in the toggle's corner
 
-앱 테스트도 함께 돌렸습니다. Shutterplate 1461건, Midpoint 146건, Photos 39건 모두 통과했습니다. 공용 자산을 사이트 루트에서 서빙하도록 테스트 경로를 고친 것이 이번 작업의 숨은 절반이었습니다.
+The app test suites ran as well: Shutterplate 1,461, Midpoint 146, Photos 39 — all passing. Fixing the test paths so the shared assets are served from the site root was the hidden half of this work.
 
-## 남은 것
+## What remains
 
-- 다크에서 지도 타일과 사진 캔버스는 리테마하지 않았습니다. 콘텐츠는 콘텐츠대로 두고, 그 위의 핀·컨트롤만 다시 칠했습니다.
-- 앱별 하드코딩 색을 토큰으로 바꾸는 작업은 계속 진행 중입니다. 새 컴포넌트를 넣을 때 색을 직접 쓰지 않는 습관이 남아야 이 구조가 유지됩니다.
+- Map tiles and the photo canvas are not rethemed in dark. Content stays content; only the pins and controls above it were repainted.
+- Replacing hardcoded colours in each app with tokens is still in progress. The structure only holds if the habit holds: never write a colour directly when adding a component.
 
-색을 한 벌로 맞추고 나니 새 화면을 만드는 일이 가벼워졌습니다. 팔레트를 고민하는 대신 토큰을 고르면 되니까요. 디자인 시스템의 값은 결국 여기, **다음 화면을 만드는 시간**에 있습니다.
+With one set of colours in place, building a new screen became lighter work — choose a token instead of arguing with a palette. The value of a design system ends up here, in **the time it takes to make the next screen**.

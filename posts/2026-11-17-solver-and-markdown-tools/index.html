@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
-    <title>Solver와 마크다운 도구: 판독 앱, 그리고 다이어리에서 글쓰기를 떼어낸 이유 · HD2&#39;s Diary</title>
-    <meta name="description" content="문제를 읽고 단계별 풀이를 보여 주는 PKPilot0005, 그리고 공개 다이어리에서 쓰기를 분리해 만든 PKPilot0007 Editor·0008 Viewer를 정리합니다.">
+    <title>Solver and the Markdown Tools: A Reading App, and Why Writing Left the Diary · HD2&#39;s Diary</title>
+    <meta name="description" content="PKPilot0005 reads a problem and lays out a step-by-step solution. PKPilot0007 Editor and 0008 Viewer take writing out of the public diary. What both narrowed was the one job an app has to do.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
-    <meta property="og:title" content="Solver와 마크다운 도구: 판독 앱, 그리고 다이어리에서 글쓰기를 떼어낸 이유 · HD2&#39;s Diary">
-    <meta property="og:description" content="문제를 읽고 단계별 풀이를 보여 주는 PKPilot0005, 그리고 공개 다이어리에서 쓰기를 분리해 만든 PKPilot0007 Editor·0008 Viewer를 정리합니다.">
+    <meta property="og:title" content="Solver and the Markdown Tools: A Reading App, and Why Writing Left the Diary · HD2&#39;s Diary">
+    <meta property="og:description" content="PKPilot0005 reads a problem and lays out a step-by-step solution. PKPilot0007 Editor and 0008 Viewer take writing out of the public diary. What both narrowed was the one job an app has to do.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
@@ -152,12 +152,14 @@
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.17</p>
-        <h1>Solver와 마크다운 도구: 판독 앱, 그리고 다이어리에서 글쓰기를 떼어낸 이유</h1>
-        <p class="post-summary">문제를 읽고 단계별 풀이를 보여 주는 PKPilot0005, 그리고 공개 다이어리에서 쓰기를 분리해 만든 PKPilot0007 Editor·0008 Viewer를 정리합니다.</p>
+        <h1>Solver and the Markdown Tools: A Reading App, and Why Writing Left the Diary</h1>
+        <p class="post-summary">PKPilot0005 reads a problem and lays out a step-by-step solution. PKPilot0007 Editor and 0008 Viewer take writing out of the public diary. What both narrowed was the one job an app has to do.</p>
         <div class="post-meta">
             <span class="badge">Devlog</span>
-            <time datetime="2026-11-17">2026년 11월 17일</time>
-            <span>2분 읽기</span>
+            
+            <time datetime="2026-11-17">2026.11.17</time>
+            <span>2 min read</span>
+            
             
             
             <span class="post-tags">
@@ -168,55 +170,55 @@
     </header>
 
     <div class="md-body post-content">
-        <p>이번 글은 새로 만든 앱 두 묶음에 대한 기록입니다. 하나는 문제를 읽고 풀이를 만들어 주는 <strong>PKPilot0005 Solver</strong>, 다른 하나는 다이어리에서 글쓰기를 떼어내 만든 <strong>PKPilot0007 Markdown Editor</strong>와 <strong>PKPilot0008 Markdown Viewer</strong>입니다. 두 작업의 공통점은 &quot;이 앱이 정말 해야 하는 일&quot;을 좁힌 것입니다.</p>
+        <p>This post covers two groups of apps. One is <strong>PKPilot0005 Solver</strong>, which reads a problem and produces a worked solution. The other is <strong>PKPilot0007 Markdown Editor</strong> and <strong>PKPilot0008 Markdown Viewer</strong>, built by taking writing out of the diary. What the two have in common is narrowing down &quot;what this app really has to do&quot;.</p>
 <h2>PKPilot0005 · Solver</h2>
-<p>Solver는 문제를 넣으면 판독해서 풀이를 만들어 주는 앱입니다. 입력은 세 가지를 받습니다. 텍스트로 붙여넣기, 캡처 이미지 드래그, 클립보드 붙여넣기입니다. 문제 유형은 자동 판독을 기본으로 하고, 객관식·주관식(서술형)·코딩/디버깅·어학 문제는 직접 고를 수도 있습니다. 추가 힌트 칸에는 &quot;고1 수학 · 일차방정식&quot;처럼 범위를 적어 두면 판독이 훨씬 정확해집니다.</p>
-<p>결과 화면은 정답만 보여 주지 않습니다.</p>
+<p>Solver reads a problem and builds a solution. Input arrives three ways: pasted text, a dragged screenshot, or a clipboard paste. The problem type is detected automatically by default, and multiple choice, short answer (written), coding/debugging, and language questions can be chosen by hand. In the extra-hints field, a range like &quot;grade 10 maths, linear equations&quot; makes the reading noticeably more accurate.</p>
+<p>The result screen does not just give the answer.</p>
 <ul>
-<li><strong>정답 카드</strong> — 고른 답과 검산 한 줄</li>
-<li><strong>단계별 풀이</strong> — 이항, 정리, 계수 계산, 검산, 보기의 각 단계</li>
-<li><strong>오답 소거</strong> — 틀린 보기가 왜 틀렸는지</li>
-<li><strong>핵심 포인트</strong> — 이 유형에서 자주 무너지는 지점</li>
-<li><strong>답안 복사 / 한 번 더 풀기</strong></li>
+<li><strong>Answer card</strong> — the chosen option and a one-line check</li>
+<li><strong>Step-by-step solution</strong> — each step: transposition, simplification, coefficient arithmetic, verification, and the options</li>
+<li><strong>Option elimination</strong> — why each wrong option is wrong</li>
+<li><strong>Key points</strong> — where this problem type usually falls apart</li>
+<li><strong>Copy the answer / solve another</strong></li>
 </ul>
-<p><img src="/diary/assets/images/solver-desktop.png" alt="PKPilot0005 Solver. 좌측 입력과 우측 단계별 풀이가 나란히 있습니다."></p>
-<p>지금은 <strong>데모 모드</strong>가 기본입니다. 브라우저 안에서 직접 계산해 풀이를 만들고, 실제 모델을 붙이려면 <code>[API 연결]</code>에서 게이트웨이 주소를 넣어야 합니다. 실모델 경로는 개인 서버의 <code>/api/solver/solve</code>를 거치도록 설계해 두었고, 아직 연결하지 않았습니다. 프런트를 먼저 완성하고 백엔드를 뒤에 붙이는 순서입니다. 풀이 기록은 브라우저 로컬에만 남습니다.</p>
-<h2>왜 다이어리에서 글쓰기를 떼어냈나</h2>
-<p>원래 <code>/diary/</code>에는 정적 에디터가 함께 있었습니다. 쓰고, 미리 보고, GitHub 커밋 URL로 넘기는 구조였습니다. 서버 없이 글을 쓰는 가장 싼 방법이었고 지금도 그 판단은 유효합니다. 다만 공개된 읽기 화면과 쓰기 화면이 같은 사이트에 있는 것이 점점 어색해졌습니다.</p>
+<p><img src="/diary/assets/images/solver-desktop.png" alt="PKPilot0005 Solver: input on the left, step-by-step solution on the right"></p>
+<p>For now <strong>demo mode</strong> is the default. The solution is computed inside the browser; connecting a real model means entering a gateway address under <code>[API connection]</code>. The real-model path was designed to go through <code>/api/solver/solve</code> on a personal server and is not connected yet — front end first, back end attached afterwards. Solution history stays in browser storage only.</p>
+<h2>Why writing left the diary</h2>
+<p><code>/diary/</code> originally carried a static editor: write, preview, then hand off to a GitHub commit URL. It was the cheapest way to write without a server, and that judgement still holds. What grew awkward was having the public reading pages and the writing page on the same site.</p>
 <ul>
-<li>읽는 사람에게 쓰기 버튼은 필요 없습니다.</li>
-<li>쓰기 화면에는 토큰을 다루는 흐름이 있어서, 읽기 페이지와 같은 곳에 두면 실수할 여지가 늘어납니다.</li>
-<li>에디터가 커지면서 다이어리 빌드와 무관한 코드가 다이어리 저장소를 계속 건드립니다.</li>
+<li>A reader has no use for a write button.</li>
+<li>The writing screen handles tokens, and sharing a page with the reading side widens the room for a mistake.</li>
+<li>As the editor grew, code unrelated to the diary build kept touching the diary repository.</li>
 </ul>
-<p>그래서 방향을 바꿨습니다. <strong><code>/diary/</code>는 읽는 곳으로만 남깁니다.</strong> 헤더·버튼·글 하단의 쓰기 링크를 모두 제거하고 <code>/diary/write/</code>는 닫았습니다. 대신 쓰기 도구를 앱으로 분리했습니다.</p>
+<p>So the direction changed: <strong><code>/diary/</code> stays a place to read.</strong> The write links in the header, the buttons, and the footer of posts were all removed, and <code>/diary/write/</code> was closed. The writing tools moved out into apps of their own.</p>
 <h2>PKPilot0007 · Markdown Editor</h2>
-<p>에디터는 GFM을 그대로 다룹니다. 화면은 편집·분할·미리보기 세 탭이고, 분할에서는 좌우가 같은 문서를 동시에 보여 줍니다. 툴바에는 제목(H1~H3), 굵게·기울임·취소선, 코드, 인용, 목록, 링크, 이미지, 표가 있고, 하단에는 단축키 안내가 붙습니다. 미리보기는 DOMPurify로 한 번 걸러내므로 문서에 섞인 스크립트가 화면에서 실행되지 않습니다.</p>
-<p><img src="/diary/assets/images/markdown-editor.png" alt="PKPilot0007 Markdown Editor. 좌측 편집과 우측 미리보기가 나란히 있고, 하단에 Diary 발행 패널이 있습니다."></p>
-<p>이번에 붙인 것은 <strong>불러와서 고치는</strong> 흐름입니다. 새 글만 쓸 수 있는 에디터는 반쪽짜리였습니다.</p>
+<p>The editor speaks GFM. The screen has three tabs — edit, split, preview — and split shows the same document on both sides at once. The toolbar carries headings (H1–H3), bold, italic, strikethrough, code, quote, lists, links, images, and tables, with a shortcut cheat sheet underneath. Preview is filtered through DOMPurify, so a script mixed into a document never runs on screen.</p>
+<p><img src="/diary/assets/images/markdown-editor.png" alt="PKPilot0007 Markdown Editor: editing at left, preview at right, and the Diary publish panel below"></p>
+<p>What was added this time is the <strong>load-and-edit</strong> flow. An editor that can only start a new post is half an editor.</p>
 <ul>
-<li><strong>로컬 파일 열기</strong> — <code>.md</code>·<code>.markdown</code>·<code>.txt</code>를 고르거나 화면 어디에나 끌어다 놓습니다. UTF-8을 먼저 시도하고 실패하면 EUC-KR로 읽습니다.</li>
-<li><strong>frontmatter 분리</strong> — 파일 앞의 YAML을 파싱해 제목·카테고리·날짜·슬러그·태그·요약을 폼에 채우고, 본문만 편집기에 넣습니다. 카테고리는 파일에 적힌 표기를 그대로 살립니다(<code>Architecture</code>를 소문자로 바꾸지 않습니다).</li>
-<li><strong>저장소 글 불러오기</strong> — <code>diary-src/posts</code> 목록을 GitHub API로 받아 최신순으로 보여 주고, 고르면 바로 엽니다. 파일 바에는 <code>수정 중</code> 배지와 <code>[새 글로 전환]</code> 버튼이 뜹니다.</li>
-<li><strong>덮어쓰기 커밋</strong> — 원본의 <code>sha</code>를 먼저 읽어 PUT에 함께 보냅니다. 성공하면 응답의 새 <code>sha</code>로 상태를 갱신하므로 다음 수정도 같은 파일을 갱신합니다. 원본이 사라졌으면(404) 덮어쓰지 않고 안내만 합니다.</li>
+<li><strong>Open a local file</strong> — pick a <code>.md</code>, <code>.markdown</code>, or <code>.txt</code>, or drop one anywhere on the screen. UTF-8 is tried first, then EUC-KR.</li>
+<li><strong>Front matter split</strong> — the YAML block is parsed to fill title, category, date, slug, tags, and summary into the form, and only the body goes into the editor. The category keeps the spelling in the file (<code>Architecture</code> is not lowercased).</li>
+<li><strong>Load a post from the repository</strong> — the <code>diary-src/posts</code> listing comes from the GitHub API, newest first, and a pick opens immediately. The file bar then shows an <code>editing</code> badge and a <code>[Switch to new post]</code> button.</li>
+<li><strong>Overwrite commit</strong> — the original <code>sha</code> is read first and sent with the PUT. On success the new <code>sha</code> from the response updates the state, so the next edit updates the same file. If the original is gone (404), nothing is overwritten and a notice is shown instead.</li>
 </ul>
-<p>PAT는 한 번 넣어 두면 <code>[커밋]</code> 한 번으로 끝납니다. 토큰은 브라우저의 <code>localStorage</code>에만 남고 서버로 가지 않습니다. 내보내기는 <code>.md</code> 다운로드, 마크다운 복사, HTML 복사, 단독 HTML 저장 네 가지입니다.</p>
+<p>A PAT is entered once and then <code>[Commit]</code> is the whole action. The token stays in browser <code>localStorage</code> and never goes to a server. Export comes in four forms: download <code>.md</code>, copy Markdown, copy HTML, and save standalone HTML.</p>
 <h2>PKPilot0008 · Markdown Viewer</h2>
-<p>뷰어는 반대편 도구입니다. <code>.md</code> 파일을 열거나, 텍스트를 붙여넣거나, URL에서 불러오면 GFM 그대로 읽힙니다. 목차가 왼쪽에 붙고, 코드 블록마다 복사 버튼이 있으며, 인쇄와 PDF 저장을 지원합니다.</p>
-<p><img src="/diary/assets/images/markdown-viewer.png" alt="PKPilot0008 Markdown Viewer. 좌측 목차, 가운데 본문, 상단에 파일·URL·붙여넣기 입력이 있습니다."></p>
-<p>공유 링크는 서버 없이 만들었습니다. 문서 전체를 압축해 URL 해시에 담습니다.</p>
-<pre class="code-block" data-lang="text"><code class="hljs language-text">https://hyangdan2.github.io/PKPilot0008/#md=&lt;압축된 문서&gt;
+<p>The viewer is the other side of the tool. Open a <code>.md</code> file, paste text, or load from a URL, and it reads as GFM. A table of contents sticks to the left, every code block has a copy button, and printing and PDF saving are supported.</p>
+<p><img src="/diary/assets/images/markdown-viewer.png" alt="PKPilot0008 Markdown Viewer: table of contents at left, document in the middle, file/URL/paste inputs on top"></p>
+<p>Share links work with no server: the whole document is compressed into the URL hash.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">https://hyangdan2.github.io/PKPilot0008/#md=&lt;compressed document&gt;
 </code></pre>
-<p>문서를 LZString으로 압축해 URI에 안전한 문자열로 바꾸는 방식입니다. 링크 하나로 문서가 통째로 전달되지만, 문서가 길면 URL 길이 한계에 걸립니다. 큰 문서는 파일로 주고받는 편이 낫습니다.</p>
-<p>URL로 불러올 때는 CORS를 확인해야 합니다. 다른 사이트의 파일은 그 사이트가 허용할 때만 열립니다. GitHub의 <code>raw.githubusercontent.com</code>은 CORS를 열어 주지 않아서, 저장소의 글을 가져올 때는 API 경로를 씁니다.</p>
-<h2>정리</h2>
-<p>읽기와 쓰기를 한 페이지에 두면 둘 다 어색해집니다. 읽는 쪽은 가볍게, 쓰는 쪽은 도구로. Solver도 같은 원칙이었습니다. 판독·풀이·기록을 한 화면에 두되, 모델은 뒤에 붙일 수 있게 경계를 그어 두었습니다. 기능을 더하는 일보다 경계를 긋는 일이 오래 갑니다.</p>
+<p>The document is compressed with LZString into a URI-safe string. One link carries an entire document, though a long one runs into URL length limits — for big documents, sending a file is better.</p>
+<p>Loading from a URL depends on CORS: a file on another site opens only if that site allows it. GitHub's <code>raw.githubusercontent.com</code> does not open CORS, so posts in a repository are fetched through the API path instead.</p>
+<h2>Closing</h2>
+<p>Put reading and writing on one page and both become awkward. Reading should be light; writing should be a tool. Solver followed the same principle: reading, solving, and history on one screen, with a boundary drawn so a model can be attached behind it later. Drawing boundaries lasts longer than adding features.</p>
 
     </div>
 
     <nav class="post-nav" aria-label="Post navigation">
         <a class="post-nav-item" href="/diary/">
             <span class="post-nav-label">Diary</span>
-            <strong>전체 글 목록</strong>
+            <strong>All posts</strong>
         </a>
         <a class="post-nav-item" href="/diary/categories/devlog/">
             <span class="post-nav-label">Category</span>
@@ -228,14 +230,14 @@
     <nav class="post-pager" aria-label="Previous and next posts">
         
         <a class="pager-item pager-newer" href="/diary/posts/2026-11-18-unified-nav-accordion-and-about/">
-            <span>← 최신 글</span>
-            <strong>다섯 곳의 헤더를 한 벌로: 탭과 드로어, 그리고 Diary 아코디언</strong>
+            <span>← Newer</span>
+            <strong>One Header for Five Sites: Tabs, a Drawer, and the Diary Accordion</strong>
         </a>
         
         
         <a class="pager-item pager-older" href="/diary/posts/2026-11-16-doom-jsdos-key-mapping-troubleshooting/">
-            <span>이전 글 →</span>
-            <strong>DOOM에서 키가 안 먹히던 이유: js-dos v8과 DEFAULT.CFG</strong>
+            <span>Older →</span>
+            <strong>Why the Keys Did Nothing in DOOM: js-dos v8 and DEFAULT.CFG</strong>
         </a>
         
     </nav>

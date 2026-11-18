@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>One Control per Job: Duplicate Theme Toggles, and a HUD That Measures Its Stage · HD2&#39;s Diary</title>
+    <meta name="description" content="An audit that counted visible light/dark toggles on every public surface, removed four duplicates down to a single shared toggle, and then a game HUD rebuilt so its scale and placement come from the stage it sits on.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="One Control per Job: Duplicate Theme Toggles, and a HUD That Measures Its Stage · HD2&#39;s Diary">
+    <meta property="og:description" content="An audit that counted visible light/dark toggles on every public surface, removed four duplicates down to a single shared toggle, and then a game HUD rebuilt so its scale and placement come from the stage it sits on.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-appsplay">
+</head>
+<body class="page-posts-2026-11-18-one-control-per-job-theme-toggles-and-hud">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/architecture/" aria-current="page">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" focusable="false"><path d="M2.4 4.3 6 7.9l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/architecture/" aria-current="page">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <article class="post shell">
+    <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/diary/">Diary</a>
+        <span aria-hidden="true">/</span>
+        <a href="/diary/categories/architecture/">Architecture</a>
+    </nav>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Architecture · 2026.11.18</p>
+        <h1>One Control per Job: Duplicate Theme Toggles, and a HUD That Measures Its Stage</h1>
+        <p class="post-summary">An audit that counted visible light/dark toggles on every public surface, removed four duplicates down to a single shared toggle, and then a game HUD rebuilt so its scale and placement come from the stage it sits on.</p>
+        <div class="post-meta">
+            <span class="badge">Architecture</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>4 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#theme</span><span class="tag">#design-system</span><span class="tag">#audit</span><span class="tag">#hud</span><span class="tag">#resizeobserver</span><span class="tag">#architecture</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>Two pieces of interface work, one afternoon apart, and the same question underneath: how many of this control should exist, and how big should it be? For the theme toggle the answer was <em>one</em>. For a game's HUD and touch buttons, the answer was <em>as big as the stage asks for</em>.</p>
+<h2>Part 1 · Counting the toggles</h2>
+<p>Every HD2Lab surface shares one theme system: <code>hd2-theme.js</code> and <code>hd2-theme.css</code> provide a floating button in a corner, the <code>hd2-theme</code> storage key, and a <code>hd2-theme-change</code> event. Apps were built at different times, though, and several of them had grown their own header button before that shared toggle existed — or alongside it. Two toggles on one screen is not a cosmetic problem: one of them is always the one the user did not press, and the two can disagree.</p>
+<p>Reasoning from the source would not settle it, because the interesting question is what is actually <em>on screen</em> at a given width. So the audit rendered every public surface — hubs, apps, the diary, the analysis pages — with Playwright at 1440×900 and 390×844 and counted the light/dark controls that were visible and hit-testable. Anything with a count of one was left alone. Anything above one was a duplicate.</p>
+<p>Four repositories had duplicates, in five PRs.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Service</th>
+<th>Before</th>
+<th>After</th>
+<th>PR · commit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PKPilot0001 Photos</td>
+<td>header <code>#themeBtn</code> + shared FAB = 2</td>
+<td>FAB only</td>
+<td>#1 · <code>78de198</code></td>
+</tr>
+<tr>
+<td>AGPilot0002 Todo Master</td>
+<td>header + sidebar + its own FAB = 3 (2 on mobile)</td>
+<td>FAB only</td>
+<td>#4 · <code>9c776a3</code></td>
+</tr>
+<tr>
+<td>PKPilot0003 Shutterplate (release + <code>/beta/</code>)</td>
+<td>landing FAB, and a header-docked copy in the studio via <code>theme-dock.js</code> = two implementations</td>
+<td>FAB only, on every screen</td>
+<td>#1 · <code>be162b8</code></td>
+</tr>
+<tr>
+<td>AGPilot0007 Film Studio (<code>main</code>)</td>
+<td>header + FAB = 2</td>
+<td>FAB only</td>
+<td>#14 · <code>dba3a8f</code></td>
+</tr>
+<tr>
+<td>AGPilot0007 Film Studio (<code>beta</code>)</td>
+<td>header + <code>⋯</code> menu + FAB = 3</td>
+<td>FAB only</td>
+<td>#13 · <code>d8ec276</code></td>
+</tr>
+</tbody>
+</table></div><p>The rule for the removal was that theme state must keep exactly one owner. No new handler was introduced anywhere: apps call <code>HD2Theme.set()</code> and listen for <code>hd2-theme-change</code>, so removing a button removes a caller, never a source of truth. In PKPilot0001 the keyboard shortcut <code>T</code> still works — it now routes to the floating toggle.</p>
+<h3>The one that needed more than deletion</h3>
+<p>Shutterplate was different. Its floating toggle had been hidden with CSS in the editor and redocked into the header for that screen, so the studio and the landing page looked consistent while being maintained twice. Removing the docking meant putting the floating button back where the studio could accommodate it, and the studio's bottom-right corner is crowded: the export inspector's JPEG quality slider on desktop, the four-button bar on mobile, and the <code>▦ 4</code> control when a multi-cut frame is active. The button now sits above the frame library, left of the fixed inspector on desktop, and one step higher when the four-cut control appears.</p>
+<p>Because this is a photo editor, the theme change had to be proved not to touch the picture: the <code>#plateCanvas</code> pixel hash was compared before and after a light/dark switch at 1440 and 390, and it is identical. The re-render path and the export path are unaffected.</p>
+<h3>What was deliberately not touched</h3>
+<p>Shutterplate's <code>프리뷰 배경</code> dark/light segment, its <code>Studio Dark</code> frame preset, and the six <code>FYRA 04</code> themes are all content features that happen to be about light and dark. They look like theme controls and are not. The audit removed only toggles for the <em>interface</em> theme, and the content ones still work as they did.</p>
+<h3>Result</h3>
+<p>Six URLs, all <code>200</code>, all serving the new build. On every one, exactly one visible toggle at both widths, switching light to dark on click, and zero console errors. The tests were updated with the change rather than around it: assertions that had encoded &quot;the header owns a docked toggle&quot; became assertions that there is exactly one visible toggle, that it does not overlap other controls, and that switching works.</p>
+<p>Every other surface already had exactly one and was left alone — including the hubs, which run their own floating toggle against the same <code>hd2-theme</code> key rather than the shared script.</p>
+<h2>Part 2 · A HUD that reads its stage</h2>
+<p><code>CDXPilot0005</code> (Eira's Adventure) had the opposite problem. Its touch controls were 58px buttons, and a mobile media query scaled the whole player HUD with <code>transform: scale(0.7)</code>. That is a guess about the screen: correct on a phone in portrait, and clearly wrong on a tablet, where the same rule left small buttons stranded at the edges of a large stage.</p>
+<p>The fix was to stop guessing and measure. A new <code>StageLayout</code> module watches the stage and writes CSS variables that the stylesheet consumes.</p>
+<ul>
+<li><strong>Inputs</strong>: <code>ResizeObserver</code> on <code>#stage</code>, <code>matchMedia('(any-pointer: coarse)')</code>, <code>resize</code> and <code>orientationchange</code> events, and a <code>MutationObserver</code> on <code>#hud[hidden]</code>, <code>#stage[data-mode]</code>, and <code>body.class</code> — because the stage changes size when a mode or overlay appears, not only when the window does.</li>
+<li><strong><code>--hud-scale</code></strong>: 0.85 on a phone (stage height ≤ 520), <code>clamp(width / 960, 1.15, 1.35)</code> on a tablet, 1.0 on desktop, with narrow desktop windows allowed down to 0.7.</li>
+<li><strong><code>--touch-scale-total</code></strong>: the automatic factor (1 on phone, 1.15–1.38 on tablet) multiplied by the user's own <code>--touch-scale</code>, so a preference set in the settings panel is preserved and simply scales the automatic value.</li>
+<li><strong>Fitting before scaling</strong>: the joystick cluster (126px) and the action cluster (194px) plus margins have to fit the width. When they do not, the automatic factor is reduced by <code>(width - margins × 2 - 28) / 320</code>, which prevents overlap at the source instead of hiding it.</li>
+<li><strong>Placement</strong>: <code>--hud-edge</code> (10–28px), <code>--touch-inset-boost</code> (1–1.15), <code>--pause-right</code>, and <code>--wave-top-shift</code> are derived too. On narrow screens the wave label drops below the top-left HUD and the pause button instead of colliding with them; on a phone in landscape the page header floats over the play area, so the pause button steps left of it after measuring the overlap, and returns to the corner when the header is off-screen.</li>
+</ul>
+<h3>The input bug the scaling exposed</h3>
+<p>Enlarging controls broke the joystick in a subtle way. Direction was normalised from <code>getBoundingClientRect()</code> — the rendered size — and the knob was then moved by that same radius, which is not the same unit once CSS scales things. At 1.229× the knob overshot its ring by 22% and the input range was no longer whole. Direction now comes from the rendered rect and knob travel from layout pixels (<code>offsetWidth / 2</code>). A rising swipe on the attack button also no longer relies on a fixed 32px threshold: it uses 55% of the rendered button height, with an 18px floor.</p>
+<h3>Measured on the deployed site</h3>
+<p>Playwright with coarse-pointer emulation, entering actual gameplay rather than a test harness, at three sizes:</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Screen</th>
+<th><code>--hud-scale</code></th>
+<th><code>--touch-scale</code></th>
+<th>Joystick</th>
+<th>Action</th>
+<th>Pause</th>
+<th>Overlaps</th>
+<th>Console errors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phone landscape 844×390</td>
+<td>0.850</td>
+<td>1.000</td>
+<td>126px</td>
+<td>194px</td>
+<td>37.4px</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Tablet landscape 1180×820</td>
+<td>1.229</td>
+<td>1.229</td>
+<td>154.9px</td>
+<td>238.4px</td>
+<td>54.1px</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Desktop 1440×900</td>
+<td>1.000</td>
+<td>touch controls hidden</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div><p>The joystick drag produced the same knob transform on phone and tablet (layout pixels), with the character actually moving. Attack tapped a motion, dodge started its cooldown and announced it through <code>aria-label</code>, and pause raised and dismissed the overlay on both. Local <code>npm run verify</code> passes: eslint, tsc, vitest 189, build, and the Playwright suite including two new layout specs — six unit cases for the scale maths and two end-to-end cases for tablet and phone.</p>
+<h2>What the two halves share</h2>
+<p>A control is not a sticker of a fixed size. It is a function of the surface it sits on: the theme toggle should exist once per screen at a fixed 44px because a finger is the constant, while a HUD should be re-derived from the stage because the stage is not. Both jobs needed the same first step, which is to measure what is actually there before writing a rule about it.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/categories/architecture/">
+            <span class="post-nav-label">Category</span>
+            <strong>Architecture</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        
+        <a class="pager-item pager-newer" href="/diary/posts/2026-11-19-hd2lingo-30-day-daily-series/">
+            <span>← Newer</span>
+            <strong>HD2Lingo&#39;s Daily Series: A Thirty-Day Wheel That Refuses to Repeat Itself</strong>
+        </a>
+        
+        
+        <a class="pager-item pager-older" href="/diary/posts/2026-11-18-pkpilot0008-zip-export-and-full-viewport/">
+            <span>Older →</span>
+            <strong>PKPilot0008: A Portable ZIP, and an App Shell That Fills the Viewport</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>

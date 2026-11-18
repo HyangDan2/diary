@@ -1,37 +1,38 @@
 ---
-title: "사흘째 빨간불이던 CI: 앱이 아니라 엔진이 없었습니다"
+title: "Three Days of Red CI: The App Was Fine, the Engine Was Missing"
 date: 2026-11-18
 category: Troubleshooting
-summary: "AGPilot0003의 E2E 여섯 개가 Engine Offline으로 타임아웃되던 문제를 Playwright가 백엔드를 직접 띄우게 고쳤습니다. 그 과정에서 드러난 준비 대기 레이스와, 마지막까지 남아 있던 Pages 배포 잡까지 정리한 기록입니다."
+summary: "Six AGPilot0003 E2E specs were timing out on Engine Offline. The fix was letting Playwright start the backend itself — which then exposed a readiness race, and left one Pages deploy job still failing."
 tags: [github-actions, playwright, e2e, fastapi, ci]
+lang: en
 layout: post
 ---
 
-AGPilot0003은 브라우저에서 도면을 열고 편집하는 CAD 앱입니다. 프런트는 Vue 3 + Vite, 도면 계산은 FastAPI로 만든 **CoverFilm 지오메트리 엔진**이 맡습니다. 단위 테스트는 계속 초록불이었습니다. 그런데 `main`의 CI는 사흘 넘게 빨간불이었습니다.
+AGPilot0003 is a CAD app that opens and edits drawings in the browser. The front end is Vue 3 + Vite, and the geometry work is done by the **CoverFilm geometry engine**, a FastAPI service. Unit tests stayed green the whole time. Meanwhile `main`'s CI had been red for more than three days.
 
-## 증상
+## Symptoms
 
-- `build` 잡이 `Run E2E tests` 단계에서 죽습니다.
-- 화면의 엔진 상태 배지(`data-testid="cf-backend-status"`)가 계속 **Engine Offline**입니다.
-- CoverFilm·CAD 코어를 다루는 E2E 여섯 개가 전부 타임아웃됩니다.
-- 반면 Jest 단위 테스트는 정상이었습니다. 354개 스위트 중 352개 통과(2개 스킵), 테스트 2,463개 통과(2개 스킵).
+- The `build` job dies at `Run E2E tests`.
+- The engine status badge on screen (`data-testid="cf-backend-status"`) keeps reading **Engine Offline**.
+- All six E2E specs covering CoverFilm and the CAD core time out.
+- Jest unit tests are fine: 352 of 354 suites passing (2 skipped), 2,463 tests passing (2 skipped).
 
-즉 **코드가 깨진 게 아니라 테스트가 기대하는 환경이 없었습니다.** CI 로그에 남은 실패는 이런 모양이었습니다.
+So **the code was not broken; the environment the specs expected was missing.** The failure in the CI log looked like this.
 
 ```text
 19 × locator resolved to <span data-testid="cf-backend-status" class="cf-backend-tag is-offline">Engine Offline</span>
   - unexpected value "Engine Offline"
 ```
 
-## 원인: 스펙은 진짜 엔진을 요구합니다
+## Cause: those specs require a real engine
 
-문제의 여섯 스펙은 화면만 확인하는 테스트가 아닙니다. `Engine Online`을 확인한 뒤, **실제로 DXF 파일을 `127.0.0.1:8000`의 엔진에 올려** 도면을 가져옵니다. README 3장과 `docs/USER_GUIDE.md`가 안내하는 로컬 실행 절차도 그래서 "백엔드를 먼저 띄우라"로 시작합니다.
+The six specs do not merely check the screen. They confirm `Engine Online`, then **actually upload a DXF file to the engine at `127.0.0.1:8000`** and read the drawing back. That is also why the local run instructions in the README and in `docs/USER_GUIDE.md` begin with "start the backend first".
 
-개발자 컴퓨터에서는 손으로 띄운 엔진이 그 자리에 있었습니다. CI에는 아무도 띄워 주지 않았습니다. `playwright.config.ts`의 `webServer`에는 Vite 서버 하나만 있었기 때문입니다. 앱 결함이 아니라 **구성 누락**이었습니다.
+On a developer's machine, an engine started by hand was sitting there. In CI nobody started one, because `playwright.config.ts` listed only the Vite server in `webServer`. Not an app defect — **a missing piece of configuration**.
 
-## 해결 1 · Playwright가 엔진을 함께 띄우게 (PR #2 · `918fd17a`)
+## Fix 1 · Let Playwright start the engine too (PR #2 · `918fd17a`)
 
-워크플로 파일을 고치는 방법도 있었지만, 그러면 로컬과 CI의 실행 조건이 다시 갈라집니다. 그래서 `webServer`를 배열로 바꿔 **앱과 엔진을 한 명령으로 함께 띄우게** 했습니다.
+Editing the workflow file was an option, but that splits the local and CI conditions apart again. Instead `webServer` became an array, so **the app and the engine come up together from one command**.
 
 ```ts
 webServer: [
@@ -44,44 +45,44 @@ webServer: [
   {
     command: backendCommand,               // scripts/start-e2e-backend.sh | .ps1
     url: 'http://127.0.0.1:8000/api/v1/health',
-    timeout: 300_000,                      // 첫 실행은 venv 생성 + 의존성 설치
+    timeout: 300_000,                      // the first run creates a venv and installs deps
     reuseExistingServer: !process.env.CI
   }
 ]
 ```
 
-기동 스크립트는 README에 적혀 있던 수동 절차를 그대로 옮긴 것입니다.
+The startup script is the manual procedure from the README, moved into code.
 
-- `backend/.venv`가 없으면 만들고, `backend/requirements.txt`를 설치합니다.
-- 요구사항 파일이 바뀌면 다시 설치합니다. 설치 시점의 해시를 `.requirements.sha`에 남겨 두고 비교합니다.
-- 마지막에 `uvicorn app.main:app`을 `127.0.0.1:8000`에 올립니다.
-- Windows는 같은 일을 하는 `start-e2e-backend.ps1`을 씁니다.
+- Create `backend/.venv` if it is missing, then install `backend/requirements.txt`.
+- Reinstall when the requirements file changes, by comparing against a hash left in `.requirements.sha`.
+- Finally start `uvicorn app.main:app` on `127.0.0.1:8000`.
+- Windows uses `start-e2e-backend.ps1`, which does the same thing.
 
-`reuseExistingServer: !process.env.CI` 덕분에 로컬에서는 이미 띄워 둔 엔진을 그대로 쓰고, CI에서는 항상 새로 띄웁니다. **스펙은 한 줄도 고치지 않았습니다. 모킹도, 스킵도 없습니다.**
+Because of `reuseExistingServer: !process.env.CI`, local runs reuse an engine already running and CI always starts a fresh one. **Not one line of any spec changed. No mocking, no skips.**
 
-로컬에서 확인한 값은 이렇습니다.
+Numbers measured locally:
 
-| 상황 | 소요 |
+| Situation | Time |
 | --- | --- |
-| 첫 실행 (venv 생성 + 의존성 설치 + uvicorn) | 약 140초 |
-| 이미 준비된 뒤 | 약 9초 |
+| First run (venv, install, uvicorn) | about 140 s |
+| Once prepared | about 9 s |
 
-이 PR의 검증 런(`44195201490`)에서 E2E 36개가 5분 42초 만에 전부 통과했습니다. 엔진 배지도 `Engine Online`으로 바뀌었습니다.
+In this PR's verification run (`44195201490`), all 36 E2E tests passed in 5 minutes 42 seconds. The engine badge read `Engine Online`.
 
-## 해결 2 · 엔진이 살아나자 드러난 레이스 (PR #3 · `82acca1d`)
+## Fix 2 · The race the engine exposed (PR #3 · `82acca1d`)
 
-엔진 문제를 걷어내자, 기다리고 있던 결함이 모습을 드러냈습니다. 머지 후 `main` 런(`44200297047`)에서 `nested INSERT Off vs Freeze follows AutoCAD layer semantics` 스펙 하나가 **세 번의 시도 모두** `null`로 실패했습니다. 나머지 35개는 통과했습니다.
+With the engine problem out of the way, a waiting defect surfaced. On `main` after the merge (`44200297047`), one spec — `nested INSERT Off vs Freeze follows AutoCAD layer semantics` — failed with `null` on **all three attempts**. The other 35 passed.
 
-원인은 스펙의 준비 대기였습니다.
+The cause was the spec's readiness wait.
 
 ```ts
 await expect(page.locator('.ml-cad-container')).toBeVisible({ timeout: 30_000 })
-await page.waitForTimeout(1500)   // 여기서 1.5초만 기다리고 바로 읽었습니다
+await page.waitForTimeout(1500)   // waited 1.5 s, then read
 ```
 
-`window.AcApDocManager.instance`는 `App.vue`의 `initialize()`가 `@mlightcad/cad-simple-viewer` 동적 임포트를 끝낸 뒤에야 생깁니다. 업로드한 INSERT가 모델 공간에 도착하는 것도 그와 별개입니다. 컨테이너가 보인 시점과 준비가 끝난 시점 사이에는 아무 보장이 없으니, 부하가 걸린 러너에서는 1.5초 뒤에 읽은 값이 `null`이었습니다. 로컬에서는 대개 통과하고 CI에서만 무너지는 전형적인 플레이크입니다.
+`window.AcApDocManager.instance` only exists after `App.vue`'s `initialize()` finishes the dynamic import of `@mlightcad/cad-simple-viewer`, and the uploaded INSERT reaching model space is a separate matter again. Nothing guarantees the gap between "container visible" and "ready", so on a loaded runner the value read 1.5 seconds later was `null`. The classic flake that mostly passes locally and collapses only in CI.
 
-고정 대기를 **준비 상태 폴링**으로 바꿨습니다.
+The fixed wait became **readiness polling**.
 
 ```ts
 await expect
@@ -92,11 +93,11 @@ await expect
   .toBeTruthy()
 ```
 
-검증하는 내용과 커버리지는 그대로 두고, 기다리는 방식만 바꿨습니다. 기다릴 조건이 있으면 시간을 정하지 말고 조건을 기다리는 편이 맞습니다.
+What is verified and what is covered stayed the same; only the waiting changed. When there is a condition to wait for, wait for the condition instead of naming a duration.
 
-## 해결 3 · 마지막 빨간불은 테스트가 아니었습니다 (`8ff203e9`)
+## Fix 3 · The last red light was not a test (`8ff203e9`)
 
-두 PR을 머지한 뒤에도 CI는 아직 빨간불이었습니다. 이번에는 다른 잡이 문제였습니다. `build` 잡은 초록불인데 `deploy-pages` 잡이 실패했습니다.
+After both PRs were merged, CI was still red. This time a different job was the problem: `build` was green while `deploy-pages` failed.
 
 ```text
 Get Pages site failed. Please verify that the repository has Pages enabled
@@ -104,32 +105,32 @@ and configured to build using GitHub Actions...
 Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
 ```
 
-이 저장소는 백엔드 엔진이 필요한 프로젝트라 정적 Pages 배포를 쓰지 않습니다. 그런데 워크플로에는 예전 구성이 그대로 남아 매번 배포를 시도하고 있었습니다. 테스트와 무관한 잡이 전체 CI의 결과를 계속 failure로 만들고 있었던 것입니다.
+This repository needs a backend engine, so it does not use static Pages deployment. But the workflow still carried the old configuration and attempted a deploy every run, and a job unrelated to the tests kept marking the whole CI run as a failure.
 
-`ci.yml`에서 `upload-pages`와 `deploy-pages` 두 잡을 걷어냈습니다(27줄 삭제). 빌드 잡 안의 가이드 빌드 단계는 그대로 두었습니다.
+I removed the `upload-pages` and `deploy-pages` jobs from `ci.yml` (27 lines deleted), leaving the guide build step inside the build job untouched.
 
-## 결과
+## Result
 
-마지막 커밋 `8ff203e9`의 런(`44209661363`)에서 `build` 잡이 전 구간 초록불로 끝났습니다.
+On the final commit `8ff203e9` (`44209661363`), the `build` job ran green end to end.
 
-| 항목 | 결과 |
+| Item | Result |
 | --- | --- |
-| Jest 단위 테스트 | 2,463 통과 · 2 스킵 (스위트 352 통과 · 2 스킵) |
-| Playwright E2E | 36 통과 · 1 스킵 |
-| `build` 잡 | success |
-| 전체 CI | success |
+| Jest unit tests | 2,463 passed · 2 skipped (352 suites passed · 2 skipped) |
+| Playwright E2E | 36 passed · 1 skipped |
+| `build` job | success |
+| Whole CI | success |
 
-세 커밋의 역할을 정리하면 이렇습니다.
+The three commits, and what each one did.
 
-| 커밋 | 내용 | 결과 |
+| Commit | Change | Outcome |
 | --- | --- | --- |
-| `918fd17a` (PR #2) | Playwright가 CoverFilm 엔진을 함께 기동 | Engine Offline 해소, E2E 6종 복구 |
-| `82acca1d` (PR #3) | nested INSERT 스펙의 고정 대기 → 30초 폴링 | 플레이크 제거 |
-| `8ff203e9` | Pages 업로드·배포 잡 제거 | 전체 CI success |
+| `918fd17a` (PR #2) | Playwright starts the CoverFilm engine with the app | Engine Offline resolved, six E2E specs restored |
+| `82acca1d` (PR #3) | Fixed wait in the nested INSERT spec → 30 s polling | Flake removed |
+| `8ff203e9` | Removed the Pages upload and deploy jobs | Whole CI green |
 
-## 배운 것
+## What I learned
 
-- **빨간 CI가 항상 코드 문제는 아닙니다.** 먼저 "이 테스트가 무엇을 전제하는가"를 확인해야 합니다. 여기서는 엔진 프로세스 하나였고, 그 누락이 여섯 스펙을 한꺼번에 죽였습니다.
-- **고친 뒤에 드러나는 실패는 진전입니다.** 엔진이 없을 때는 가려져 있던 레이스가 엔진을 켜자 바로 나왔습니다. 가려진 결함을 세는 것보다 하나씩 걷어내는 편이 빠릅니다.
-- **고정 대기는 언젠가 터집니다.** `waitForTimeout(1500)`은 로컬에서 잘 통과합니다. 조건이 분명하면 `expect.poll`처럼 조건을 기다려야 합니다.
-- **롤업이 아니라 잡을 봐야 합니다.** 테스트가 다 초록불이어도 워크플로 구성이 낡아 있으면 CI는 계속 빨간불입니다. 실패한 잡 이름을 먼저 읽는 습관이 시간을 아낍니다.
+- **Red CI is not always a code problem.** First ask what the test assumes. Here it was one engine process, and its absence killed six specs at once.
+- **A failure that appears after a fix is progress.** The race was hidden while the engine was missing and showed up the moment it started. Uncovering hidden defects one at a time is faster than counting them.
+- **A fixed wait will break eventually.** `waitForTimeout(1500)` passes fine locally. When the condition is clear, wait for it — `expect.poll` and the like.
+- **Read jobs, not the rollup.** Tests can all be green while a stale workflow configuration keeps CI red. Reading the name of the failing job first saves time.
