@@ -29,7 +29,7 @@ Web-HQ와 ApplicationHub·GameHub·TechnicalHub, 그리고 HD2's Diary. 다섯 �
 
 - **PC에서는 타이틀 바에 탭.** `Web-HQ · Apps · Play · Tech · Diary · About` 여섯 개를 같은 순서로 올리고, 지금 있는 곳을 강조합니다. 헤더는 `position: sticky`라 스크롤해도 남습니다.
 - **모바일에서는 우상단 `≡` → 우측 언폴딩 사이드바.** 같은 목록을 세로로 세우고, 현재 위치는 왼쪽 강조선으로 표시합니다.
-- **하위 메뉴가 있는 곳은 Diary 하나.** Diary만 카테고리가 다섯 개라, 그 행에만 한 단 더 들어갈 길(아코디언·드롭다운)을 붙였습니다.
+- **하위 메뉴가 있는 곳은 Diary 하나.** Diary만 카테고리가 네 개(Devlog·Architecture·Troubleshooting·Notes)에 드로어 하위 항목은 다섯 개(Top + 카테고리 네 개)라, 그 행에만 한 단 더 들어갈 길(아코디언·드롭다운)을 붙였습니다.
 
 중요한 것은 모양이 아니라 계약입니다. 여섯 라우트가 `.nav-tab`, `.nav-dropdown`, `.drawer-item`, `.drawer-group`, `.drawer-toggle`, `.drawer-sub`라는 **같은 클래스 이름**을 쓰게 했습니다. 이름이 같으면 CSS 한 벌과 스크립트 한 벌이 그대로 돌아가고, 한 곳을 고치면 나머지가 따라옵니다.
 
@@ -71,7 +71,7 @@ ApplicationHub에서는 이 PR에 작은 수리가 하나 더 붙었습니다. P
 
 ### Diary 아코디언 — 한 행에 링크와 토글을 나눠
 
-Diary는 하위 카테고리가 다섯 개라, 행 전체를 링크로 두면 하위 메뉴로 갈 방법이 없습니다. 그래서 한 행을 둘로 나눴습니다. **왼쪽은 `/diary/`로 가는 링크, 오른쪽은 펼치는 44×44 토글**입니다.
+Diary는 카테고리가 네 개(Devlog·Architecture·Troubleshooting·Notes), 드로어 하위 항목이 다섯 개(Top + 카테고리 네 개)라, 행 전체를 링크로 두면 하위 메뉴로 갈 방법이 없습니다. 그래서 한 행을 둘로 나눴습니다. **왼쪽은 `/diary/`로 가는 링크, 오른쪽은 펼치는 44×44 토글**입니다.
 
 ```html
 <div class="drawer-group is-open">
