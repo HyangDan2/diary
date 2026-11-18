@@ -1,0 +1,11 @@
+# deps
+node_modules/
+diary-src/node_modules/
+
+# Eleventy intermediate output (the published copy is the repo root)
+diary-src/_site/
+
+# local OS noise
+.DS_Store
+Thumbs.db
+*.log

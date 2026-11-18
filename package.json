@@ -1,0 +1,11 @@
+{
+  "name": "hd2-diary-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HD2's Diary — published site (built from diary-src/ by Eleventy).",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "npm --prefix diary-src run serve"
+  }
+}
