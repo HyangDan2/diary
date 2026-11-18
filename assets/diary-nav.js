@@ -42,14 +42,25 @@
     // Returning through bfcache should never restore an unfolded sidebar.
     window.addEventListener('pageshow', function () { closeDrawer(false); });
 
-    // Diary accordion: the row label is a link to /diary/, the caret toggles the
-    // five sections underneath. Diary pages start open (set in the markup).
-    Array.prototype.forEach.call(document.querySelectorAll('.drawer-toggle'), function (toggle) {
-        var group = toggle.closest ? toggle.closest('.drawer-group') : null;
-        if (!group) return;
-        toggle.addEventListener('click', function () {
-            var open = group.classList.toggle('is-open');
+    // Section accordions (Apps, Play, Diary): the row label links to the hub page,
+    // the caret unfolds that group's sections on its own. A page can start with its
+    // own group open by setting is-open / aria-expanded="true" in the markup.
+    Array.prototype.forEach.call(document.querySelectorAll('.drawer-group'), function (group) {
+        var toggle = group.querySelector('.drawer-toggle');
+        var panel = group.querySelector('.drawer-sub');
+        if (!toggle || !panel) return;
+        var setOpen = function (open) {
+            group.classList.toggle('is-open', open);
             toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            // A collapsed panel keeps its height transition, so its links have to
+            // leave the tab order another way than display:none.
+            panel.inert = !open;
+            if (open) panel.removeAttribute('aria-hidden');
+            else panel.setAttribute('aria-hidden', 'true');
+        };
+        setOpen(toggle.getAttribute('aria-expanded') === 'true');
+        toggle.addEventListener('click', function () {
+            setOpen(toggle.getAttribute('aria-expanded') !== 'true');
         });
     });
 })();
