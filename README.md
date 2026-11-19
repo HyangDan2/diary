@@ -86,5 +86,6 @@ date, url and a `keywords` blob of subheadings plus the opening of each post —
 
 The shared HD2Lab light/dark theme (`hd2-theme.css`, `hd2-theme.js`), favicons, and the
 `Diary` stylesheet all live in `diary-src/assets/`, so this site needs nothing from Web-HQ to
-render. The header still links out to Web-HQ (`/`), Apps, Play, Tech, and About — those pages
-belong to the `HyangDan2.github.io` repository.
+render. The header still links out to Web-HQ (`/`), Apps, Play, Tech, InformationHub
+(`/InformationHub/`), and About — those pages belong to their own repositories under
+`HyangDan2`.
