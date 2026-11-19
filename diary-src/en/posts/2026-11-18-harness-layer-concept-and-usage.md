@@ -24,7 +24,7 @@ An LLM does exactly one thing. It reads the context in front of it and computes 
 
 There is a common misunderstanding here: that writing a better prompt solves this. A prompt is a **request**. The model usually complies, but not necessarily. A harness is a **device**. A script runs just before a tool call, and if the exit code is not zero the call is cancelled. The difference between a request and a device is what makes results reproducible.
 
-[![The layer diagram from user through harness to model and codebase](/diary/assets/images/2026-11-18-harness-layer-architecture.png)](/diary/assets/images/2026-11-18-harness-layer-architecture.png)
+[![The layer diagram from user through harness to model and codebase](/diary/assets/images/en/2026-11-18-harness-layer-architecture.png)](/diary/assets/images/en/2026-11-18-harness-layer-architecture.png)
 
 *User → harness → model, with the model reaching the codebase only through the harness's tools, rules and checks.*
 
@@ -91,7 +91,7 @@ You can also invoke a skill directly by typing `/` in the chat. Use that when yo
 
 Hooks do not go through the model's judgement. A program runs at a fixed point, first. That is what makes them fundamentally different from rules. A rule is read and, you hope, followed; a hook intercepts execution regardless of what the model decided.
 
-[![Where hooks sit: prompt submission, tool execution, post-hoc verification](/diary/assets/images/2026-11-18-harness-hooks-lifecycle.png)](/diary/assets/images/2026-11-18-harness-hooks-lifecycle.png)
+[![Where hooks sit: prompt submission, tool execution, post-hoc verification](/diary/assets/images/en/2026-11-18-harness-hooks-lifecycle.png)](/diary/assets/images/en/2026-11-18-harness-hooks-lifecycle.png)
 
 *A hook can fire at prompt submit, before a tool runs, after it runs, and at session end.*
 
@@ -145,7 +145,7 @@ The four axes in one table.
 
 The concept is enough by now. In practice you will reach for these four situations most often.
 
-[![Four use cases mapped onto the four axes](/diary/assets/images/2026-11-18-harness-usecases-matrix.png)](/diary/assets/images/2026-11-18-harness-usecases-matrix.png)
+[![Four use cases mapped onto the four axes](/diary/assets/images/en/2026-11-18-harness-usecases-matrix.png)](/diary/assets/images/en/2026-11-18-harness-usecases-matrix.png)
 
 *Team style, blocking dangerous work, self-verification, and outside tools — each leaning on a different combination of rules, skills, hooks and MCP.*
 
@@ -161,7 +161,7 @@ The concept is enough by now. In practice you will reach for these four situatio
 
 Folder names differ between tools, but the structure is similar. In Cline, the harness is split in two places.
 
-[![Cline's global and per-project harness layout](/diary/assets/images/2026-11-18-cline-harness-scope.png)](/diary/assets/images/2026-11-18-cline-harness-scope.png)
+[![Cline's global and per-project harness layout](/diary/assets/images/en/2026-11-18-cline-harness-scope.png)](/diary/assets/images/en/2026-11-18-cline-harness-scope.png)
 
 *Global `~/.cline/` for personal defaults, project `.cline/` for what the team shares.*
 

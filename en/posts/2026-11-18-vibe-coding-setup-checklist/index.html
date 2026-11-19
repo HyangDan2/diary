@@ -238,7 +238,7 @@
 <h3>And diff creep</h3>
 <p>The last is quiet and the most common. &quot;While I'm in here&quot; attaches itself and the diff grows. Renames, folder moves and reformatting get mixed into a feature fix in one commit. Review becomes impossible, and a diff that can't be reviewed eventually merges as it is. Then, when something breaks, nobody can say what caused it.</p>
 <p>All four reduce to one line: <strong>the model does not know what it just broke.</strong> To know, it has to run something; to run something it needs commands; and for a human not to type those commands every time, there has to be a loop. Setup is the work of laying that loop down in advance.</p>
-<p><a href="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="Unplanned vibe coding's failure loop versus the safe loop of plan, small change, automatic verification, review"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/en/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="Unplanned vibe coding's failure loop versus the safe loop of plan, small change, automatic verification, review"></a></p>
 <p><em>Left: guess, patch, break something else. Right: plan, small change, automatic verification, review.</em></p>
 <h2>The six-step setup checklist</h2>
 <p>The six steps have an order. ① to ③ reduce the <strong>number</strong> of accidents; ④ to ⑥ reduce their <strong>cost</strong>. Change the order and it gets less efficient: start with the verification loop and you are running tests without Git; start with model routing and you are paying for the expensive model without verification.</p>
@@ -334,7 +334,7 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <li>The diff grew past the size anyone can review — the conversation probably grew with it.</li>
 </ol>
 <p>Opening a new session should not be scary, which means there should be nothing to lose. So decisions go into documents, not conversations: why this structure in <code>docs/adr/</code> or an issue, what's next in a TODO, why this change in the pull request body. Knowledge that lives only in the session is knowledge that is already gone.</p>
-<p><a href="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png"><img src="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png" alt="Rules thinning and judgement drifting as a conversation grows, four reset signals, the pinned AGENTS.md structure"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-context-hygiene-and-session-reset.png"><img src="/diary/assets/images/en/2026-11-18-context-hygiene-and-session-reset.png" alt="Rules thinning and judgement drifting as a conversation grows, four reset signals, the pinned AGENTS.md structure"></a></p>
 <p><em>Top: context grows, rules thin out. Middle: the four reset signals. Bottom: the fixed <code>AGENTS.md</code> structure.</em></p>
 <h3>③ Separate planning from acting (Plan → Act)</h3>
 <p>The third is agreeing the scope before anything is written. Cline splits Plan and Act modes: in Plan it reads, investigates and designs; in Act it edits files. Other tools do the same thing by another name. The principle is the same: <strong>put a human's confirmation between reading and writing.</strong></p>
@@ -476,10 +476,10 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 </tbody>
 </table></div><p>Cost intuition is simple: tokens are the bill, and output costs more than input. Having a big model read thirty whole files during exploration is usually waste. Narrow the candidates with retrieval, then hand only the narrowed set to the big model.</p>
 <p>One caution: split routing too finely and the management cost exceeds the benefit. Two or three tiers is enough — &quot;light, proper, with a human&quot; — with one model and one gate attached to each.</p>
-<p><a href="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png" alt="Routing matrix of models (small, high-performance, thinking) and harness gates by task difficulty and risk"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-vibe-coding-model-harness-routing.png"><img src="/diary/assets/images/en/2026-11-18-vibe-coding-model-harness-routing.png" alt="Routing matrix of models (small, high-performance, thinking) and harness gates by task difficulty and risk"></a></p>
 <p><em>Task difficulty and risk mapped to model size and gate strength.</em></p>
 <p>The six steps on one page — laid out so it can be printed and used as a checklist.</p>
-<p><a href="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png" alt="The six-step setup checklist: Git, context, plan/act, verification, guardrails, model routing"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-vibe-coding-6step-checklist.png"><img src="/diary/assets/images/en/2026-11-18-vibe-coding-6step-checklist.png" alt="The six-step setup checklist: Git, context, plan/act, verification, guardrails, model routing"></a></p>
 <p><em>Six steps, minimum setup and pass condition for each.</em></p>
 <h2>Quick routines for when things go wrong</h2>
 <p>The six steps are what you keep in place. In practice they become urgently needed in three situations.</p>

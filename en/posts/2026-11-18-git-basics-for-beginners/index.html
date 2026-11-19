@@ -222,7 +222,7 @@ report_final_realfinal_v3.docx
 <p>One distinction makes the rest easy. <strong>Git is a program that runs on your computer</strong>; <strong>GitHub is a service that holds that record online.</strong> Git alone is enough for working by yourself. GitHub is the layer on top that lets you share the history with a team, review it, and deploy from it.</p>
 <h2>The four commands you can't avoid: <code>add</code> · <code>commit</code> · <code>push</code> · <code>pull</code></h2>
 <p>Git is hard not because there are many commands but because <strong>a file passes through four rooms</strong>. Once you know where the rooms are, the commands follow naturally.</p>
-<p><img src="/diary/assets/images/2026-11-18-git-flow-4steps.png" alt="The four-step saving flow, from your computer to GitHub"></p>
+<p><img src="/diary/assets/images/en/2026-11-18-git-flow-4steps.png" alt="The four-step saving flow, from your computer to GitHub"></p>
 <p><em>Four rooms: working directory → staging area → local repository ⇄ remote, with <code>add</code>, <code>commit</code>, <code>push</code> and <code>pull</code> as the doors between them.</em></p>
 <ul>
 <li><strong>Working directory</strong> — the folder where you actually edit files. The one open in your editor.</li>
@@ -292,7 +292,7 @@ git push -u origin main
 </table></div><h2>The working rhythm: protect <code>main</code>, work on a branch</h2>
 <p>Working alone, you can commit straight to <code>main</code>. The moment more than one person is involved you need one rule. <strong><code>main</code> always stays in a working state.</strong> Deploys come out of <code>main</code>, and other people's work starts from <code>main</code>. If half-finished code lands in <code>main</code>, everyone builds on top of it.</p>
 <p>So every piece of work gets its own branch.</p>
-<p><img src="/diary/assets/images/2026-11-18-git-branch-pr-workflow.png" alt="A team's branch and pull request workflow"></p>
+<p><img src="/diary/assets/images/en/2026-11-18-git-branch-pr-workflow.png" alt="A team's branch and pull request workflow"></p>
 <p><em>A feature branch leaves <code>main</code>, is pushed and opened as a pull request, passes review and CI, merges, and is deleted.</em></p>
 <ol>
 <li><strong>Create a branch.</strong> Start from the latest <code>main</code>, so merging later collides less.</li>
@@ -329,7 +329,7 @@ git branch -d feat/login-ui
 <p>Follow your team's branch naming, but prefixing the kind of work makes the list readable at a glance: <code>feat/login-ui</code>, <code>fix/header-overflow</code>, <code>docs/git-notes</code>. A branch should live a day or two. A branch that lives a week drifts away from <code>main</code> and comes back as a large conflict.</p>
 <h2>The three ways to merge</h2>
 <p>When you merge a pull request, GitHub offers three styles. The result is the same — the code lands on <code>main</code>. What differs is <strong>which history is left behind</strong>.</p>
-<p><img src="/diary/assets/images/2026-11-18-git-merge-3ways.png" alt="Merge, squash and rebase compared"></p>
+<p><img src="/diary/assets/images/en/2026-11-18-git-merge-3ways.png" alt="Merge, squash and rebase compared"></p>
 <p><em>Merge keeps every commit, squash folds the branch into one commit, rebase replays the commits on top of <code>main</code>.</em></p>
 <div class="table-wrap"><table><thead>
 <tr>

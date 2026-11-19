@@ -38,7 +38,7 @@ One distinction makes the rest easy. **Git is a program that runs on your comput
 
 Git is hard not because there are many commands but because **a file passes through four rooms**. Once you know where the rooms are, the commands follow naturally.
 
-![The four-step saving flow, from your computer to GitHub](/diary/assets/images/2026-11-18-git-flow-4steps.png)
+![The four-step saving flow, from your computer to GitHub](/diary/assets/images/en/2026-11-18-git-flow-4steps.png)
 
 *Four rooms: working directory → staging area → local repository ⇄ remote, with `add`, `commit`, `push` and `pull` as the doors between them.*
 
@@ -100,7 +100,7 @@ Working alone, you can commit straight to `main`. The moment more than one perso
 
 So every piece of work gets its own branch.
 
-![A team's branch and pull request workflow](/diary/assets/images/2026-11-18-git-branch-pr-workflow.png)
+![A team's branch and pull request workflow](/diary/assets/images/en/2026-11-18-git-branch-pr-workflow.png)
 
 *A feature branch leaves `main`, is pushed and opened as a pull request, passes review and CI, merges, and is deleted.*
 
@@ -148,7 +148,7 @@ Follow your team's branch naming, but prefixing the kind of work makes the list 
 
 When you merge a pull request, GitHub offers three styles. The result is the same — the code lands on `main`. What differs is **which history is left behind**.
 
-![Merge, squash and rebase compared](/diary/assets/images/2026-11-18-git-merge-3ways.png)
+![Merge, squash and rebase compared](/diary/assets/images/en/2026-11-18-git-merge-3ways.png)
 
 *Merge keeps every commit, squash folds the branch into one commit, rebase replays the commits on top of `main`.*
 

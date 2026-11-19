@@ -52,7 +52,7 @@ Hence "all the packages are here but the install dies with a network error". Wha
 
 The three causes reduce to one line: **if even one step still uses the network at install time, that is the step that breaks.** The fix is to move all of those steps to the internet side and make the inside use no network at all. That gives four stages: collect, seal, verify, install.
 
-[![The package handover pipeline: collect outside, hand over through security, install offline inside](/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png)](/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png)
+[![The package handover pipeline: collect outside, hand over through security, install offline inside](/diary/assets/images/en/2026-11-18-onprem-airgap-pipeline.png)](/diary/assets/images/en/2026-11-18-onprem-airgap-pipeline.png)
 
 *Collect on the internet side, hand over through security review, install offline inside — with a manifest tying the two ends together.*
 
@@ -155,7 +155,7 @@ In containers or CI, where a config file is awkward, use environment variables: 
 
 With an internal repository, the unit of handover changes from "project" to "package". A new project doesn't need to re-import packages the repository already holds. In exchange, somebody has to manage what came in and who approved it. That comes back in section 5.
 
-[![Building a wheelhouse with pip download, installing with --no-index --find-links, and how to read wheel tags](/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png)](/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png)
+[![Building a wheelhouse with pip download, installing with --no-index --find-links, and how to read wheel tags](/diary/assets/images/en/2026-11-18-onprem-pip-wheelhouse.png)](/diary/assets/images/en/2026-11-18-onprem-pip-wheelhouse.png)
 
 *The collect-then-install flow on the left, and how to read a wheel's tag on the right.*
 
@@ -239,7 +239,7 @@ In practice, use it for "demo where the target is one fixed machine" or "emergen
 | Where it breaks | different lockfile, different architecture | auth and certificate setup | platform mismatch |
 | Good for | one project, once | several teams, ongoing | demos, emergency recovery |
 
-[![Three npm offline patterns compared, and the npx workaround](/diary/assets/images/2026-11-18-onprem-npm-3ways.png)](/diary/assets/images/2026-11-18-onprem-npm-3ways.png)
+[![Three npm offline patterns compared, and the npx workaround](/diary/assets/images/en/2026-11-18-onprem-npm-3ways.png)](/diary/assets/images/en/2026-11-18-onprem-npm-3ways.png)
 
 *Cache, mirror and bundle side by side, with the `npx` fallbacks underneath.*
 
@@ -323,7 +323,7 @@ cd wheelhouse && sha256sum -c ../MANIFEST.sha256
 
 `sha256sum` treats lines starting with `#` as comments and skips them, so human-readable notes like the file count can live in the same file. If a single file changed while the archive was unpacked, this step catches it.
 
-[![Top four air-gap handover failures as a checklist](/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png)](/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png)
+[![Top four air-gap handover failures as a checklist](/diary/assets/images/en/2026-11-18-onprem-pitfalls-checklist.png)](/diary/assets/images/en/2026-11-18-onprem-pitfalls-checklist.png)
 
 *The four traps, why each happens, and the check that catches it.*
 

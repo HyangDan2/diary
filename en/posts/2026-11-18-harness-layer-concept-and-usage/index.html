@@ -214,7 +214,7 @@
 <li><strong>No consistency.</strong> The same request gets slightly different answers depending on sampling. Keeping to a team convention the same way every time needs a device outside the model.</li>
 </ul>
 <p>There is a common misunderstanding here: that writing a better prompt solves this. A prompt is a <strong>request</strong>. The model usually complies, but not necessarily. A harness is a <strong>device</strong>. A script runs just before a tool call, and if the exit code is not zero the call is cancelled. The difference between a request and a device is what makes results reproducible.</p>
-<p><a href="/diary/assets/images/2026-11-18-harness-layer-architecture.png"><img src="/diary/assets/images/2026-11-18-harness-layer-architecture.png" alt="The layer diagram from user through harness to model and codebase"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-harness-layer-architecture.png"><img src="/diary/assets/images/en/2026-11-18-harness-layer-architecture.png" alt="The layer diagram from user through harness to model and codebase"></a></p>
 <p><em>User → harness → model, with the model reaching the codebase only through the harness's tools, rules and checks.</em></p>
 <p>So let me define the harness this way: <strong>everything outside the model weights that controls what goes into the model and what the model does.</strong> The rules carried in the prompt, the procedures it can load, the checks before and after execution, the connected tools, and the loop that brings results back into context. Think of a car: the model is the engine, and the harness is the steering wheel, the brakes and the dashboard. A powerful engine does not by itself get you to the destination safely.</p>
 <h2>The four axes of a harness</h2>
@@ -259,7 +259,7 @@ description: Use when preparing a release. Walks through bumping the version,
 <p>You can also invoke a skill directly by typing <code>/</code> in the chat. Use that when you want to force a particular procedure instead of waiting for automatic matching.</p>
 <h3>Hooks — automatic devices that step in before and after execution</h3>
 <p>Hooks do not go through the model's judgement. A program runs at a fixed point, first. That is what makes them fundamentally different from rules. A rule is read and, you hope, followed; a hook intercepts execution regardless of what the model decided.</p>
-<p><a href="/diary/assets/images/2026-11-18-harness-hooks-lifecycle.png"><img src="/diary/assets/images/2026-11-18-harness-hooks-lifecycle.png" alt="Where hooks sit: prompt submission, tool execution, post-hoc verification"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-harness-hooks-lifecycle.png"><img src="/diary/assets/images/en/2026-11-18-harness-hooks-lifecycle.png" alt="Where hooks sit: prompt submission, tool execution, post-hoc verification"></a></p>
 <p><em>A hook can fire at prompt submit, before a tool runs, after it runs, and at session end.</em></p>
 <p>The most widely used names are <strong>PreToolUse</strong> and <strong>PostToolUse</strong> — just before and just after a tool runs. Claude Code exposes hook events under those names, and a hook script receives JSON such as <code>tool_name</code> and <code>tool_input</code> on standard input. Exiting with code 2 cancels that tool call, and whatever you wrote to standard error is passed back to the model as feedback. The configuration looks like this.</p>
 <pre class="code-block" data-lang="json"><code class="hljs language-json"><span class="hljs-punctuation">{</span>
@@ -322,7 +322,7 @@ description: Use when preparing a release. Walks through bumping the version,
 </tbody>
 </table></div><h2>Where it actually gets used</h2>
 <p>The concept is enough by now. In practice you will reach for these four situations most often.</p>
-<p><a href="/diary/assets/images/2026-11-18-harness-usecases-matrix.png"><img src="/diary/assets/images/2026-11-18-harness-usecases-matrix.png" alt="Four use cases mapped onto the four axes"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-harness-usecases-matrix.png"><img src="/diary/assets/images/en/2026-11-18-harness-usecases-matrix.png" alt="Four use cases mapped onto the four axes"></a></p>
 <p><em>Team style, blocking dangerous work, self-verification, and outside tools — each leaning on a different combination of rules, skills, hooks and MCP.</em></p>
 <p><strong>1. Keeping a team's code style.</strong> Making a new hire and an agent work to the same rules. Naming, folder structure, error handling and commit message format go into rules and get committed to the repository. Conditional rules per file type stop documentation rules from interrupting code work. The effect is quiet: fewer review comments saying &quot;this isn't our convention&quot;.</p>
 <p><strong>2. Blocking dangerous work.</strong> Editing <code>.env</code>, connecting to the production database, <code>rm -rf</code>, force pushing. Things one accident can make permanent. Writing &quot;don't&quot; in a rule and blocking just before execution are different: the first is a request, the second is a device. Overlap tool permissions on top and you get three layers — a rule, a hook, and no permission to begin with.</p>
@@ -330,7 +330,7 @@ description: Use when preparing a release. Walks through bumping the version,
 <p><strong>4. Connecting outside tools.</strong> Reading tickets from a tracker, consulting documentation, calling an internal API. With an MCP server attached, this happens without leaving the conversation. You do have to keep track of which server was given which permission. Tokens go in the MCP configuration's environment variables, not into the prompt.</p>
 <h2>The harness inside Cline</h2>
 <p>Folder names differ between tools, but the structure is similar. In Cline, the harness is split in two places.</p>
-<p><a href="/diary/assets/images/2026-11-18-cline-harness-scope.png"><img src="/diary/assets/images/2026-11-18-cline-harness-scope.png" alt="Cline's global and per-project harness layout"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-cline-harness-scope.png"><img src="/diary/assets/images/en/2026-11-18-cline-harness-scope.png" alt="Cline's global and per-project harness layout"></a></p>
 <p><em>Global <code>~/.cline/</code> for personal defaults, project <code>.cline/</code> for what the team shares.</em></p>
 <ul>
 <li><strong>Global <code>~/.cline/</code></strong> — applies to every project. It holds <code>rules/</code>, <code>skills/</code>, <code>hooks/</code>, <code>workflows/</code>, <code>agents/</code> and <code>plugins/</code>, while API keys and MCP settings live under <code>~/.cline/data/settings/</code>. Personal taste and personal safety nets go here.</li>
