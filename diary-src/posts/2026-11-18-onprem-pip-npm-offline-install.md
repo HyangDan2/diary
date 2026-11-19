@@ -5,6 +5,7 @@ category: Notes
 summary: "폐쇄망에서 패키지 설치는 대개 '설치'가 아니라 '반입'에서 깨집니다. 전이 의존성, OS·CPU·버전 태그, 설치 스크립트의 외부 호출이라는 세 가지 이유를 짚고, pip의 wheelhouse와 npm의 세 가지 반입 방법을 실제 명령과 실패 메시지, 측정한 크기와 함께 정리했습니다."
 tags: [on-premise, airgap, pip, npm, offline, verdaccio, python, nodejs, notes]
 layout: post
+translationKey: notes-onprem-pip-npm-offline-install
 ---
 
 첫 편에서 모델은 엔진, 하네스는 핸들이라고 적었습니다. 셋째 편에서는 그 핸들을 매일 쥐는 세팅을 정리했습니다. 그런데 그 세팅이 한 번에 멈추는 곳이 있습니다. 인터넷이 닫힌 망입니다. 모델도 도구도 스킬도 결국 패키지로 도착하는데, 그 패키지가 들어오지 못하면 앞의 모든 준비가 그 자리에서 서 있습니다.

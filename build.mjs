@@ -22,7 +22,7 @@ const srcDir = join(root, "diary-src");
 const outDir = join(srcDir, "_site");
 
 /** Everything in the repo root that is generated and may be replaced. */
-const GENERATED = ["index.html", "posts", "categories", "assets"];
+const GENERATED = ["index.html", "posts", "categories", "en", "assets"];
 
 function run(command, args, cwd) {
   const result = spawnSync(command, args, { cwd, stdio: "inherit", shell: process.platform === "win32" });

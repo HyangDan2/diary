@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Under the Hood: How an LLM Works, and How to Choose a Qwen Model · HD2&#39;s Diary</title>
+    <meta name="description" content="An LLM is a machine that computes the probability of the next token and picks one. How that calculation becomes capability across the three training stages, how tool calls turn into a loop, and when to pick 397B-A17B versus 27B from the Qwen2.5-to-3.8 line-up.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Under the Hood: How an LLM Works, and How to Choose a Qwen Model · HD2&#39;s Diary">
+    <meta property="og:description" content="An LLM is a machine that computes the probability of the next token and picks one. How that calculation becomes capability across the three training stages, how tool calls turn into a loop, and when to pick 397B-A17B versus 27B from the Qwen2.5-to-3.8 line-up.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-18-llm-and-qwen-models/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-18-llm-and-qwen-models/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-18-llm-and-qwen-models/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+</head>
+<body class="page-en-posts-2026-11-18-llm-and-qwen-models">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-18-llm-and-qwen-models/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-18-llm-and-qwen-models/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.18</p>
+        <h1>Under the Hood: How an LLM Works, and How to Choose a Qwen Model</h1>
+        <p class="post-summary">An LLM is a machine that computes the probability of the next token and picks one. How that calculation becomes capability across the three training stages, how tool calls turn into a loop, and when to pick 397B-A17B versus 27B from the Qwen2.5-to-3.8 line-up.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>11 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#llm</span><span class="tag">#qwen</span><span class="tag">#moe</span><span class="tag">#mixture-of-experts</span><span class="tag">#gated-deltanet</span><span class="tag">#reasoning</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>In the previous post I wrote that the model is the engine and the harness is the steering wheel. That one was about the wheel: how to feed in rules, where to block tool execution, how to take procedures out when needed.</p>
+<p>This post opens the engine. What an LLM actually computes, how that computation becomes &quot;usable capability&quot;, and what the Qwen model names you keep seeing actually mean. It reads on its own, but the two are a pair. It continues from <a href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">The Model Is the Engine, the Harness Is the Steering Wheel</a>.</p>
+<h2>What an LLM is, and how it works</h2>
+<p>One sentence: <strong>an LLM is a function that takes the tokens in front of it and computes a probability distribution over the next token.</strong> Nothing more, nothing less. The surprising capability is what comes out of repeating that simple calculation through a very large network on a very large amount of data.</p>
+<h3>Next-token prediction — one piece of text at a time</h3>
+<p>Text is first split into tokens. A token is smaller than a word and larger than a character. &quot;weather&quot; might be one token, or &quot;weath&quot; and &quot;er&quot;. The Qwen3.5 and 3.8 families have a vocabulary of about 248,320. The model's output is a score (logit) over that whole vocabulary, and softmax turns it into a probability distribution that sums to 1.</p>
+<p>If the context is &quot;the weather in Changwon today is&quot;, the probabilities for the next token look roughly like this. (The numbers are an illustration.)</p>
+<ul>
+<li><code>clear</code> 42%, <code>cloud</code> 23%, <code>rain</code> 16%, <code>fog</code> 9%, the rest 10%</li>
+</ul>
+<p>You pick one. The rule for picking is sampling. <strong>Temperature</strong> controls how sharp the distribution is. Lower concentrates on the top candidate; higher lets the tail get drawn. <strong>Top-p</strong> keeps only the point where cumulative probability reaches p. <strong>Top-k</strong> keeps the top k. All three decide &quot;what stays a candidate&quot;.</p>
+<p>The chosen token is appended to the context. Then the same calculation runs again. With &quot;clear&quot; appended, &quot;skies&quot; or &quot;today&quot; become likely. This structure, feeding its own output back in as input, is called <strong>autoregressive</strong>. A 300-token answer is 300 calculations.</p>
+<p>Two facts from this matter in practice.</p>
+<ol>
+<li>
+<p><strong>The same question gets different answers.</strong> Because a token is drawn from a distribution. If you need reproducibility, keep temperature near 0, and even then it is not exactly identical — batching and kernels nudge it slightly.</p>
+</li>
+<li>
+<p><strong>Longer answers are slower and more expensive.</strong> Token count is both the number of calculations and the billing unit. &quot;Keep it short&quot; is a cost constraint, not a matter of taste.</p>
+</li>
+</ol>
+<h3>Where the capability comes from — the three training stages</h3>
+<p>It is the same next-token prediction throughout; the stages differ in what counts as the right answer.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Stage</th>
+<th>Data</th>
+<th>Objective</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-training</td>
+<td>Trillions of tokens: web, code, PDFs</td>
+<td>Predict the next token</td>
+<td>Base model (does not know instructions)</td>
+</tr>
+<tr>
+<td>SFT</td>
+<td>Human-written instruction–answer pairs</td>
+<td>Conversational form and tone</td>
+<td>Instruct model</td>
+</tr>
+<tr>
+<td>RL</td>
+<td>Verifiable answers, human preference</td>
+<td>Get it right more often</td>
+<td>Reasoning, aligned model</td>
+</tr>
+</tbody>
+</table></div><p><strong>Pre-training</strong> is closer to compression. To predict the next token over trillions of tokens, grammar, common sense, the rules of code and translation correspondences all have to end up inside the weights. That is the background to the announcements that Qwen2.5 was trained on 18 trillion tokens and Qwen3 on about 36 trillion. The output of this stage, the base model, predicts the next token well but does not know &quot;answer the question&quot;. It is closer to a document continuation machine.</p>
+<p><strong>SFT</strong> (Supervised Fine-Tuning) teaches form. Instructions are paired with exemplary answers and the model learns to answer in a chat template. The system/user/assistant roles, the tone of a refusal, the habit of writing lists — this is where they come from. The &quot;Instruct&quot; models we meet through an API are the output of this stage.</p>
+<p><strong>RL</strong> changes the objective. SFT teaches &quot;resemble the exemplary answer&quot;; RL gives a reward for getting it right. The right answer to a maths problem, tests passing on code, a human's preference vote. Verifiable rewards (RLVR) are especially powerful because the model can find a solution better than the one a human wrote. The habit of thinking for a long time before answering also comes from this stage: if thinking longer earns more reward, that is the direction it learns.</p>
+<p>The Qwen3.5 announcement describes extending this RL to &quot;million-scale agent environments&quot;. For agent work where no human can write down every answer, the environment's success or failure signal becomes the reward.</p>
+<h3>Tool calls — the model does not execute anything</h3>
+<p>An LLM's output is always text. It cannot write a file or run a command. Tool calling is the convention that routes around that limit.</p>
+<p>First the tool list goes into the request: name, description, JSON Schema for the arguments.</p>
+<pre class="code-block" data-lang="json"><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;function&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;function&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;get_weather&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Look up the current weather for a city. Use for questions about weather, temperature or precipitation.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;parameters&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;location&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;City name, e.g. Changwon&quot;</span> <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;location&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p>The model emits a tool call instead of an answer: the text &quot;call get_weather with location=Changwon&quot;. A program outside then makes the API call and puts the result back into context as a <code>role: tool</code> message. The model reads it and finishes the answer.</p>
+<pre class="code-block" data-lang="python"><code class="hljs language-python">messages = [
+    {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;You are a weather assistant. Never guess a value the tool did not return.&quot;</span>},
+    {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;What&#x27;s the weather in Changwon today?&quot;</span>},
+]
+
+<span class="hljs-comment"># 1) the model picks a tool</span>
+res = client.chat.completions.create(model=<span class="hljs-string">&quot;Qwen/Qwen3.8-27B&quot;</span>, messages=messages, tools=tools)
+call = res.choices[<span class="hljs-number">0</span>].message.tool_calls[<span class="hljs-number">0</span>]
+
+<span class="hljs-comment"># 2) your code does the executing</span>
+result = get_weather(**json.loads(call.function.arguments))
+
+<span class="hljs-comment"># 3) put the result into context and call again</span>
+messages.append(res.choices[<span class="hljs-number">0</span>].message)
+messages.append({<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;tool&quot;</span>, <span class="hljs-string">&quot;tool_call_id&quot;</span>: call.<span class="hljs-built_in">id</span>, <span class="hljs-string">&quot;content&quot;</span>: json.dumps(result, ensure_ascii=<span class="hljs-literal">False</span>)})
+final = client.chat.completions.create(model=<span class="hljs-string">&quot;Qwen/Qwen3.8-27B&quot;</span>, messages=messages, tools=tools)
+</code></pre>
+<p>A few things to remember in this loop.</p>
+<ul>
+<li><strong>The tool description is the prompt.</strong> The only grounds the model has for picking a tool are <code>description</code> and the argument descriptions. Without &quot;when to use it&quot;, the tool gets called at the wrong moment. Same as what I said about skill descriptions in the harness post.</li>
+<li><strong>Parallel calls only for independent work.</strong> &quot;Weather in Beijing and Shanghai&quot; goes out as two calls at once. If the next argument depends on the previous result, the calls have to run in sequence.</li>
+<li><strong>Failure is a normal path.</strong> Timeouts, 404s and empty results go into context as they are. The model choosing another tool, or fixing an argument and calling again, is the strength of this structure — which is why tool results should come back in a form a human could also read.</li>
+<li><strong>Execution permission lives outside the model.</strong> What runs, and which tools need approval, is the harness's decision. However plausible the model's call, nothing happens if the executor refuses.</li>
+</ul>
+<p><a href="/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png"><img src="/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png" alt="Next-token prediction, the three training stages, and the tool-call loop"></a></p>
+<p><em>Top: the sampling loop over a vocabulary. Middle: pre-training → SFT → RL. Bottom: the model picks a tool, code executes it, the result returns to context.</em></p>
+<h2>The Qwen line-up at a glance</h2>
+<p>Qwen is Alibaba's model family. It started as Tongyi Qianwen in 2023 and continued through 2.5, 3, 3.5, 3.6 and 3.8. Names are usually <code>Qwen&lt;generation&gt;-&lt;size&gt;</code>, and MoE models carry <code>-A&lt;active parameters&gt;</code> after it. Read <code>Qwen3.5-397B-A17B</code> as &quot;3.5 generation, 397B total, 17B active per token&quot;.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Generation</th>
+<th>When</th>
+<th>Representative models</th>
+<th>What changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen2.5</td>
+<td>2024-09</td>
+<td>0.5B–72B dense</td>
+<td>18T tokens, up to 128K context, tool calling settles in</td>
+</tr>
+<tr>
+<td>Qwen3</td>
+<td>2025-04</td>
+<td>0.6B–32B, 30B-A3B, 235B-A22B</td>
+<td>36T tokens, 119 languages, hybrid thinking introduced</td>
+</tr>
+<tr>
+<td>Qwen3-Next</td>
+<td>2025-09</td>
+<td>80B-A3B</td>
+<td>First experiment with Gated DeltaNet linear attention</td>
+</tr>
+<tr>
+<td>Qwen3.5</td>
+<td>2026-02</td>
+<td>397B-A17B, 122B-A10B, 35B-A3B, 27B</td>
+<td>Native multimodal, 201 languages, 3:1 hybrid</td>
+</tr>
+<tr>
+<td>Qwen3.6</td>
+<td>2026-04</td>
+<td>35B-A3B, 27B</td>
+<td>Stability, agentic coding, preserved thinking</td>
+</tr>
+<tr>
+<td>Qwen3.7</td>
+<td>2026-05–06</td>
+<td>Max, Plus, VLA</td>
+<td>API-only generation (no open weights)</td>
+</tr>
+<tr>
+<td>Qwen3.8</td>
+<td>2026-08</td>
+<td>2.4T-A95B, 27B</td>
+<td>First Max-class open release; 27B under Apache 2.0</td>
+</tr>
+</tbody>
+</table></div><p>Qwen3.7 stands out. Max, Plus and VLA all shipped API-only, with no open weights. 27B coming back under Apache 2.0 in 3.8 means open-model users effectively skipped a generation.</p>
+<h3>Dense vs MoE — how to read <code>total-Aactive</code></h3>
+<p>Let me take one name apart: <code>Qwen3.5-397B-A17B</code>.</p>
+<ul>
+<li><strong>397B is the total parameter count.</strong> All the weights have to be in memory.</li>
+<li><strong>17B is what is actually computed to make one token.</strong> Of 512 experts, 10 plus one shared expert are switched on.</li>
+</ul>
+<p>That is 4.3% of the whole. Why build it this way? Because it is a structure that &quot;buys memory to save computation&quot;. To get 397B-class knowledge from a dense model you would compute 397B per token. In MoE the same knowledge sits in memory and only the needed part is computed per token. The price is GPU memory equal to the total.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th></th>
+<th>Dense</th>
+<th>Sparse MoE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computation</td>
+<td>Proportional to total parameters</td>
+<td>Proportional to active parameters</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Total parameters</td>
+<td>Total parameters (all resident)</td>
+</tr>
+<tr>
+<td>Batching efficiency</td>
+<td>Predictable</td>
+<td>Varies with routing</td>
+</tr>
+<tr>
+<td>Tuning difficulty</td>
+<td>Low</td>
+<td>Router and load balancing need care</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Qwen3.8-27B</td>
+<td>Qwen3.5-397B-A17B</td>
+</tr>
+</tbody>
+</table></div><p>MoE's cost lands on training and serving. If traffic piles onto one expert, one GPU gets busy; with small batches the active experts change every time and cache efficiency drops. So the lesson is not &quot;more total parameters is always better&quot; — look at concurrency and the memory budget together.</p>
+<h3>Hybrid attention — why Gated DeltaNet is in there</h3>
+<p>Attention is the operation where tokens look at each other. The problem is that the cache grows as context grows. Standard attention has to hold the key/value of every past token, so the KV cache scales linearly with context length.</p>
+<p><strong>Gated DeltaNet</strong> (GDN) changes that point. Instead of storing the whole past, it updates a fixed-size state with a delta rule and decays it through a gate. State size is independent of context length, so the cache no longer grows linearly with long contexts. Qwen3-Next tried this structure first; 3.5 scaled it up in earnest.</p>
+<p>Linear attention alone is not enough, though. It is weak at fetching a sentence that sat at a precise location (retrieval). So 3.5 mixes three GDN layers with one full-attention layer. 397B-A17B repeats this block 15 times for 60 layers; 27B repeats it 16 times for 64 layers. For 27B, only 16 layers are full attention, so it uses a quarter of the KV cache that all-full-attention layers would need.</p>
+<p>In numbers: 27B holding 262,144 tokens in f16 KV is about 16GiB. If all 64 layers were full attention it would be 64GiB. That is where &quot;27B, and 128K context on a 24GB card&quot; comes from — with the caveats of quantising the KV cache to q8 and reducing the context.</p>
+<p><a href="/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png"><img src="/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png" alt="Dense 27B versus sparse MoE 397B-A17B, and the Gated DeltaNet hybrid"></a></p>
+<p><em>Left: dense 27B. Middle: sparse MoE 397B-A17B with 17B active. Right: the 3:1 GDN-to-full-attention block.</em></p>
+<h2>Two models side by side</h2>
+<p>The line-up is wide enough that in practice you end up choosing between two: 397B-A17B on a server and 27B on a desk. Rather than listing specs, here is what each is for.</p>
+<h3>Qwen3.5-397B-A17B — the 397B you keep on a server</h3>
+<p>The first model of the 3.5 generation, released on 16 February 2026. Apache 2.0.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameters</td>
+<td>397B total · 17B active per token</td>
+</tr>
+<tr>
+<td>Experts</td>
+<td>10 of 512 routed + 1 shared</td>
+</tr>
+<tr>
+<td>Layers</td>
+<td>60 (GDN 3 : Gated Attention 1)</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>262,144 native, extensible to about 1.01M</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>Text, image, video, natively</td>
+</tr>
+<tr>
+<td>Languages</td>
+<td>201 languages and dialects</td>
+</tr>
+<tr>
+<td>Licence</td>
+<td>Apache 2.0</td>
+</tr>
+</tbody>
+</table></div><p>Three things matter here.</p>
+<p><strong>Native multimodal.</strong> Not an image encoder bolted on afterwards — text and image tokens were trained together from the start. Understanding charts, documents and video is a basic capability, not an add-on.</p>
+<p><strong>201 languages.</strong> Up from 119 in the third generation. The vocabulary also grew to 250,000, so the same sentence takes fewer tokens. Fewer tokens means less cost and less latency.</p>
+<p><strong>Throughput.</strong> Per Alibaba's announcement, 8.6× Qwen3-Max's decoding throughput at 32K context and 19× at 256K; 3.5× and 7.2× against Qwen3-235B-A22B. This is the structural payoff of producing 397B-class knowledge with 17B active.</p>
+<p>The headline scores, all from the vendor. Worth seeing.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Benchmark</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMLU-Pro</td>
+<td>87.8</td>
+</tr>
+<tr>
+<td>GPQA</td>
+<td>88.4</td>
+</tr>
+<tr>
+<td>LiveCodeBench v6</td>
+<td>83.6</td>
+</tr>
+<tr>
+<td>SWE-bench Verified</td>
+<td>76.4</td>
+</tr>
+<tr>
+<td>Terminal Bench 2</td>
+<td>52.5</td>
+</tr>
+<tr>
+<td>MCP-Mark</td>
+<td>46.1</td>
+</tr>
+<tr>
+<td>BrowseComp</td>
+<td>69.0–78.6 (depending on search strategy)</td>
+</tr>
+<tr>
+<td>MathVision</td>
+<td>88.6</td>
+</tr>
+</tbody>
+</table></div><p><strong>When to use it.</strong> Server workloads that need one model for large agents, complex reasoning, code and multimodality. Many requests, long contexts, and work that holds tools for a long time. Serving the same knowledge as a dense 397B costs far more computation per token, so if you can secure the GPUs, cost per unit of throughput drops a lot.</p>
+<p><strong>What to watch.</strong> Open weights, but not a model you run at home: the FP8 weights alone are around 400GB, so it needs a server-class multi-GPU setup. The 1M context is YaRN extension; native is 256K. And the 3.5 generation does not officially support prompt-level switches like <code>/think</code> and <code>/no_think</code> — you toggle it with request parameters.</p>
+<h3>Qwen3.8-27B — the 27B on your desk</h3>
+<p>Released on 14 August 2026. A dense model built on the 3.5 architecture with a generation's worth of improvements, Apache 2.0.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameters</td>
+<td>27.78B (27B on the card), all active</td>
+</tr>
+<tr>
+<td>Layers</td>
+<td>64 (GDN 48 + Gated Attention 16)</td>
+</tr>
+<tr>
+<td>FFN</td>
+<td>Dense, intermediate 17,408</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>262,144 native, 1M with YaRN</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>Text, image, video, natively</td>
+</tr>
+<tr>
+<td>Licence</td>
+<td>Apache 2.0</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>16–19GB at 4-bit (one 24GB card)</td>
+</tr>
+</tbody>
+</table></div><p>One thing to be clear about: the name says &quot;27B dense&quot;, but the attention is the 3.5 hybrid unchanged. Dense means <strong>not MoE</strong>. Every token passes through the same FFN instead of a routed expert, so serving is simple and predictable even at small batch sizes. The KV cache, meanwhile, is a quarter of a full-attention 64-layer model because only 16 layers are full attention.</p>
+<p><strong>Thinking control is this model's signature.</strong> Three knobs.</p>
+<ul>
+<li><code>enable_thinking</code> — on or off per request. On by default.</li>
+<li><code>reasoning_effort</code> — <code>low</code>, <code>medium</code>, <code>xhigh</code>. The default is <code>xhigh</code>.</li>
+<li><code>preserve_thinking</code> — keeps the previous turn's reasoning block in context. On by default.</li>
+</ul>
+<p>On the API side you can also cap reasoning tokens with <code>thinking_budget</code>. When it hits the cap, the model stops reasoning and answers directly.</p>
+<p>Sampling defaults differ by mode. Thinking mode: temperature 1.0, top-p 0.95, top-k 20. Non-thinking mode: temperature 0.7, top-p 0.8, top-k 20, presence penalty 1.5. Lowering temperature in thinking mode tends to push it into repetition, so following the model card's recommended values is safer.</p>
+<p>The scores, again from the vendor.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Benchmark</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Terminal Bench 2.1</td>
+<td>73.0</td>
+</tr>
+<tr>
+<td>SWE-bench Pro</td>
+<td>61.7</td>
+</tr>
+<tr>
+<td>QwenSWEBench</td>
+<td>79.0</td>
+</tr>
+<tr>
+<td>LiveCodeBench v6</td>
+<td>90.3</td>
+</tr>
+<tr>
+<td>GPQA Diamond</td>
+<td>89.2</td>
+</tr>
+<tr>
+<td>OSWorld-Verified</td>
+<td>84.3</td>
+</tr>
+<tr>
+<td>MathVision (with CI)</td>
+<td>94.6</td>
+</tr>
+<tr>
+<td>OmniDocBench 1.5</td>
+<td>91.1</td>
+</tr>
+</tbody>
+</table></div><p><strong>When to use it.</strong> The default for real coding, document and vision work on a local or single in-house GPU. Work where data must not leave the building, and where answers are needed with short latency and no network round trip. It runs at 4-bit on one 24GB card, and it was built to pair easily with coding-agent harnesses.</p>
+<p><strong>What to watch.</strong> The default is <code>xhigh</code>, so it tends to think too much. On simple questions a long reasoning block raises both latency and cost. In practice, set <code>low</code> or <code>medium</code> per kind of task. And 128K context at 24GB only fits with the KV cache quantised to q8; to use 262K fully, 48GB is more comfortable.</p>
+<p>One more thing. Putting the two models' scores side by side, some items make 27B look better. But the exams are different. Terminal Bench <strong>2</strong> and <strong>2.1</strong>, SWE-bench <strong>Verified</strong> and <strong>Pro</strong>, are not the same test. The generations differ too — February and August. Comparing numbers horizontally needs the same benchmark, the same harness and the same context conditions.</p>
+<p><a href="/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png"><img src="/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png" alt="Qwen3.5-397B-A17B and Qwen3.8-27B: specs, hardware, purpose"></a></p>
+<p><em>Specs, hardware footprint and intended use for the two models, next to the small and the 2.4T options.</em></p>
+<h3>Between and above — the small models, and 2.4T</h3>
+<p>Those two are not the only choices. There are options between and above.</p>
+<p><strong>Qwen3.5 small (0.8B–9B).</strong> 9B, 4B, 2B and 0.8B arrived in March 2026. They keep the 3.5 generation's multimodal and context behaviour in sizes that run on a laptop or an edge device. Use them for bulk work where the answer's shape is fixed: classification, extraction, routing, short summaries. They also work well as a filter in front of a larger model.</p>
+<p><strong>Qwen3.6's middle sizes.</strong> 35B-A3B and 27B dense arrived in April 2026. With 3B active, the MoE runs at 4-bit even on a 24GB card, and the generation focuses on agentic coding. Choosing a 27B now means choosing between 3.6 and 3.8: 3.8 is the newest, 3.6 the proven one.</p>
+<p><strong>Qwen3.8-2.4T-A95B.</strong> The Max-class model released on 12 August 2026. 2.4T total, 95B active per token, 92 layers. Text only, and thinking cannot be turned off. The licence is not Apache 2.0 but the Qwen3.8-Max licence: products with more than 100 million monthly users or $20 million monthly revenue must show the model name in the UI, and a model-serving business above $50 million annual revenue needs a separate licence. A good example of &quot;open weights&quot; not meaning the same terms everywhere.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Licence</th>
+<th>Where it sits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen3.5-0.8B–9B</td>
+<td>0.8B–9B dense</td>
+<td>Apache 2.0</td>
+<td>Edge, laptops, high-volume simple work</td>
+</tr>
+<tr>
+<td>Qwen3.6-35B-A3B</td>
+<td>35B total · 3B active</td>
+<td>Apache 2.0</td>
+<td>24–48GB workstation</td>
+</tr>
+<tr>
+<td>Qwen3.8-27B</td>
+<td>27.78B dense</td>
+<td>Apache 2.0</td>
+<td>Single 24GB GPU</td>
+</tr>
+<tr>
+<td>Qwen3.5-397B-A17B</td>
+<td>397B total · 17B active</td>
+<td>Apache 2.0</td>
+<td>Multi-GPU server</td>
+</tr>
+<tr>
+<td>Qwen3.8-2.4T-A95B</td>
+<td>2.4T total · 95B active</td>
+<td>Qwen3.8-Max</td>
+<td>Large reasoning clusters</td>
+</tr>
+</tbody>
+</table></div><h2>To think about: what actually travels on a call</h2>
+<p>By now the next question is: &quot;so what actually goes back and forth when I call the API, and what changes when I turn thinking on?&quot; This post won't settle it; it just lays out the material you need to judge.</p>
+<h3>What a call looks like</h3>
+<p>Calling Qwen3.8-27B through an OpenAI-compatible API.</p>
+<pre class="code-block" data-lang="python"><code class="hljs language-python"><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI
+
+client = OpenAI()  <span class="hljs-comment"># base_url and api_key follow whichever gateway you use</span>
+
+completion = client.chat.completions.create(
+    model=<span class="hljs-string">&quot;Qwen/Qwen3.8-27B&quot;</span>,
+    messages=[
+        {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;You are a code reviewer. Cite findings as file:line only.&quot;</span>},
+        {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;Find the bugs in this diff.\n\n&quot;</span> + diff},
+    ],
+    extra_body={
+        <span class="hljs-string">&quot;chat_template_kwargs&quot;</span>: {
+            <span class="hljs-string">&quot;enable_thinking&quot;</span>: <span class="hljs-literal">True</span>,     <span class="hljs-comment"># default</span>
+            <span class="hljs-string">&quot;preserve_thinking&quot;</span>: <span class="hljs-literal">True</span>,   <span class="hljs-comment"># default</span>
+        },
+    },
+    reasoning_effort=<span class="hljs-string">&quot;medium&quot;</span>,           <span class="hljs-comment"># xhigh · medium · low</span>
+    stream=<span class="hljs-literal">True</span>,
+    stream_options={<span class="hljs-string">&quot;include_usage&quot;</span>: <span class="hljs-literal">True</span>},
+)
+</code></pre>
+<p>Two kinds of chunks come back interleaved in the stream: <code>reasoning_content</code> (the reasoning) and <code>content</code> (the answer). If you only want to show the answer, drop the first — but dropping it does not remove it from <strong>billing or latency</strong>. Reasoning tokens are output tokens.</p>
+<h3>Where cost and latency grow</h3>
+<p>Split the tokens into three parts and the arithmetic gets easy.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Stage</th>
+<th>What it measures</th>
+<th>With thinking on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prefill</td>
+<td>Processing the input context at once</td>
+<td>Grows with context length (more if reasoning blocks stay)</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>Generating tokens one at a time</td>
+<td>Grows linearly with reasoning tokens</td>
+</tr>
+<tr>
+<td>Round trips</td>
+<td>Number of tool calls</td>
+<td>Falls when failures and retries fall</td>
+</tr>
+</tbody>
+</table></div><p>The key point is that <strong>decode is proportional to token count</strong>. 600 tokens of reasoning plus 200 of answer is four times the generation of the answer alone. Prefill, by contrast, processes the prompt in parallel, so in many workloads producing more tokens hurts latency more than lengthening the context slightly.</p>
+<p>Output is usually priced above input. Qwen3.7-Plus, for example, is published at $0.40 per million input tokens and $1.20 per million output — three times. So long reasoning costs more than a slightly longer input.</p>
+<h3>Why preserve_thinking defaults to on</h3>
+<p>In a multi-turn agent, throwing away the reasoning block every turn is waste: turn two has to redo the judgement of turn one. <code>preserve_thinking</code> keeps the previous assistant message's reasoning in context so the same deliberation isn't repeated. Qwen's documentation also notes that reusing the KV cache improves inference efficiency.</p>
+<p>The price is context. As reasoning blocks accumulate, the input grows, along with prefill cost and memory. So the call is:</p>
+<ul>
+<li><strong>Work whose reasoning is still needed next turn</strong> — agents, debugging, multi-step edits. Better to leave it on.</li>
+<li><strong>Work that is independent per turn</strong> — classification, summaries, one-shot queries. Better to turn it off and shrink the context.</li>
+</ul>
+<h3>Does lowering effort really make it faster?</h3>
+<p>Here is the counter-intuitive part. Qwen's documentation says: <strong>in multi-turn agents, lowering reasoning effort does not always reduce total completion time.</strong> Each turn answers faster, but if thinner analysis raises failures and retries, total latency and token spend can grow.</p>
+<p>Which means effort is not a performance knob but <strong>a risk knob</strong>. Where the answer is uniquely determined (tests passing, format conversion), low effort wins. Where exploration and judgement are needed (the cause of a bug, a design choice), high effort lowers total cost.</p>
+<p><a href="/diary/assets/images/2026-11-18-hybrid-thinking-flow.png"><img src="/diary/assets/images/2026-11-18-hybrid-thinking-flow.png" alt="Call flow and reasoning tokens for non-thinking and thinking, plus the four control knobs"></a></p>
+<p><em>Non-thinking vs thinking token flow, and the four knobs — enable_thinking, reasoning_effort, preserve_thinking, thinking_budget.</em></p>
+<h3>Five things to think about</h3>
+<p>Rather than prescribing answers, these are questions to answer yourself before the next exercise.</p>
+<ol>
+<li><strong>In my work, which tasks need thinking and which only need the right form?</strong> Once you can split them, <code>enable_thinking</code> and <code>reasoning_effort</code> can be set per kind of work. Are you still sending everything on defaults?</li>
+<li><strong>The tool description is the model's only grounds for choosing a tool.</strong> Are any of your tools named but thinly described? Did you write when to use it, rather than what it does?</li>
+<li><strong>Where is parallel tool calling safe?</strong> Reads can go in parallel; writes, deletes and payments must run in sequence. Is the harness enforcing that boundary?</li>
+<li><strong>Are you actually using long context, or just paying for it?</strong> Being able to pass 256K and needing 256K are different. Most work is cheaper and more accurate narrowed by retrieval.</li>
+<li><strong>What separates the work where 27B is enough from the work that needs 397B?</strong> Concurrent requests, context length, whether data may leave the building, and latency tolerance. Those four usually give the answer.</li>
+</ol>
+<h2>To finish</h2>
+<p>Summed up:</p>
+<ul>
+<li>An LLM is a function that computes the probability of the next token and picks one; the length of the answer is the number of calculations.</li>
+<li>Capability comes from three stages: pre-training (compression), SFT (form), RL (reasoning and alignment).</li>
+<li>A tool call is a loop the model chooses and the harness executes. The model still only emits text.</li>
+<li>Qwen moved from 2.5 to 3.8 by making hybrid attention and native multimodality the baseline, and the <code>total-Aactive</code> notation makes that structure visible.</li>
+<li>397B-A17B on a server, 27B on a desk. Both Apache 2.0, but different places to sit and different memory budgets.</li>
+<li>Thinking is not free. Tuning the four knobs per kind of work is the next step.</li>
+</ul>
+<p>In the previous post I said the next one would be a hands-on session adding skills with <code>npx</code>; I swapped the order a little, because without the model side settled it is hard to see why skills are needed at all. Next I'll actually call Qwen3.8-27B, attach two tools and turn the loop once. Then we go back to the harness exercise.</p>
+<p>One thing to do today is enough: read the name of the model you are using. What the <code>A</code> in <code>397B-A17B</code> means, whether your model is dense or MoE, whether thinking is on by default. Checking those three makes the next choice much less of a guess.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        
+        <a class="pager-item pager-newer" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/">
+            <span>← Newer</span>
+            <strong>Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart</strong>
+        </a>
+        
+        
+        <a class="pager-item pager-older" href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">
+            <span>Older →</span>
+            <strong>The Model Is the Engine, the Harness Is the Steering Wheel</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>

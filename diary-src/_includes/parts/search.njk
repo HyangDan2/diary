@@ -8,7 +8,8 @@
      data-lang="{{ 'en' if en else 'ko' }}"
      data-total-label="{{ label }}"
      {% if options.category %}data-category="{{ options.category }}"{% endif %}
-     data-index-url="{{ '/search.json' | url }}">
+     {% if options.base %}data-base="{{ options.base | url }}"{% endif %}
+     data-index-url="{{ (options.indexUrl or '/search.json') | url }}">
     <div class="search-field">
         <span class="search-icon" aria-hidden="true">
             <svg viewBox="0 0 20 20" fill="none" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>

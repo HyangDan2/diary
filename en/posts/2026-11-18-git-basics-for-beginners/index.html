@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Getting Started with Git: Your First Save, Your First Pull Request · HD2&#39;s Diary</title>
+    <meta name="description" content="For anyone new to version control: Git&#39;s four everyday commands (add, commit, push, pull), the order branches and pull requests give a team, the three ways to merge, and five working habits — all with diagrams.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Getting Started with Git: Your First Save, Your First Pull Request · HD2&#39;s Diary">
+    <meta property="og:description" content="For anyone new to version control: Git&#39;s four everyday commands (add, commit, push, pull), the order branches and pull requests give a team, the three ways to merge, and five working habits — all with diagrams.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-18-git-basics-for-beginners/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-18-git-basics-for-beginners/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-18-git-basics-for-beginners/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+</head>
+<body class="page-en-posts-2026-11-18-git-basics-for-beginners">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-18-git-basics-for-beginners/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-18-git-basics-for-beginners/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.18</p>
+        <h1>Getting Started with Git: Your First Save, Your First Pull Request</h1>
+        <p class="post-summary">For anyone new to version control: Git&#39;s four everyday commands (add, commit, push, pull), the order branches and pull requests give a team, the three ways to merge, and five working habits — all with diagrams.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>7 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#git</span><span class="tag">#github</span><span class="tag">#collaboration</span><span class="tag">#workflow</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>The first wall most people hit when they start writing code is Git. There are only a handful of commands, but every word is new: repository, staging area, commit, branch, merge, rebase. Translating the English into your own language doesn't help much either — the meaning still doesn't land.</p>
+<p>This is a set of notes for getting over that wall in one go. Instead of memorising every command, it starts with <strong>why the work happens in this order</strong>, and keeps only what you actually need under your fingers. By the end you can run the whole loop on your own: save your work, cut a branch, and merge it back with a pull request.</p>
+<h2>Why use Git at all?</h2>
+<p>Before Git, file management usually went something like this.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">report.docx
+report_final.docx
+report_final(revised).docx
+report_final_realfinal_v3.docx
+</code></pre>
+<p>The names get longer, and nobody can say for certain which one is current. You have to open a file to know, and opening it still doesn't tell you what changed. If someone deletes <code>v3</code>, the one sentence that only existed in <code>v3</code> goes with it.</p>
+<p>Git is the way out of that hell. Instead of stacking full copies of files, it records <strong>what changed, and why</strong>, line by line. That makes three things possible.</p>
+<ul>
+<li><strong>You can go back to any moment.</strong> Every commit is a photograph of the whole project at that time. If everything worked this morning and doesn't work now, you go back to this morning's photograph and look for the cause. No renaming copies to keep versions apart.</li>
+<li><strong>Several people can work on one project.</strong> Each person works on their own branch, and the work is reviewed before it joins the rest. Because the record says who changed which line and when, &quot;why is this code like this?&quot; is answered by the history.</li>
+<li><strong>Experiments stop being scary.</strong> If a new approach doesn't work out, delete the branch. <code>main</code> was never touched, so there is nothing to undo.</li>
+</ul>
+<p>One distinction makes the rest easy. <strong>Git is a program that runs on your computer</strong>; <strong>GitHub is a service that holds that record online.</strong> Git alone is enough for working by yourself. GitHub is the layer on top that lets you share the history with a team, review it, and deploy from it.</p>
+<h2>The four commands you can't avoid: <code>add</code> · <code>commit</code> · <code>push</code> · <code>pull</code></h2>
+<p>Git is hard not because there are many commands but because <strong>a file passes through four rooms</strong>. Once you know where the rooms are, the commands follow naturally.</p>
+<p><img src="/diary/assets/images/2026-11-18-git-flow-4steps.png" alt="The four-step saving flow, from your computer to GitHub"></p>
+<p><em>Four rooms: working directory → staging area → local repository ⇄ remote, with <code>add</code>, <code>commit</code>, <code>push</code> and <code>pull</code> as the doors between them.</em></p>
+<ul>
+<li><strong>Working directory</strong> — the folder where you actually edit files. The one open in your editor.</li>
+<li><strong>Staging area</strong> — where you pick the changes that go into this commit. <code>git add</code> puts them here.</li>
+<li><strong>Local repository</strong> — the record inside your own machine, where commits pile up. <code>git commit</code> leaves a photograph here.</li>
+<li><strong>Remote</strong> — the same record, living on GitHub. <code>git push</code> sends it up; <code>git pull</code> brings it down.</li>
+</ul>
+<p>At first the staging area seems pointless. Why not save everything at once? Because <code>add</code> is what makes <strong>one commit hold one change</strong>. If you find a typo while fixing the login feature, you can stage the typo fix separately, and later revert only the login work while the typo fix stays. It is not a nuisance step; it is the device that makes undo possible.</p>
+<h3>A terminal walkthrough you can follow in one sitting</h3>
+<p>This part is one-time setup. Your name and email are recorded with every commit, and the contribution graph and profile on GitHub are filled from that address.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git config --global user.name <span class="hljs-string">&quot;Jane Doe&quot;</span>
+git config --global user.email <span class="hljs-string">&quot;jane@example.com&quot;</span>
+git config --global init.defaultBranch main
+</code></pre>
+<p>Turn a project folder into a repository, and commit the first file.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> my-project &amp;&amp; <span class="hljs-built_in">cd</span> my-project
+git init
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# My Project&quot;</span> &gt; README.md
+git status                       <span class="hljs-comment"># what changed?</span>
+git add README.md                <span class="hljs-comment"># stage it (git add . for everything)</span>
+git commit -m <span class="hljs-string">&quot;docs: add a project intro to README&quot;</span>
+</code></pre>
+<p>Create an empty repository on GitHub and send your work up. <code>-u</code> remembers this branch's default remote, so from then on <code>git push</code> is enough.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git remote add origin https://github.com/&lt;username&gt;/my-project.git
+git push -u origin main
+</code></pre>
+<p>When you start work the next day, and whenever you want other people's changes, this comes first.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git pull
+</code></pre>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git status</code></td>
+<td>Shows changed files and what is staged. The first thing to type whenever you are unsure.</td>
+</tr>
+<tr>
+<td><code>git add &lt;file&gt;</code></td>
+<td>Stages the change you chose. Use it right before committing. <code>git add .</code> stages everything.</td>
+</tr>
+<tr>
+<td><code>git commit -m &quot;message&quot;</code></td>
+<td>Turns the staging area into one record. Use it when one piece of work is done.</td>
+</tr>
+<tr>
+<td><code>git push</code></td>
+<td>Sends your commits to the remote. For sharing or backup.</td>
+</tr>
+<tr>
+<td><code>git pull</code></td>
+<td>Brings down the latest from the remote. Before you start work, and several times a day.</td>
+</tr>
+<tr>
+<td><code>git log --oneline --graph</code></td>
+<td>Shows the commit history one line at a time, branches drawn in. For when you want to see the shape.</td>
+</tr>
+<tr>
+<td><code>git restore &lt;file&gt;</code></td>
+<td>Throws away changes you have not committed yet. For undoing an accidental edit.</td>
+</tr>
+</tbody>
+</table></div><h2>The working rhythm: protect <code>main</code>, work on a branch</h2>
+<p>Working alone, you can commit straight to <code>main</code>. The moment more than one person is involved you need one rule. <strong><code>main</code> always stays in a working state.</strong> Deploys come out of <code>main</code>, and other people's work starts from <code>main</code>. If half-finished code lands in <code>main</code>, everyone builds on top of it.</p>
+<p>So every piece of work gets its own branch.</p>
+<p><img src="/diary/assets/images/2026-11-18-git-branch-pr-workflow.png" alt="A team's branch and pull request workflow"></p>
+<p><em>A feature branch leaves <code>main</code>, is pushed and opened as a pull request, passes review and CI, merges, and is deleted.</em></p>
+<ol>
+<li><strong>Create a branch.</strong> Start from the latest <code>main</code>, so merging later collides less.</li>
+<li><strong>Commit in small pieces.</strong> A commit should be small enough to explain in review.</li>
+<li><strong>Push and open a pull request.</strong> Push the branch, then ask GitHub to merge it into <code>main</code>.</li>
+<li><strong>Let review and CI run, then merge.</strong> Tests pass, a colleague approves, and it goes in.</li>
+<li><strong>Delete the branch.</strong> A merged branch has no reason to stay; keeping it only clutters the list.</li>
+</ol>
+<p>Five lines when written down, but in practice it looks like this.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># 1. cut a working branch from the latest main</span>
+git switch main
+git pull
+git switch -c feat/login-ui
+
+<span class="hljs-comment"># 2. commit in small pieces</span>
+git add src/login.js
+git commit -m <span class="hljs-string">&quot;feat: validate email format in the login form&quot;</span>
+
+<span class="hljs-comment"># 3. push and open a pull request</span>
+git push -u origin feat/login-ui
+</code></pre>
+<p><code>git switch -c</code> creates a branch and moves you onto it in one step. Older material shows <code>git checkout -b</code>, which does the same thing; recent Git recommends <code>switch</code>, which only deals with branches.</p>
+<p>After the push, GitHub shows a <code>Compare &amp; pull request</code> button above the repository. Set base to <code>main</code>, compare to the branch you just pushed, and open the pull request. Three things in the body make review faster.</p>
+<ul>
+<li><strong>What</strong> changed (for anything visual, one screenshot)</li>
+<li><strong>Why</strong> it changed (if there is an issue, <code>Closes #12</code>)</li>
+<li><strong>How you checked</strong> it (which tests you ran, which paths you clicked through)</li>
+</ul>
+<p>When the review approves and the CI badge turns green, merge. Teams often put protection rules on <code>main</code>. Switching on <code>Require a pull request before merging</code> and <code>Require status checks to pass</code> stops an accidental straight push to <code>main</code>, or a merge of code whose tests are broken. The button next to Merge lets you choose between merge styles — that is the next section. When the merge is done, press <code>Delete branch</code> on the page and tidy up locally as well.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git switch main
+git pull
+git branch -d feat/login-ui
+</code></pre>
+<p>Follow your team's branch naming, but prefixing the kind of work makes the list readable at a glance: <code>feat/login-ui</code>, <code>fix/header-overflow</code>, <code>docs/git-notes</code>. A branch should live a day or two. A branch that lives a week drifts away from <code>main</code> and comes back as a large conflict.</p>
+<h2>The three ways to merge</h2>
+<p>When you merge a pull request, GitHub offers three styles. The result is the same — the code lands on <code>main</code>. What differs is <strong>which history is left behind</strong>.</p>
+<p><img src="/diary/assets/images/2026-11-18-git-merge-3ways.png" alt="Merge, squash and rebase compared"></p>
+<p><em>Merge keeps every commit, squash folds the branch into one commit, rebase replays the commits on top of <code>main</code>.</em></p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Style</th>
+<th>Strength</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Merge commit</strong></td>
+<td>Keeps the whole working history; easy to revert a whole branch</td>
+<td>The graph gets busy as pull requests pile up</td>
+</tr>
+<tr>
+<td><strong>Squash and merge</strong></td>
+<td>Keeps <code>main</code> clean; one revert undoes it all</td>
+<td>The individual commits survive only in the pull request</td>
+</tr>
+<tr>
+<td><strong>Rebase and merge</strong></td>
+<td>Reads as a single line; each commit stays</td>
+<td>Rebasing a branch someone else already has is dangerous</td>
+</tr>
+</tbody>
+</table></div><p><strong>Squash and merge</strong> folds &quot;fix typo&quot;, &quot;tests were broken&quot;, &quot;review feedback&quot; into one commit. <code>main</code> keeps a single commit such as <code>feat: validate email format in the login form (#23)</code>. If a problem appears later you revert that one commit, and <code>git log</code> stays readable. Nothing is lost, since the detail lives inside the pull request. If you are just starting out, make this your default: <code>main</code> stays clean even when your commit messages are not perfect.</p>
+<p><strong>Merge commit</strong> suits a long-lived feature branch, or merging work in release-sized pieces. Use it when you want to handle the whole branch as one block.</p>
+<p><strong>Rebase and merge</strong> suits someone who has kept each commit meaningful. There is one catch. Rebasing <strong>replays</strong> commits onto a different base, so the commit hashes change. If you rebase a branch you already pushed and a colleague has pulled, their history and yours disagree and you need a force push (<code>git push --force-with-lease</code>). Rebasing is safe only on <strong>branches you have not shared yet</strong>.</p>
+<p>To put your branch on top of the latest <code>main</code>, do this. Doing it before you push keeps things tidy.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git switch feat/login-ui
+git fetch origin
+git rebase origin/main
+</code></pre>
+<h2>Five habits that keep a team out of trouble</h2>
+<p>Knowing the tool and working well with others are different problems. These five are habits that reduce accidents rather than rules.</p>
+<p><strong>① Commit small, and often.</strong> One commit, one change. If you bundle a login button, a typo fix and a settings change into one commit, a problem with the login takes all three down with it. Committing at every natural stopping point and pushing two or three times a day is safer than one big push at the end of the day.</p>
+<p><strong>② Write commit messages that read at a glance.</strong> Keep the first line under 50 characters and say <strong>what happened</strong>. <code>fix</code> or <code>update</code> tells nobody anything. Prefixing the kind of change (the Conventional Commits convention) makes the history far easier to read.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Prefix</th>
+<th>Use it for</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>feat:</code></td>
+<td>A new feature</td>
+<td>Validate email format in the login form</td>
+</tr>
+<tr>
+<td><code>fix:</code></td>
+<td>A bug fix</td>
+<td>Error message disappeared after a failed login</td>
+</tr>
+<tr>
+<td><code>docs:</code></td>
+<td>Documentation</td>
+<td>Add run instructions to README</td>
+</tr>
+<tr>
+<td><code>refactor:</code></td>
+<td>Same behaviour, restructured</td>
+<td>Move auth logic into its own module</td>
+</tr>
+<tr>
+<td><code>test:</code></td>
+<td>Tests</td>
+<td>Add a failing-case test for login validation</td>
+</tr>
+<tr>
+<td><code>chore:</code></td>
+<td>Config, dependencies, chores</td>
+<td>Tidy up eslint rules</td>
+</tr>
+</tbody>
+</table></div><p>If the reason for a change can't be read from the code, leave a blank line and explain in the body. Write it for yourself and your colleagues six months from now and it will be enough.</p>
+<p><strong>③ <code>pull</code> before you start work.</strong> Make <code>git pull</code> the first command of the day. Starting on top of yesterday's changes means you don't collide when you merge. <code>git pull</code> does two things at once: fetch the latest (<code>fetch</code>) and merge it into your branch (<code>merge</code>). If you dislike the tangled commits that produces, use <code>git pull --rebase</code>.</p>
+<p><strong>④ Don't edit the same file at the same time.</strong> Conflicts usually come from two people touching the same file, the same lines. Split ownership by file or folder, and if one large file has everyone's hands on it, split the file first. A single line — &quot;I'm touching this file today&quot; — cuts conflicts a long way. The same reason argues for merging often instead of keeping a branch alive.</p>
+<p><strong>⑤ Don't panic at a conflict.</strong> A conflict is not a failure. It is Git saying &quot;a person has to decide which of these two changes stays&quot;. Take it in order.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git status
+</code></pre>
+<p>Open a file marked <code>both modified</code> and Git has marked both sides like this.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+const timeout = 3000;
+=======
+const timeout = 5000;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/login-ui
+</code></pre>
+<p>The <code>HEAD</code> side is the current branch (usually <code>main</code>); the lower side is the branch being merged in. Keep one, or keep both and rewrite them into something coherent. <strong>The important part is deleting the <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> lines.</strong> Leave them in and the code breaks.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git add src/login.js     <span class="hljs-comment"># stage the resolved file</span>
+git commit               <span class="hljs-comment"># a commit if this is a merge (the default message is fine)</span>
+</code></pre>
+<p>If the conflict happened during a rebase, use <code>git rebase --continue</code> instead of <code>git commit</code>. If you can't decide which side to keep, nothing is settled yet, so <code>git merge --abort</code> (or <code>git rebase --abort</code>) takes you back to where you were. Either way, run or test that part afterwards. Removing the conflict markers and the code working correctly are two different things.</p>
+<h2>To finish: three lines to try today</h2>
+<p>Git is not memorised; it is worn in. You don't need every command from day one. Today, make a folder, start it with <code>git init</code>, edit a file, and get as far as <code>git add</code> and <code>git commit</code>. That is enough.</p>
+<p>Tomorrow, start with <code>git pull</code>, cut a branch, push it and open a pull request — that closes the loop. From then on, open <code>git log</code> and the tables above when you need them. Most places people get stuck come from losing track of which of the four rooms their file is in. One <code>git status</code> answers most of that.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        
+        <a class="pager-item pager-newer" href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">
+            <span>← Newer</span>
+            <strong>The Model Is the Engine, the Harness Is the Steering Wheel</strong>
+        </a>
+        
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>

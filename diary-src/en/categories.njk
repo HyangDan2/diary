@@ -1,0 +1,22 @@
+---
+layout: base.njk
+lang: en
+pageScript: "/assets/diary-search.js"
+pagination:
+  data: collections.enDiaryCategories
+  size: 1
+  alias: categoryPage
+permalink: "/en/categories/{{ categoryPage.slug }}/index.html"
+---
+{% import "parts/category-view.njk" as view %}
+{# The English edition of a drawer. Only drawers that have an English post are built here
+   (today: Notes), and the list holds exactly the English editions — never the Korean
+   originals, which keep their own /categories/<slug>/ pages. #}
+{{ view.categoryView(
+    categoryPage,
+    'en',
+    ({ ko: '/categories/' + categoryPage.slug + '/', en: '/en/categories/' + categoryPage.slug + '/' }),
+    collections.diaryCategories,
+    '/en/search.json',
+    '/'
+) }}

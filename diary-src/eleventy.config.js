@@ -29,6 +29,48 @@ function wrapCode(inner, lang) {
   return `<pre class="code-block" data-lang="${md.utils.escapeHtml(label)}"><code class="hljs language-${md.utils.escapeHtml(label)}">${inner}</code></pre>`;
 }
 
+/**
+ * Group posts into the diary's drawers, in the order lib/categories.js declares.
+ * `keepEmpty: false` returns only the drawers that hold at least one post — what the
+ * English edition needs, where Notes is the only drawer with an English post.
+ */
+function groupCategories(posts, { keepEmpty = true } = {}) {
+  const groups = new Map();
+
+  if (keepEmpty) {
+    CATEGORIES.forEach((definition, order) => {
+      groups.set(definition.slug, { ...definition, order, posts: [] });
+    });
+  }
+
+  posts.forEach((post) => {
+    const raw = post.data.category || DEFAULT_CATEGORY;
+    const known = findCategory(raw);
+    const slug = known?.slug ?? (slugify(raw) || slugify(DEFAULT_CATEGORY));
+    if (!groups.has(slug)) {
+      groups.set(slug, {
+        name: known?.name ?? String(raw),
+        slug,
+        index: known?.index ?? String(groups.size + 1).padStart(2, "0"),
+        blurb: known?.blurb ?? "",
+        blurbEn: known?.blurbEn ?? "",
+        topics: known?.topics ?? "",
+        order: known ? CATEGORIES.indexOf(known) : 90 + groups.size,
+        posts: [],
+      });
+    }
+    groups.get(slug).posts.push(post);
+  });
+
+  return [...groups.values()]
+    .map((group) => ({
+      ...group,
+      count: group.posts.length,
+      latest: group.posts[0]?.date ?? null,
+    }))
+    .sort((a, b) => a.order - b.order);
+}
+
 export default function (eleventyConfig) {
   /* ---------- passthrough ---------- */
   eleventyConfig.addPassthroughCopy({ assets: "assets" });
@@ -76,45 +118,29 @@ export default function (eleventyConfig) {
 
   /* ---------- collections ---------- */
   const postGlob = "./posts/*.md";
+  // The English editions of the Notes posts live beside the Korean originals, not
+  // inside posts/, so the home page, the Korean drawers and search.json never list
+  // them twice. They have their own collections and their own pages under /en/.
+  const enPostGlob = "./en/posts/*.md";
 
   eleventyConfig.addCollection("diaryPosts", (collectionApi) =>
     collectionApi.getFilteredByGlob(postGlob).sort((a, b) => b.date - a.date),
   );
 
-  eleventyConfig.addCollection("diaryCategories", (collectionApi) => {
-    const posts = collectionApi.getFilteredByGlob(postGlob).sort((a, b) => b.date - a.date);
-    const groups = new Map();
+  eleventyConfig.addCollection("enDiaryPosts", (collectionApi) =>
+    collectionApi.getFilteredByGlob(enPostGlob).sort((a, b) => b.date - a.date),
+  );
 
-    CATEGORIES.forEach((definition, order) => {
-      groups.set(definition.slug, { ...definition, order, posts: [] });
-    });
+  eleventyConfig.addCollection("diaryCategories", (collectionApi) =>
+    groupCategories(collectionApi.getFilteredByGlob(postGlob).sort((a, b) => b.date - a.date)),
+  );
 
-    posts.forEach((post) => {
-      const raw = post.data.category || DEFAULT_CATEGORY;
-      const known = findCategory(raw);
-      const slug = known?.slug ?? (slugify(raw) || slugify(DEFAULT_CATEGORY));
-      if (!groups.has(slug)) {
-        groups.set(slug, {
-          name: known?.name ?? String(raw),
-          slug,
-          index: String(groups.size + 1).padStart(2, "0"),
-          blurb: "",
-          topics: "",
-          order: 90 + groups.size,
-          posts: [],
-        });
-      }
-      groups.get(slug).posts.push(post);
-    });
-
-    return [...groups.values()]
-      .map((group) => ({
-        ...group,
-        count: group.posts.length,
-        latest: group.posts[0]?.date ?? null,
-      }))
-      .sort((a, b) => a.order - b.order);
-  });
+  // English drawers only exist for categories that actually have an English post.
+  eleventyConfig.addCollection("enDiaryCategories", (collectionApi) =>
+    groupCategories(collectionApi.getFilteredByGlob(enPostGlob).sort((a, b) => b.date - a.date), {
+      keepEmpty: false,
+    }),
+  );
 
   /* ---------- config ---------- */
   return {

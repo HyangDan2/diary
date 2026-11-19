@@ -16,10 +16,14 @@
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | url }}?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon-32x32.png' | url }}?v=20261116-softiris">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/apple-touch-icon.png' | url }}?v=20261106">
+    {# the same page in the other language, when both editions exist #}
+    {% if alternateKo %}<link rel="alternate" hreflang="ko" href="{{ alternateKo | url }}">{% endif %}
+    {% if alternateEn %}<link rel="alternate" hreflang="en" href="{{ alternateEn | url }}">{% endif %}
+    {% if alternateKo and alternateEn %}<link rel="alternate" hreflang="x-default" href="{{ alternateKo | url }}">{% endif %}
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="{{ '/assets/hd2-theme.css' | url }}?v=20261117-navy">
     <script src="{{ '/assets/hd2-theme.js' | url }}?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261119-appsplay">
+    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261119-koen">
 </head>
 <body class="page-{{ page.url | slugify }}">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -175,7 +179,7 @@
             <a href="{{ site.hqUrl }}">{{ site.hqLabel }} <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
-    {% if pageScript %}<script src="{{ pageScript | url }}?v=20261119-langen" defer></script>{% endif %}
+    {% if pageScript %}<script src="{{ pageScript | url }}?v=20261119-koen" defer></script>{% endif %}
     <script src="{{ '/assets/diary-nav.js' | url }}?v=20261119-appsplay" defer></script>
 </body>
 </html>

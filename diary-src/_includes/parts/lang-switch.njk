@@ -1,0 +1,8 @@
+{#- KO | EN segment: each side links to the same page in the other language, and the
+    side you are reading is marked (not linked away). -#}
+{% macro langSwitch(pageLang, koUrl, enUrl) %}
+<nav class="lang-switch" aria-label="{{ 'Language' if pageLang == 'en' else '언어' }}">
+    <a class="lang-switch-item{% if pageLang != 'en' %} is-active{% endif %}" href="{{ koUrl | url }}" hreflang="ko" lang="ko"{% if pageLang != 'en' %} aria-current="true"{% endif %}>KO</a>
+    <a class="lang-switch-item{% if pageLang == 'en' %} is-active{% endif %}" href="{{ enUrl | url }}" hreflang="en" lang="en"{% if pageLang == 'en' %} aria-current="true"{% endif %}>EN</a>
+</nav>
+{% endmacro %}

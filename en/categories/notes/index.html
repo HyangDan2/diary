@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Notes · HD2&#39;s Diary</title>
+    <meta name="description" content="Small thoughts and references, kept short.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Notes · HD2&#39;s Diary">
+    <meta property="og:description" content="Build notes from HD2Lab — what I make, why it works, and what broke on the way.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/categories/notes/">
+    <link rel="alternate" hreflang="en" href="/diary/en/categories/notes/">
+    <link rel="alternate" hreflang="x-default" href="/diary/categories/notes/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+</head>
+<body class="page-en-categories-notes">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+
+
+<section class="page-hero shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Notes</span>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/categories/notes/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/categories/notes/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+    <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Category 04</p>
+    <h1>Notes</h1>
+    <p class="page-hero-lede">Small thoughts and references, kept short.</p>
+    <div class="page-hero-meta">
+        <span class="badge">5 posts</span>
+        <span>Last updated 2026.11.18</span>
+        <span class="mono-note">Notes · Links · Ideas</span>
+    </div>
+</section>
+
+<section class="posts shell">
+    <div class="section-heading section-heading-tight">
+        <div>
+            <p class="eyebrow">All posts</p>
+            <h2>All Notes notes</h2>
+        </div>
+        <span class="mono-note">5 posts</span>
+    </div>
+    
+        
+
+
+
+<div class="diary-search"
+     data-diary-search
+     data-mode="category"
+     data-lang="en"
+     data-total-label="Notes"
+     data-category="notes"
+     data-base="/diary/"
+     data-index-url="/diary/en/search.json">
+    <div class="search-field">
+        <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </span>
+        <input class="search-input"
+               type="search"
+               id="diary-search-category"
+               data-search-input
+               placeholder="Search inside Notes"
+               aria-label="Search diary notes"
+               autocomplete="off"
+               spellcheck="false"
+               enterkeyhint="search">
+        <button class="search-clear" type="button" data-search-clear aria-label="Clear search" hidden>
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M2.4 2.4 9.6 9.6M9.6 2.4 2.4 9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <div class="search-foot">
+        <p class="search-status" data-search-status role="status" aria-live="polite">
+            <span>Notes · </span><strong>5</strong><span> notes · search titles, summaries, tags</span>
+        </p>
+        
+    </div>
+</div>
+
+        
+
+<div class="search-results" data-search-results hidden>
+    <ul class="post-list" data-search-result-list></ul>
+    <div class="empty-state search-empty" data-search-empty hidden>
+        <p data-search-empty-text>Nothing matches that yet. Try another word.</p>
+    </div>
+</div>
+
+        <div data-search-default>
+            
+<ul class="post-list">
+    
+    <li class="post-row" lang="en" data-post-url="/en/posts/2026-11-18-onprem-pip-npm-offline-install/">
+        <a class="post-row-link" href="/diary/en/posts/2026-11-18-onprem-pip-npm-offline-install/">
+            <span class="post-row-meta">
+                <time datetime="2026-11-18">2026.11.18</time>
+                
+            </span>
+            <span class="post-row-body">
+                <strong class="post-row-title">Getting Packages Into a Closed Network: pip and npm, Offline</strong>
+                <span class="post-row-summary">On an air-gapped network, installing packages usually breaks at the handover, not at the install. Three causes — transitive dependencies, OS/CPU/version tags, and install scripts that reach back out — plus pip&#39;s wheelhouse and npm&#39;s three carry-in methods, with real commands, real failure messages, measured sizes and a pre-handover checklist.</span>
+            </span>
+            <span class="post-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="on-premise" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>on-premise</button><button class="post-tag" type="button" data-tag="airgap" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>airgap</button><button class="post-tag" type="button" data-tag="pip" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>pip</button><button class="post-tag" type="button" data-tag="npm" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>npm</button><button class="post-tag" type="button" data-tag="offline" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>offline</button><button class="post-tag" type="button" data-tag="verdaccio" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>verdaccio</button><button class="post-tag" type="button" data-tag="python" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>python</button><button class="post-tag" type="button" data-tag="nodejs" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>nodejs</button><button class="post-tag" type="button" data-tag="notes" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>notes</button>
+        </div>
+    </li>
+    
+    <li class="post-row" lang="en" data-post-url="/en/posts/2026-11-18-vibe-coding-setup-checklist/">
+        <a class="post-row-link" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/">
+            <span class="post-row-meta">
+                <time datetime="2026-11-18">2026.11.18</time>
+                
+            </span>
+            <span class="post-row-body">
+                <strong class="post-row-title">Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart</strong>
+                <span class="post-row-summary">Vibe coding is harder to sustain than to start. Context rot, silently broken features and secret leaks don&#39;t happen because the model is weak; they happen because verification, rules and permissions aren&#39;t layered underneath. Six setup steps — from a Git safety net to model and cost routing — plus a routine for each way things go wrong.</span>
+            </span>
+            <span class="post-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="vibe-coding" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>vibe-coding</button><button class="post-tag" type="button" data-tag="ai-agent" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>ai-agent</button><button class="post-tag" type="button" data-tag="cline" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>cline</button><button class="post-tag" type="button" data-tag="git" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>git</button><button class="post-tag" type="button" data-tag="testing" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>testing</button><button class="post-tag" type="button" data-tag="guardrails" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>guardrails</button><button class="post-tag" type="button" data-tag="notes" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>notes</button>
+        </div>
+    </li>
+    
+    <li class="post-row" lang="en" data-post-url="/en/posts/2026-11-18-llm-and-qwen-models/">
+        <a class="post-row-link" href="/diary/en/posts/2026-11-18-llm-and-qwen-models/">
+            <span class="post-row-meta">
+                <time datetime="2026-11-18">2026.11.18</time>
+                
+            </span>
+            <span class="post-row-body">
+                <strong class="post-row-title">Under the Hood: How an LLM Works, and How to Choose a Qwen Model</strong>
+                <span class="post-row-summary">An LLM is a machine that computes the probability of the next token and picks one. How that calculation becomes capability across the three training stages, how tool calls turn into a loop, and when to pick 397B-A17B versus 27B from the Qwen2.5-to-3.8 line-up.</span>
+            </span>
+            <span class="post-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="llm" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>llm</button><button class="post-tag" type="button" data-tag="qwen" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>qwen</button><button class="post-tag" type="button" data-tag="moe" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>moe</button><button class="post-tag" type="button" data-tag="mixture-of-experts" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>mixture-of-experts</button><button class="post-tag" type="button" data-tag="gated-deltanet" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>gated-deltanet</button><button class="post-tag" type="button" data-tag="reasoning" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>reasoning</button><button class="post-tag" type="button" data-tag="notes" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>notes</button>
+        </div>
+    </li>
+    
+    <li class="post-row" lang="en" data-post-url="/en/posts/2026-11-18-harness-layer-concept-and-usage/">
+        <a class="post-row-link" href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">
+            <span class="post-row-meta">
+                <time datetime="2026-11-18">2026.11.18</time>
+                
+            </span>
+            <span class="post-row-body">
+                <strong class="post-row-title">The Model Is the Engine, the Harness Is the Steering Wheel</strong>
+                <span class="post-row-summary">An LLM is an engine that predicts the next token; the harness is the layer wrapped around it that lets the engine do real work. Rules, Skills, Hooks and MCP — what each one is for, where Cline keeps them globally and per project, and what to check before you install somebody else&#39;s skill.</span>
+            </span>
+            <span class="post-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="harness" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>harness</button><button class="post-tag" type="button" data-tag="cline" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>cline</button><button class="post-tag" type="button" data-tag="ai-agent" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>ai-agent</button><button class="post-tag" type="button" data-tag="llm" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>llm</button><button class="post-tag" type="button" data-tag="rules" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>rules</button><button class="post-tag" type="button" data-tag="hooks" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>hooks</button><button class="post-tag" type="button" data-tag="notes" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>notes</button>
+        </div>
+    </li>
+    
+    <li class="post-row" lang="en" data-post-url="/en/posts/2026-11-18-git-basics-for-beginners/">
+        <a class="post-row-link" href="/diary/en/posts/2026-11-18-git-basics-for-beginners/">
+            <span class="post-row-meta">
+                <time datetime="2026-11-18">2026.11.18</time>
+                
+            </span>
+            <span class="post-row-body">
+                <strong class="post-row-title">Getting Started with Git: Your First Save, Your First Pull Request</strong>
+                <span class="post-row-summary">For anyone new to version control: Git&#39;s four everyday commands (add, commit, push, pull), the order branches and pull requests give a team, the three ways to merge, and five working habits — all with diagrams.</span>
+            </span>
+            <span class="post-row-arrow" aria-hidden="true">↗</span>
+        </a>
+        
+        <div class="post-row-tags">
+            <button class="post-tag" type="button" data-tag="git" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>git</button><button class="post-tag" type="button" data-tag="github" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>github</button><button class="post-tag" type="button" data-tag="collaboration" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>collaboration</button><button class="post-tag" type="button" data-tag="workflow" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>workflow</button><button class="post-tag" type="button" data-tag="notes" aria-pressed="false"><span class="post-tag-hash" aria-hidden="true">#</span>notes</button>
+        </div>
+    </li>
+    
+</ul>
+
+        </div>
+    
+</section>
+
+<nav class="category-switch shell" aria-label="Other categories">
+    
+    
+    <a class="switch-item" href="/diary/categories/devlog/">
+        <span class="mono-note">01</span>
+        <strong>Devlog</strong>
+        <span>5 posts</span>
+    </a>
+    
+    
+    
+    <a class="switch-item" href="/diary/categories/architecture/">
+        <span class="mono-note">02</span>
+        <strong>Architecture</strong>
+        <span>5 posts</span>
+    </a>
+    
+    
+    
+    <a class="switch-item" href="/diary/categories/troubleshooting/">
+        <span class="mono-note">03</span>
+        <strong>Troubleshooting</strong>
+        <span>2 posts</span>
+    </a>
+    
+    
+    
+    
+</nav>
+
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    <script src="/diary/assets/diary-search.js?v=20261119-koen" defer></script>
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>
