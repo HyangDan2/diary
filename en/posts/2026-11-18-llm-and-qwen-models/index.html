@@ -301,7 +301,7 @@ final = client.chat.completions.create(model=<span class="hljs-string">&quot;Qwe
 <li><strong>Failure is a normal path.</strong> Timeouts, 404s and empty results go into context as they are. The model choosing another tool, or fixing an argument and calling again, is the strength of this structure — which is why tool results should come back in a form a human could also read.</li>
 <li><strong>Execution permission lives outside the model.</strong> What runs, and which tools need approval, is the harness's decision. However plausible the model's call, nothing happens if the executor refuses.</li>
 </ul>
-<p><a href="/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png"><img src="/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png" alt="Next-token prediction, the three training stages, and the tool-call loop"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-llm-token-and-tool-loop.png"><img src="/diary/assets/images/en/2026-11-18-llm-token-and-tool-loop.png" alt="Next-token prediction, the three training stages, and the tool-call loop"></a></p>
 <p><em>Top: the sampling loop over a vocabulary. Middle: pre-training → SFT → RL. Bottom: the model picks a tool, code executes it, the result returns to context.</em></p>
 <h2>The Qwen line-up at a glance</h2>
 <p>Qwen is Alibaba's model family. It started as Tongyi Qianwen in 2023 and continued through 2.5, 3, 3.5, 3.6 and 3.8. Names are usually <code>Qwen&lt;generation&gt;-&lt;size&gt;</code>, and MoE models carry <code>-A&lt;active parameters&gt;</code> after it. Read <code>Qwen3.5-397B-A17B</code> as &quot;3.5 generation, 397B total, 17B active per token&quot;.</p>
@@ -405,7 +405,7 @@ final = client.chat.completions.create(model=<span class="hljs-string">&quot;Qwe
 <p><strong>Gated DeltaNet</strong> (GDN) changes that point. Instead of storing the whole past, it updates a fixed-size state with a delta rule and decays it through a gate. State size is independent of context length, so the cache no longer grows linearly with long contexts. Qwen3-Next tried this structure first; 3.5 scaled it up in earnest.</p>
 <p>Linear attention alone is not enough, though. It is weak at fetching a sentence that sat at a precise location (retrieval). So 3.5 mixes three GDN layers with one full-attention layer. 397B-A17B repeats this block 15 times for 60 layers; 27B repeats it 16 times for 64 layers. For 27B, only 16 layers are full attention, so it uses a quarter of the KV cache that all-full-attention layers would need.</p>
 <p>In numbers: 27B holding 262,144 tokens in f16 KV is about 16GiB. If all 64 layers were full attention it would be 64GiB. That is where &quot;27B, and 128K context on a 24GB card&quot; comes from — with the caveats of quantising the KV cache to q8 and reducing the context.</p>
-<p><a href="/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png"><img src="/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png" alt="Dense 27B versus sparse MoE 397B-A17B, and the Gated DeltaNet hybrid"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-qwen-dense-vs-moe-deltanet.png"><img src="/diary/assets/images/en/2026-11-18-qwen-dense-vs-moe-deltanet.png" alt="Dense 27B versus sparse MoE 397B-A17B, and the Gated DeltaNet hybrid"></a></p>
 <p><em>Left: dense 27B. Middle: sparse MoE 397B-A17B with 17B active. Right: the 3:1 GDN-to-full-attention block.</em></p>
 <h2>Two models side by side</h2>
 <p>The line-up is wide enough that in practice you end up choosing between two: 397B-A17B on a server and 27B on a desk. Rather than listing specs, here is what each is for.</p>
@@ -585,7 +585,7 @@ final = client.chat.completions.create(model=<span class="hljs-string">&quot;Qwe
 </table></div><p><strong>When to use it.</strong> The default for real coding, document and vision work on a local or single in-house GPU. Work where data must not leave the building, and where answers are needed with short latency and no network round trip. It runs at 4-bit on one 24GB card, and it was built to pair easily with coding-agent harnesses.</p>
 <p><strong>What to watch.</strong> The default is <code>xhigh</code>, so it tends to think too much. On simple questions a long reasoning block raises both latency and cost. In practice, set <code>low</code> or <code>medium</code> per kind of task. And 128K context at 24GB only fits with the KV cache quantised to q8; to use 262K fully, 48GB is more comfortable.</p>
 <p>One more thing. Putting the two models' scores side by side, some items make 27B look better. But the exams are different. Terminal Bench <strong>2</strong> and <strong>2.1</strong>, SWE-bench <strong>Verified</strong> and <strong>Pro</strong>, are not the same test. The generations differ too — February and August. Comparing numbers horizontally needs the same benchmark, the same harness and the same context conditions.</p>
-<p><a href="/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png"><img src="/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png" alt="Qwen3.5-397B-A17B and Qwen3.8-27B: specs, hardware, purpose"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-qwen-35-397b-vs-38-27b.png"><img src="/diary/assets/images/en/2026-11-18-qwen-35-397b-vs-38-27b.png" alt="Qwen3.5-397B-A17B and Qwen3.8-27B: specs, hardware, purpose"></a></p>
 <p><em>Specs, hardware footprint and intended use for the two models, next to the small and the 2.4T options.</em></p>
 <h3>Between and above — the small models, and 2.4T</h3>
 <p>Those two are not the only choices. There are options between and above.</p>
@@ -696,7 +696,7 @@ completion = client.chat.completions.create(
 <h3>Does lowering effort really make it faster?</h3>
 <p>Here is the counter-intuitive part. Qwen's documentation says: <strong>in multi-turn agents, lowering reasoning effort does not always reduce total completion time.</strong> Each turn answers faster, but if thinner analysis raises failures and retries, total latency and token spend can grow.</p>
 <p>Which means effort is not a performance knob but <strong>a risk knob</strong>. Where the answer is uniquely determined (tests passing, format conversion), low effort wins. Where exploration and judgement are needed (the cause of a bug, a design choice), high effort lowers total cost.</p>
-<p><a href="/diary/assets/images/2026-11-18-hybrid-thinking-flow.png"><img src="/diary/assets/images/2026-11-18-hybrid-thinking-flow.png" alt="Call flow and reasoning tokens for non-thinking and thinking, plus the four control knobs"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-hybrid-thinking-flow.png"><img src="/diary/assets/images/en/2026-11-18-hybrid-thinking-flow.png" alt="Call flow and reasoning tokens for non-thinking and thinking, plus the four control knobs"></a></p>
 <p><em>Non-thinking vs thinking token flow, and the four knobs — enable_thinking, reasoning_effort, preserve_thinking, thinking_budget.</em></p>
 <h3>Five things to think about</h3>
 <p>Rather than prescribing answers, these are questions to answer yourself before the next exercise.</p>

@@ -104,7 +104,7 @@ A few things to remember in this loop.
 - **Failure is a normal path.** Timeouts, 404s and empty results go into context as they are. The model choosing another tool, or fixing an argument and calling again, is the strength of this structure — which is why tool results should come back in a form a human could also read.
 - **Execution permission lives outside the model.** What runs, and which tools need approval, is the harness's decision. However plausible the model's call, nothing happens if the executor refuses.
 
-[![Next-token prediction, the three training stages, and the tool-call loop](/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png)](/diary/assets/images/2026-11-18-llm-token-and-tool-loop.png)
+[![Next-token prediction, the three training stages, and the tool-call loop](/diary/assets/images/en/2026-11-18-llm-token-and-tool-loop.png)](/diary/assets/images/en/2026-11-18-llm-token-and-tool-loop.png)
 
 *Top: the sampling loop over a vocabulary. Middle: pre-training → SFT → RL. Bottom: the model picks a tool, code executes it, the result returns to context.*
 
@@ -153,7 +153,7 @@ Linear attention alone is not enough, though. It is weak at fetching a sentence 
 
 In numbers: 27B holding 262,144 tokens in f16 KV is about 16GiB. If all 64 layers were full attention it would be 64GiB. That is where "27B, and 128K context on a 24GB card" comes from — with the caveats of quantising the KV cache to q8 and reducing the context.
 
-[![Dense 27B versus sparse MoE 397B-A17B, and the Gated DeltaNet hybrid](/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png)](/diary/assets/images/2026-11-18-qwen-dense-vs-moe-deltanet.png)
+[![Dense 27B versus sparse MoE 397B-A17B, and the Gated DeltaNet hybrid](/diary/assets/images/en/2026-11-18-qwen-dense-vs-moe-deltanet.png)](/diary/assets/images/en/2026-11-18-qwen-dense-vs-moe-deltanet.png)
 
 *Left: dense 27B. Middle: sparse MoE 397B-A17B with 17B active. Right: the 3:1 GDN-to-full-attention block.*
 
@@ -245,7 +245,7 @@ The scores, again from the vendor.
 
 One more thing. Putting the two models' scores side by side, some items make 27B look better. But the exams are different. Terminal Bench **2** and **2.1**, SWE-bench **Verified** and **Pro**, are not the same test. The generations differ too — February and August. Comparing numbers horizontally needs the same benchmark, the same harness and the same context conditions.
 
-[![Qwen3.5-397B-A17B and Qwen3.8-27B: specs, hardware, purpose](/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png)](/diary/assets/images/2026-11-18-qwen-35-397b-vs-38-27b.png)
+[![Qwen3.5-397B-A17B and Qwen3.8-27B: specs, hardware, purpose](/diary/assets/images/en/2026-11-18-qwen-35-397b-vs-38-27b.png)](/diary/assets/images/en/2026-11-18-qwen-35-397b-vs-38-27b.png)
 
 *Specs, hardware footprint and intended use for the two models, next to the small and the 2.4T options.*
 
@@ -329,7 +329,7 @@ Here is the counter-intuitive part. Qwen's documentation says: **in multi-turn a
 
 Which means effort is not a performance knob but **a risk knob**. Where the answer is uniquely determined (tests passing, format conversion), low effort wins. Where exploration and judgement are needed (the cause of a bug, a design choice), high effort lowers total cost.
 
-[![Call flow and reasoning tokens for non-thinking and thinking, plus the four control knobs](/diary/assets/images/2026-11-18-hybrid-thinking-flow.png)](/diary/assets/images/2026-11-18-hybrid-thinking-flow.png)
+[![Call flow and reasoning tokens for non-thinking and thinking, plus the four control knobs](/diary/assets/images/en/2026-11-18-hybrid-thinking-flow.png)](/diary/assets/images/en/2026-11-18-hybrid-thinking-flow.png)
 
 *Non-thinking vs thinking token flow, and the four knobs — enable_thinking, reasoning_effort, preserve_thinking, thinking_budget.*
 

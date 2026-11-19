@@ -225,7 +225,7 @@ ERROR: No matching distribution found for pydantic-core==2.27.2
 <p>Hence &quot;all the packages are here but the install dies with a network error&quot;. What needed fetching wasn't a package — it was a <strong>binary</strong>.</p>
 <h3>So change the order</h3>
 <p>The three causes reduce to one line: <strong>if even one step still uses the network at install time, that is the step that breaks.</strong> The fix is to move all of those steps to the internet side and make the inside use no network at all. That gives four stages: collect, seal, verify, install.</p>
-<p><a href="/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png"><img src="/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png" alt="The package handover pipeline: collect outside, hand over through security, install offline inside"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-onprem-airgap-pipeline.png"><img src="/diary/assets/images/en/2026-11-18-onprem-airgap-pipeline.png" alt="The package handover pipeline: collect outside, hand over through security, install offline inside"></a></p>
 <p><em>Collect on the internet side, hand over through security review, install offline inside — with a manifest tying the two ends together.</em></p>
 <p>The important cell in that diagram is the middle one. A handover is not &quot;moving things&quot;; it is <strong>making them verifiable</strong>. One folder, one archive, one <code>sha256</code> list per file. With those three, verification and reproduction both finish at once. Scatter the files and bring them in one by one, and nobody can explain what came in.</p>
 <h2>2. pip: finishing the job with one wheelhouse</h2>
@@ -301,7 +301,7 @@ pip config <span class="hljs-built_in">set</span> global.trusted-host pypi.inter
 </code></pre>
 <p>In containers or CI, where a config file is awkward, use environment variables: <code>PIP_INDEX_URL</code>, <code>PIP_TRUSTED_HOST</code>, <code>PIP_NO_INDEX</code>. Precedence runs command line, then environment, then config file.</p>
 <p>With an internal repository, the unit of handover changes from &quot;project&quot; to &quot;package&quot;. A new project doesn't need to re-import packages the repository already holds. In exchange, somebody has to manage what came in and who approved it. That comes back in section 5.</p>
-<p><a href="/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png"><img src="/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png" alt="Building a wheelhouse with pip download, installing with --no-index --find-links, and how to read wheel tags"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-onprem-pip-wheelhouse.png"><img src="/diary/assets/images/en/2026-11-18-onprem-pip-wheelhouse.png" alt="Building a wheelhouse with pip download, installing with --no-index --find-links, and how to read wheel tags"></a></p>
 <p><em>The collect-then-install flow on the left, and how to read a wheel's tag on the right.</em></p>
 <h2>3. npm: no &quot;gather it all&quot; command, so three routes</h2>
 <h3>How it differs from pip</h3>
@@ -389,7 +389,7 @@ tar -xzf node_modules.tgz
 <td>demos, emergency recovery</td>
 </tr>
 </tbody>
-</table></div><p><a href="/diary/assets/images/2026-11-18-onprem-npm-3ways.png"><img src="/diary/assets/images/2026-11-18-onprem-npm-3ways.png" alt="Three npm offline patterns compared, and the npx workaround"></a></p>
+</table></div><p><a href="/diary/assets/images/en/2026-11-18-onprem-npm-3ways.png"><img src="/diary/assets/images/en/2026-11-18-onprem-npm-3ways.png" alt="Three npm offline patterns compared, and the npx workaround"></a></p>
 <p><em>Cache, mirror and bundle side by side, with the <code>npx</code> fallbacks underneath.</em></p>
 <h3>Why <code>npx</code> is especially hard</h3>
 <p>The first post mentioned adding skills with <code>npx skills add https://github.com/cline/skills</code>. That command does not work as-is on a closed network. <code>npx</code> looks for the package <strong>at run time</strong> and fetches it from the registry, and <code>skills add</code> clones a GitHub repository. This is a case where the problem is execution, not installation.</p>
@@ -477,7 +477,7 @@ PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright npx playwright install chromium
 <span class="hljs-built_in">cd</span> wheelhouse &amp;&amp; <span class="hljs-built_in">sha256sum</span> -c ../MANIFEST.sha256
 </code></pre>
 <p><code>sha256sum</code> treats lines starting with <code>#</code> as comments and skips them, so human-readable notes like the file count can live in the same file. If a single file changed while the archive was unpacked, this step catches it.</p>
-<p><a href="/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png"><img src="/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png" alt="Top four air-gap handover failures as a checklist"></a></p>
+<p><a href="/diary/assets/images/en/2026-11-18-onprem-pitfalls-checklist.png"><img src="/diary/assets/images/en/2026-11-18-onprem-pitfalls-checklist.png" alt="Top four air-gap handover failures as a checklist"></a></p>
 <p><em>The four traps, why each happens, and the check that catches it.</em></p>
 <h2>5. To think about: carry by hand, or run a private registry</h2>
 <p>By now the natural question is, &quot;so how far should we automate this?&quot; Rather than an answer, here is the material to judge with.</p>

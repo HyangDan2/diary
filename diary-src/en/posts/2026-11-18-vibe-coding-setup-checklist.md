@@ -65,7 +65,7 @@ The last is quiet and the most common. "While I'm in here" attaches itself and t
 
 All four reduce to one line: **the model does not know what it just broke.** To know, it has to run something; to run something it needs commands; and for a human not to type those commands every time, there has to be a loop. Setup is the work of laying that loop down in advance.
 
-[![Unplanned vibe coding's failure loop versus the safe loop of plan, small change, automatic verification, review](/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png)](/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png)
+[![Unplanned vibe coding's failure loop versus the safe loop of plan, small change, automatic verification, review](/diary/assets/images/en/2026-11-18-vibe-coding-failure-vs-safe-loop.png)](/diary/assets/images/en/2026-11-18-vibe-coding-failure-vs-safe-loop.png)
 
 *Left: guess, patch, break something else. Right: plan, small change, automatic verification, review.*
 
@@ -140,7 +140,7 @@ Keeping it under 40–80 lines is better. Rules ride in every request, so length
 
 Opening a new session should not be scary, which means there should be nothing to lose. So decisions go into documents, not conversations: why this structure in `docs/adr/` or an issue, what's next in a TODO, why this change in the pull request body. Knowledge that lives only in the session is knowledge that is already gone.
 
-[![Rules thinning and judgement drifting as a conversation grows, four reset signals, the pinned AGENTS.md structure](/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png)](/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png)
+[![Rules thinning and judgement drifting as a conversation grows, four reset signals, the pinned AGENTS.md structure](/diary/assets/images/en/2026-11-18-context-hygiene-and-session-reset.png)](/diary/assets/images/en/2026-11-18-context-hygiene-and-session-reset.png)
 
 *Top: context grows, rules thin out. Middle: the four reset signals. Bottom: the fixed `AGENTS.md` structure.*
 
@@ -258,13 +258,13 @@ Cost intuition is simple: tokens are the bill, and output costs more than input.
 
 One caution: split routing too finely and the management cost exceeds the benefit. Two or three tiers is enough — "light, proper, with a human" — with one model and one gate attached to each.
 
-[![Routing matrix of models (small, high-performance, thinking) and harness gates by task difficulty and risk](/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png)](/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png)
+[![Routing matrix of models (small, high-performance, thinking) and harness gates by task difficulty and risk](/diary/assets/images/en/2026-11-18-vibe-coding-model-harness-routing.png)](/diary/assets/images/en/2026-11-18-vibe-coding-model-harness-routing.png)
 
 *Task difficulty and risk mapped to model size and gate strength.*
 
 The six steps on one page — laid out so it can be printed and used as a checklist.
 
-[![The six-step setup checklist: Git, context, plan/act, verification, guardrails, model routing](/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png)](/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png)
+[![The six-step setup checklist: Git, context, plan/act, verification, guardrails, model routing](/diary/assets/images/en/2026-11-18-vibe-coding-6step-checklist.png)](/diary/assets/images/en/2026-11-18-vibe-coding-6step-checklist.png)
 
 *Six steps, minimum setup and pass condition for each.*
 
