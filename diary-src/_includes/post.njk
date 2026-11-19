@@ -1,12 +1,17 @@
 ---
 layout: base.njk
 ---
+{% import "parts/lang-switch.njk" as langSwitch %}
+{% set pageLang = 'en' if lang == 'en' else 'ko' %}
 <article class="post shell">
-    <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="{{ '/' | url }}">Diary</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ ('/categories/' + categorySlug + '/') | url }}">{{ categoryName }}</a>
-    </nav>
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="{{ '/' | url }}">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ categoryUrl | url }}">{{ categoryName }}</a>
+        </nav>
+        {% if alternateKo and alternateEn %}{{ langSwitch.langSwitch(pageLang, alternateKo, alternateEn) }}{% endif %}
+    </div>
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>{{ categoryName }} · {{ date | displayDate }}</p>
@@ -14,7 +19,7 @@ layout: base.njk
         {% if summary %}<p class="post-summary">{{ summary }}</p>{% endif %}
         <div class="post-meta">
             <span class="badge">{{ categoryName }}</span>
-            {% if lang == 'en' %}
+            {% if pageLang == 'en' %}
             <time datetime="{{ date | htmlDate }}">{{ date | displayDate }}</time>
             <span>{{ content | readingTime }} min read</span>
             {% else %}
@@ -37,9 +42,9 @@ layout: base.njk
     <nav class="post-nav" aria-label="Post navigation">
         <a class="post-nav-item" href="{{ '/' | url }}">
             <span class="post-nav-label">Diary</span>
-            <strong>{% if lang == 'en' %}All posts{% else %}전체 글 목록{% endif %}</strong>
+            <strong>{% if pageLang == 'en' %}All posts{% else %}전체 글 목록{% endif %}</strong>
         </a>
-        <a class="post-nav-item" href="{{ ('/categories/' + categorySlug + '/') | url }}">
+        <a class="post-nav-item" href="{{ categoryUrl | url }}">
             <span class="post-nav-label">Category</span>
             <strong>{{ categoryName }}</strong>
         </a>
@@ -49,13 +54,13 @@ layout: base.njk
     <nav class="post-pager" aria-label="Previous and next posts">
         {% if newerPost %}
         <a class="pager-item pager-newer" href="{{ newerPost.url | url }}">
-            <span>{% if lang == 'en' %}← Newer{% else %}← 최신 글{% endif %}</span>
+            <span>{% if pageLang == 'en' %}← Newer{% else %}← 최신 글{% endif %}</span>
             <strong>{{ newerPost.data.title }}</strong>
         </a>
         {% else %}<span class="pager-item pager-empty" aria-hidden="true"></span>{% endif %}
         {% if olderPost %}
         <a class="pager-item pager-older" href="{{ olderPost.url | url }}">
-            <span>{% if lang == 'en' %}Older →{% else %}이전 글 →{% endif %}</span>
+            <span>{% if pageLang == 'en' %}Older →{% else %}이전 글 →{% endif %}</span>
             <strong>{{ olderPost.data.title }}</strong>
         </a>
         {% else %}<span class="pager-item pager-empty" aria-hidden="true"></span>{% endif %}

@@ -5,6 +5,7 @@ category: Notes
 summary: "버전 관리가 처음인 사람을 위해 Git의 네 가지 명령어(add·commit·push·pull), 브랜치와 PR로 일하는 순서, 세 가지 머지 방식, 팀에서 지킬 다섯 가지 규칙을 도식과 함께 정리했습니다."
 tags: [git, github, collaboration, workflow, notes]
 layout: post
+translationKey: notes-git-basics-for-beginners
 ---
 
 코드를 배우기 시작하면 가장 먼저 만나는 벽이 Git입니다. 명령어는 몇 개 되지 않는데, 처음 나오는 말이 전부 낯섭니다. 저장소, 스테이징, 커밋, 브랜치, 머지, 리베이스. 영어 단어를 한국어로 옮겨 놓아도 뜻이 잘 잡히지 않습니다.

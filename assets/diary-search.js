@@ -392,7 +392,7 @@
             category: root.dataset.category || "",
             label: root.dataset.totalLabel || (root.dataset.lang === "en" ? "All" : "전체"),
             indexUrl: root.dataset.indexUrl || "/diary/search.json",
-            base: "",
+            base: root.dataset.base || "",
             scope: "",
             index: [],
             frame: 0,
@@ -412,7 +412,9 @@
         };
         if (!state.input || !state.status) return;
 
-        state.base = state.indexUrl.replace(/[^/]*$/, "");
+        state.base = state.base
+            ? (state.base.endsWith("/") ? state.base : state.base + "/")
+            : state.indexUrl.replace(/[^/]*$/, "");
         state.defaultRows = state.defaultBox ? Array.from(state.defaultBox.querySelectorAll(".post-row")) : [];
         state.defaultHeading = state.heading ? state.heading.textContent : "";
 

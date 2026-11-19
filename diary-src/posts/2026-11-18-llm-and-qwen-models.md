@@ -5,6 +5,7 @@ category: Notes
 summary: "LLM은 다음 토큰의 확률을 계산해 하나를 고르는 기계입니다. 그 계산이 학습 3단계를 거쳐 어떻게 능력이 되는지, 도구 호출이 어떤 루프로 도는지, 그리고 Qwen2.5부터 3.8까지의 라인업에서 397B-A17B와 27B를 언제 고르는지를 정리했습니다."
 tags: [llm, qwen, moe, mixture-of-experts, gated-deltanet, reasoning, notes]
 layout: post
+translationKey: notes-llm-and-qwen-models
 ---
 
 지난 글에서 모델은 엔진, 하네스는 핸들이라고 적었습니다. 그 글은 핸들 쪽 이야기였습니다. 규칙을 어떻게 넣고, 도구 실행을 어디서 막고, 절차를 어떻게 꺼내는가 하는 문제였습니다.

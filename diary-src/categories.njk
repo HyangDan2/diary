@@ -7,55 +7,15 @@ pagination:
   alias: categoryPage
 permalink: "/categories/{{ categoryPage.slug }}/index.html"
 ---
-
-{% import "parts/post-list.njk" as parts %}
-{% import "parts/search.njk" as search %}
-{# Devlog · Architecture · Troubleshooting read in English; the Notes drawer stays Korean #}
+{% import "parts/category-view.njk" as view %}
+{# Devlog · Architecture · Troubleshooting read in English; the Notes drawer stays Korean.
+   Notes is the one drawer that also exists in English, so it carries the KO | EN switch. #}
 {% set pageLang = (lang or '') | docLang(categoryPage) %}
-{% set en = pageLang == 'en' %}
-<section class="page-hero shell">
-    <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="{{ '/' | url }}">Diary</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{{ categoryPage.name }}</span>
-    </nav>
-    <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Category {{ categoryPage.index }}</p>
-    <h1>{{ categoryPage.name }}</h1>
-    <p class="page-hero-lede">{% if en %}{{ categoryPage.blurbEn or 'A small collection on this theme.' }}{% else %}{{ categoryPage.blurb or '이 주제로 쓴 글 모음.' }}{% endif %}</p>
-    <div class="page-hero-meta">
-        <span class="badge">{{ categoryPage.count }} post{% if categoryPage.count != 1 %}s{% endif %}</span>
-        {% if categoryPage.latest %}<span>{% if en %}Last updated{% else %}최근 업데이트{% endif %} {{ categoryPage.latest | displayDate }}</span>{% endif %}
-        {% if categoryPage.topics %}<span class="mono-note">{{ categoryPage.topics }}</span>{% endif %}
-    </div>
-</section>
-
-<section class="posts shell">
-    <div class="section-heading section-heading-tight">
-        <div>
-            <p class="eyebrow">All posts</p>
-            <h2>{% if en %}All {{ categoryPage.name }} notes{% else %}{{ categoryPage.name }} 전체 글{% endif %}</h2>
-        </div>
-        <span class="mono-note">{{ categoryPage.count }} post{% if categoryPage.count != 1 %}s{% endif %}</span>
-    </div>
-    {% if categoryPage.count %}
-        {{ search.searchBar({ mode: 'category', lang: pageLang, category: categoryPage.slug, label: categoryPage.name, total: categoryPage.count, placeholder: ('Search inside ' + categoryPage.name) if en else (categoryPage.name + ' 글 안에서 검색') }) }}
-        {{ search.searchResults(pageLang) }}
-        <div data-search-default>
-            {{ parts.postList(categoryPage.posts, false) }}
-        </div>
-    {% else %}
-        {{ parts.emptyState('This drawer is still empty.' if en else '아직 이 서랍은 비어 있다.') }}
-    {% endif %}
-</section>
-
-<nav class="category-switch shell" aria-label="Other categories">
-    {% for other in collections.diaryCategories %}
-    {% if other.slug != categoryPage.slug %}
-    <a class="switch-item" href="{{ ('/categories/' + other.slug + '/') | url }}">
-        <span class="mono-note">{{ other.index }}</span>
-        <strong>{{ other.name }}</strong>
-        <span>{{ other.count }} post{% if other.count != 1 %}s{% endif %}</span>
-    </a>
-    {% endif %}
-    {% endfor %}
-</nav>
+{{ view.categoryView(
+    categoryPage,
+    pageLang,
+    ({ ko: '/categories/notes/', en: '/en/categories/notes/' } if categoryPage.slug == 'notes' else null),
+    collections.diaryCategories,
+    '',
+    ''
+) }}

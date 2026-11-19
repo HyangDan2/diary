@@ -5,6 +5,7 @@ category: Notes
 summary: "바이브코딩은 시작보다 유지가 어렵습니다. 문맥 오염, 몰래 깨진 기존 기능, 시크릿 사고는 모델이 부족해서가 아니라 검증·규칙·권한이 겹겹이 받쳐 주지 않아서 생깁니다. Git 안전망부터 모델·비용 라우팅까지 실전 세팅 6단계와 상황별 점검 루틴을 정리했습니다."
 tags: [vibe-coding, ai-agent, cline, git, testing, guardrails, notes]
 layout: post
+translationKey: notes-vibe-coding-setup-checklist
 ---
 
 첫 편에서 모델은 엔진, 하네스는 핸들이라고 적었습니다. 둘째 편에서는 엔진 속을 열어 토큰과 MoE, 씽킹 손잡이를 봤습니다. 이번 편은 그 둘을 **내 손에 쥐는 일**입니다. 하네스를 무엇으로 만들지, 모델을 어디에 놓을지 알아도, 매일 아침 세팅이 되어 있지 않으면 결과는 다시 들쭉날쭉해집니다. [모델은 엔진, 하네스는 핸들](/diary/posts/2026-11-18-harness-layer-concept-and-usage/)과 [엔진 속을 들여다보기](/diary/posts/2026-11-18-llm-and-qwen-models/)를 읽고 오시면 더 자연스럽게 이어집니다. 다만 이 글만 읽어도 점검표로 쓸 수 있게 썼습니다.

@@ -340,6 +340,17 @@ body.drawer-open .hd2-theme-toggle { opacity: 0; pointer-events: none; }
 .crumbs a:hover { color: var(--accent); }
 .crumbs span[aria-current] { color: var(--text); }
 
+/* ---------- KO | EN switch (Notes, both editions) ----------
+   Sits on the crumb line, right-aligned on wide screens and wrapped under the crumbs
+   on narrow ones, so it never pushes the page sideways. */
+.page-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 26px; }
+.page-top .crumbs { margin-bottom: 0; min-width: 0; }
+.lang-switch { display: inline-flex; flex: none; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); }
+.lang-switch-item { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; padding: 6px 11px; border-radius: 999px; color: var(--text-secondary); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; line-height: 1.15; text-decoration: none; transition: background-color .18s, color .18s; }
+.lang-switch-item:hover { color: var(--accent-text); }
+.lang-switch-item.is-active { background: var(--accent-soft); color: var(--accent-text); }
+[data-theme="dark"] .lang-switch-item.is-active { color: var(--text); }
+
 /* ---------- hero ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); align-items: center; gap: 40px; padding-block: 76px 66px; }
 .hero-copy, .hero-visual { min-width: 0; }
@@ -489,6 +500,9 @@ body.drawer-open .hd2-theme-toggle { opacity: 0; pointer-events: none; }
 .md-body hr { height: 1px; margin: 40px 0; border: 0; background: var(--border); }
 .md-body code { padding: 2px 6px; border: 1px solid var(--border-soft); border-radius: 4px; background: var(--surface-2); color: var(--accent-hover); font-family: var(--mono); font-size: .86em; }
 .md-body img { display: block; margin: 26px auto; border: 1px solid var(--border); border-radius: var(--radius); max-height: 520px; object-fit: contain; }
+/* a figure caption: the one paragraph that is nothing but emphasis */
+.md-body p:has(> em:only-child) { margin: -12px 0 26px; color: var(--text-secondary); font-size: 12.5px; line-height: 1.7; text-align: center; }
+.md-body p:has(> em:only-child) em { font-style: normal; }
 .md-body .table-wrap { margin: 26px 0; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
 .md-body table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .md-body th, .md-body td { padding: 11px 14px; border-bottom: 1px solid var(--border-soft); text-align: left; vertical-align: top; word-break: keep-all; overflow-wrap: break-word; }

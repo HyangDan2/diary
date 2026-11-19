@@ -5,6 +5,7 @@ category: Notes
 summary: "LLM은 다음 토큰을 예측하는 엔진이고, 그 엔진이 실제 작업을 하도록 감싸는 것이 하네스 계층입니다. Rules·Skills·Hooks·MCP 네 축의 역할과 실전 용도, Cline의 전역·프로젝트 구조, 커뮤니티 스킬을 얹기 전에 점검할 것까지 정리했습니다."
 tags: [harness, cline, ai-agent, llm, rules, hooks, notes]
 layout: post
+translationKey: notes-harness-layer-concept-and-usage
 ---
 
 같은 모델을 쓰는데 결과가 다를 때가 있습니다. 어떤 날은 에이전트가 알아서 테스트까지 돌리고 깔끔하게 끝내고, 어떤 날은 같은 실수를 세 번 반복합니다. 모델을 바꾸지 않았는데도 그렇습니다. 이 차이를 만드는 것이 이 글의 주제인 **하네스 계층(Harness Layer)** 입니다.

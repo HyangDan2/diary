@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart · HD2&#39;s Diary</title>
+    <meta name="description" content="Vibe coding is harder to sustain than to start. Context rot, silently broken features and secret leaks don&#39;t happen because the model is weak; they happen because verification, rules and permissions aren&#39;t layered underneath. Six setup steps — from a Git safety net to model and cost routing — plus a routine for each way things go wrong.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart · HD2&#39;s Diary">
+    <meta property="og:description" content="Vibe coding is harder to sustain than to start. Context rot, silently broken features and secret leaks don&#39;t happen because the model is weak; they happen because verification, rules and permissions aren&#39;t layered underneath. Six setup steps — from a Git safety net to model and cost routing — plus a routine for each way things go wrong.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-18-vibe-coding-setup-checklist/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-18-vibe-coding-setup-checklist/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+</head>
+<body class="page-en-posts-2026-11-18-vibe-coding-setup-checklist">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-18-vibe-coding-setup-checklist/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.18</p>
+        <h1>Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart</h1>
+        <p class="post-summary">Vibe coding is harder to sustain than to start. Context rot, silently broken features and secret leaks don&#39;t happen because the model is weak; they happen because verification, rules and permissions aren&#39;t layered underneath. Six setup steps — from a Git safety net to model and cost routing — plus a routine for each way things go wrong.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>12 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#vibe-coding</span><span class="tag">#ai-agent</span><span class="tag">#cline</span><span class="tag">#git</span><span class="tag">#testing</span><span class="tag">#guardrails</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>The first post said the model is the engine and the harness is the steering wheel; the second opened the engine to look at tokens, MoE and the thinking knobs. This one is about <strong>getting both into your hands</strong>. Even when you know what to build the harness from and where to put the model, if the setup isn't in place each morning the results drift again. It follows on naturally from <a href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">The Model Is the Engine, the Harness Is the Steering Wheel</a> and <a href="/diary/en/posts/2026-11-18-llm-and-qwen-models/">Under the Hood</a>, though it reads as a checklist on its own.</p>
+<p>Vibe coding usually starts well. A prompt into an empty folder and a screen appears in minutes. It falls apart afterwards: when there are thirty files, the conversation is past two hundred turns, and five features have been bolted on. That is when &quot;it worked and now it doesn't&quot; starts, when fixing one thing breaks another, and when you re-explain yesterday's rule today.</p>
+<p>These are notes on getting past that point. Not a grand tool list, but six layers of safety that cost ten minutes on day one and save three days later.</p>
+<h2>Why vibe coding comes apart in the middle</h2>
+<h3>Why the start goes well, and why it stops</h3>
+<p>The start goes well for a reason: the context is short, you can see the result with your own eyes, and there is nothing to undo. A wrong build means deleting the folder and starting over. While those three hold, the model's mistakes are almost free.</p>
+<p>The stretch that comes apart is the exact opposite. The context is long, you cannot check the result by eye, and undoing needs a history. When all three fail at once, one small mistake eats three days. So reading the problem as &quot;the model got dumber&quot; doesn't help. You have to rebuild the three things that fell: <strong>context, verification, permission</strong>.</p>
+<h3>Context rot — when the conversation stops being memory and becomes a junk drawer</h3>
+<p>A session looks like it gets more accurate as it grows, but there is a stretch where the opposite is true. Decisions made early and decisions changed later sit side by side, and failed attempts stay in the record.</p>
+<p>For example:</p>
+<ol>
+<li>&quot;Let's use session cookies for login.&quot; → session cookie code goes in.</li>
+<li>Three days later: &quot;Actually, let's switch to JWT.&quot; → new code uses JWT.</li>
+<li>But the middleware and tests that used session cookies stay as they were.</li>
+<li>A week later the agent reads that middleware and starts reverting things &quot;for consistency with the session approach&quot;.</li>
+</ol>
+<p>The model didn't make a bad judgement. Two eras were living in one context with nothing marking which was current. In a long conversation the early part gets summarised or truncated, and what disappears first is usually <strong>the rules you put in at the start</strong>. Exactly as the first post said: forgetting rules isn't a diligence problem, it is the absence of a device that reinserts them every turn.</p>
+<p>The signs that context has hit its ceiling are surprisingly clear.</p>
+<ul>
+<li>It confidently mentions a file or function that doesn't exist.</li>
+<li>It tries to fix code that was already deleted.</li>
+<li>It proposes an approach that just failed, with a small variation.</li>
+<li>It repeats the same mistake a second time.</li>
+</ul>
+<p>See those signs and the session is already losing money. Resetting is cheaper than pushing on.</p>
+<h3>Silently broken existing features</h3>
+<p>The second is the quiet regression. Adding a feature changes a function signature and updates three of five call sites. With no type checking, or <code>any</code> covering it, the build passes. The screen mostly works. What broke is the one path nobody clicked.</p>
+<p>The problem is when you find out. Usually a user finds out, and the commit that caused it is twenty back. Even if you know <code>git bisect</code>, when one commit is 1,200 lines you can identify the cause and still not fix it — and you cannot revert it either, because other features have been stacked on top since.</p>
+<p>So &quot;it worked and now it doesn't&quot; is not information about a cause; it is information about a result. Automated verification exists to reduce how often you hear it.</p>
+<h3>Secrets and environment accidents</h3>
+<p>The third is the kind that happens once. The agent reads <code>.env</code> and hardcodes the values, a token ends up in an error log, and a migration runs against the production database because it looked local. The agent wasn't being malicious. The shortest path to following the instruction was that.</p>
+<p>What characterises these accidents is that they are <strong>irreversible</strong>. Deleting the key from the commit history still leaves it in forks and caches. Revoking and reissuing comes before cleaning up. For this item only, pre-emptive blocking is the only answer; post-hoc response isn't.</p>
+<h3>And diff creep</h3>
+<p>The last is quiet and the most common. &quot;While I'm in here&quot; attaches itself and the diff grows. Renames, folder moves and reformatting get mixed into a feature fix in one commit. Review becomes impossible, and a diff that can't be reviewed eventually merges as it is. Then, when something breaks, nobody can say what caused it.</p>
+<p>All four reduce to one line: <strong>the model does not know what it just broke.</strong> To know, it has to run something; to run something it needs commands; and for a human not to type those commands every time, there has to be a loop. Setup is the work of laying that loop down in advance.</p>
+<p><a href="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="Unplanned vibe coding's failure loop versus the safe loop of plan, small change, automatic verification, review"></a></p>
+<p><em>Left: guess, patch, break something else. Right: plan, small change, automatic verification, review.</em></p>
+<h2>The six-step setup checklist</h2>
+<p>The six steps have an order. ① to ③ reduce the <strong>number</strong> of accidents; ④ to ⑥ reduce their <strong>cost</strong>. Change the order and it gets less efficient: start with the verification loop and you are running tests without Git; start with model routing and you are paying for the expensive model without verification.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Step</th>
+<th>What</th>
+<th>Minimum setup</th>
+<th>Pass condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① Git safety net</td>
+<td>Make failure free</td>
+<td>Branch rules, small commits, deploy tags</td>
+<td><code>main</code> is always deployable</td>
+</tr>
+<tr>
+<td>② Context management</td>
+<td>Move memory into files</td>
+<td><code>AGENTS.md</code>, <code>.cline/rules/</code>, reset signals</td>
+<td>Back in context within 30s of a new session</td>
+</tr>
+<tr>
+<td>③ Plan, then act</td>
+<td>Agree the scope before writing</td>
+<td>A five-line plan, implement after approval</td>
+<td>Zero files changed outside the plan</td>
+</tr>
+<tr>
+<td>④ Automatic verification</td>
+<td>A machine checks instead of a person</td>
+<td>One <code>verify</code> command, a real-screen check</td>
+<td>A passing log exists</td>
+</tr>
+<tr>
+<td>⑤ Secrets and permissions</td>
+<td>Block the irreversible</td>
+<td><code>.env</code> blocked, hooks, permission settings</td>
+<td>The dangerous command stops before it runs</td>
+</tr>
+<tr>
+<td>⑥ Model and cost routing</td>
+<td>More for the same money</td>
+<td>Three task classes mapped to models</td>
+<td>No big model on simple work</td>
+</tr>
+</tbody>
+</table></div><h3>① A Git safety net — make failure free</h3>
+<p>In vibe coding, Git is not a backup; it is <strong>a permit to experiment</strong>. When you are certain you can go back, you can try boldly and throw away quickly. When you feel you cannot go back, a person gets careful and the agent produces one large diff at a time.</p>
+<p>Three minimum settings.</p>
+<ul>
+<li><strong>A branch per feature.</strong> One purpose, one pull request. Name it so the scope is visible: <code>feat/login-jwt</code>. Two jobs on one branch and reverting becomes hard immediately.</li>
+<li><strong>Small diffs.</strong> A commit must be reviewable in size. As a rule of thumb, past 300–400 lines people stop reading, and a review nobody reads is no review. Tell the agent in the rules: &quot;if a change exceeds this size, split the work and report.&quot;</li>
+<li><strong>A revert baseline.</strong> Tag the point where a deploy succeeded. When something goes wrong, <code>git revert</code> keeps history while undoing it. Experiments get thrown away with the branch. With those three, &quot;try it and drop it if it doesn't work&quot; actually becomes possible.</li>
+</ul>
+<p>Tell the agent which Git commands not to use as well. <code>git reset --hard</code>, <code>git push --force</code> and <code>git checkout .</code> erase work silently. If a force push is truly needed, allow only <code>--force-with-lease</code> — and better still, write &quot;fetch and rebase before pushing&quot; into the rules. Avoiding a conflict is cheaper than covering one up.</p>
+<p>Checking is simple. Is <code>git status</code> clean? Do the commits in <code>git log --oneline main..HEAD</code> each explain themselves in one sentence? If not, the branch is already too wide.</p>
+<h3>② Context management and pinned rules</h3>
+<p>The second is moving memory out of the conversation and into files. Conversations are finite; files remain.</p>
+<p><strong>Rules live in files.</strong> <code>AGENTS.md</code> at the repository root is the canonical one, and Cline also reads <code>.clinerules/</code> or <code>.cline/rules/</code>. As the first post laid out: what the team must do the same way goes into the repository, personal taste goes global.</p>
+<p>Five things are enough for <code>AGENTS.md</code>.</p>
+<pre class="code-block" data-lang="markdown"><code class="hljs language-markdown"><span class="hljs-section"># AGENTS.md</span>
+
+<span class="hljs-section">## Stack</span>
+Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
+
+<span class="hljs-section">## Commands</span>
+<span class="hljs-bullet">-</span> Dev: pnpm dev
+<span class="hljs-bullet">-</span> Verify: pnpm verify   # lint → typecheck → unit → build
+<span class="hljs-bullet">-</span> Deploy: GitHub Pages on merge to main
+
+<span class="hljs-section">## Map</span>
+<span class="hljs-bullet">-</span> app/ routes, components/ UI, lib/ domain logic
+<span class="hljs-bullet">-</span> Never call fetch directly outside lib/api.ts
+
+<span class="hljs-section">## Red lines</span>
+<span class="hljs-bullet">-</span> Never read or write .env<span class="hljs-emphasis">*, production DB connection strings, or dist/ output
+- legacy/ is read-only
+- Migrations are added, never edited
+
+## Commits and PRs
+- feat: / fix: / docs: prefixes; one purpose per commit
+- PR body carries &quot;Verify: <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">command</span>&gt;</span></span> → <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">result</span>&gt;</span></span>&quot;
+</span></code></pre>
+<p>Keeping it under 40–80 lines is better. Rules ride in every request, so length is cost, and the tail gets truncated as the conversation grows. Areas full of exceptions move into conditional rules: put a path pattern at the top of the file and the rule only switches on when you touch that path.</p>
+<p><strong>Reset the session when the work changes.</strong> A reset is not a loss; it is compression. Open a fresh session without hesitation when you see these signs.</p>
+<ol>
+<li>The unit of work changes — login is done, next is payments.</li>
+<li>You repeat the same mistake a second time. There will not be a third.</li>
+<li>It mentions a file or function that doesn't exist — context has already drifted from the real code.</li>
+<li>The diff grew past the size anyone can review — the conversation probably grew with it.</li>
+</ol>
+<p>Opening a new session should not be scary, which means there should be nothing to lose. So decisions go into documents, not conversations: why this structure in <code>docs/adr/</code> or an issue, what's next in a TODO, why this change in the pull request body. Knowledge that lives only in the session is knowledge that is already gone.</p>
+<p><a href="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png"><img src="/diary/assets/images/2026-11-18-context-hygiene-and-session-reset.png" alt="Rules thinning and judgement drifting as a conversation grows, four reset signals, the pinned AGENTS.md structure"></a></p>
+<p><em>Top: context grows, rules thin out. Middle: the four reset signals. Bottom: the fixed <code>AGENTS.md</code> structure.</em></p>
+<h3>③ Separate planning from acting (Plan → Act)</h3>
+<p>The third is agreeing the scope before anything is written. Cline splits Plan and Act modes: in Plan it reads, investigates and designs; in Act it edits files. Other tools do the same thing by another name. The principle is the same: <strong>put a human's confirmation between reading and writing.</strong></p>
+<p>A plan doesn't need to be long. In fact, long plans go unread. Five lines is enough.</p>
+<ul>
+<li>Which files change, and why</li>
+<li>What will not change (the boundary)</li>
+<li>The effect on data, schema or API</li>
+<li>How it will be verified (command and expected result)</li>
+<li>How to undo it if something goes wrong</li>
+</ul>
+<p>With those five lines, approval takes a minute. Without them it becomes &quot;it'll figure it out&quot;, which is the same as giving up on verification.</p>
+<p>There is a paradox here. Approve every tool call and people start ignoring them: a confirmation window that appears a hundred times a day gets clicked without being read. So put gates <strong>only where things cannot be undone</strong>. Let reads, test runs and local builds through; gate deploys, deletes, payments, outbound mail and production database access. The value of an approval lies in its position, not its frequency.</p>
+<p>In rule form:</p>
+<pre class="code-block" data-lang="markdown"><code class="hljs language-markdown"><span class="hljs-bullet">-</span> Before implementing, report the plan and the list of files to change, then wait for approval.
+<span class="hljs-bullet">-</span> If a file outside the plan turns out to be necessary, stop and report first.
+<span class="hljs-bullet">-</span> Never add a dependency without approval.
+</code></pre>
+<p>Some work can skip the plan: typos, colour values, copy changes — anything whose blast radius is obvious. The criterion is one question: <strong>do I already know the blast radius?</strong> If not, ask for the plan; if yes, let it be fixed.</p>
+<h3>④ The automatic verification loop</h3>
+<p>The fourth is letting a machine check instead of a person. Up to here the devices reduced accidents; from here they find them sooner.</p>
+<p>Verification has an order. Run the cheap things first.</p>
+<ol>
+<li><strong>Lint</strong> — seconds. Style and obvious mistakes.</li>
+<li><strong>Type check</strong> — tens of seconds. Where missing call sites from a signature change get caught.</li>
+<li><strong>Unit tests</strong> — minutes. Regressions in domain logic.</li>
+<li><strong>Build</strong> — does it actually bundle? It works locally and fails to build more often than you would think.</li>
+<li><strong>E2E</strong> — three or four critical paths. Login, payment, save.</li>
+<li><strong>A real-screen check</strong> — after deploy: HTTP 200, images loaded, zero console errors, zero horizontal overflow.</li>
+</ol>
+<p>The last item is the kind tests don't catch. I run the same list when publishing a post on this blog: response code, whether the four diagrams actually loaded, console errors, and no horizontal scroll at 1440px and 390px. It is no slower than looking, and it doesn't forget.</p>
+<p>Ask the agent for <strong>&quot;it passed&quot;</strong>, not &quot;I ran it&quot;. The difference is the exit code and the log. <code>pnpm verify</code> exited 0, and if something failed, the log is pasted as it is. Confidence is not evidence; an exit code is.</p>
+<p>The command has to be in the documentation. An agent does not remember the script it wrote yesterday. Without the line &quot;Verify: <code>pnpm verify</code>&quot; in <code>AGENTS.md</code>, you re-explain how to run tests every session.</p>
+<p>If the repository has no tests at all, don't build everything — start with a smoke test. Hitting five frequently used paths from one script catches half of all &quot;it worked and now it doesn't&quot; before deploy.</p>
+<p>And when you meet a failure, reproduce it before fixing it. A reproduction script lets you confirm the fix; without one, all you have is the feeling of having fixed it.</p>
+<h3>⑤ Secrets and permission guardrails</h3>
+<p>The fifth is blocking what cannot be undone. Risk has three levels.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Risk</th>
+<th>Example</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>Reading files, searching, checking logs</td>
+<td>Let it through</td>
+</tr>
+<tr>
+<td>Reversible write</td>
+<td>Editing local files, pushing a branch</td>
+<td>Let it through after automatic verification</td>
+</tr>
+<tr>
+<td>Irreversible</td>
+<td>Deploying, deleting, paying, sending mail or messages, production DB</td>
+<td>Human approval + hook</td>
+</tr>
+</tbody>
+</table></div><p>The strongest block is not a hook but <strong>absence</strong>. If production credentials are not in the environment the agent runs in, no prompt can use them. Rules are requests, hooks are devices, and the absence of a credential is a physical fact. Use the strongest of the three first.</p>
+<p>Make <code>.env</code> unreadable and unwritable, and keep <code>.env.example</code> in the repository instead: only the names of the keys, with the values in environment variables. Mask anything that reaches a log. An agent opening <code>.env</code> &quot;to check the configuration&quot; is usually a convenience, and that convenience is where accidents start.</p>
+<p>On top of that, overlap a hook. Check the command pattern just before the tool call, and stop it with exit code 2 if it is dangerous, handing back the reason.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-meta">#!/usr/bin/env bash</span>
+<span class="hljs-comment"># PreToolUse: block irreversible commands before they run.</span>
+<span class="hljs-comment"># stdin carries JSON such as {&quot;tool_name&quot;: &quot;...&quot;, &quot;tool_input&quot;: {...}}</span>
+cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</span>)
+
+<span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">$cmd</span>&quot;</span> <span class="hljs-keyword">in</span>
+  *<span class="hljs-string">&quot;rm -rf /&quot;</span>*|*<span class="hljs-string">&quot;git push --force&quot;</span>*|*<span class="hljs-string">&quot;git reset --hard&quot;</span>*)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Blocked: irreversible Git or delete command. Experiment on a branch and report.&quot;</span> &gt;&amp;2
+    <span class="hljs-built_in">exit</span> 2 ;;
+  *<span class="hljs-string">&quot;.env&quot;</span>*)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Blocked: .env is not read. Use .env.example and environment variables.&quot;</span> &gt;&amp;2
+    <span class="hljs-built_in">exit</span> 2 ;;
+  *<span class="hljs-string">&quot;psql&quot;</span>*<span class="hljs-string">&quot;prod&quot;</span>*|*<span class="hljs-string">&quot;supabase db push&quot;</span>*)
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Blocked: production DB work needs human approval.&quot;</span> &gt;&amp;2
+    <span class="hljs-built_in">exit</span> 2 ;;
+<span class="hljs-keyword">esac</span>
+</code></pre>
+<p>Layer permission settings on top: Claude Code's <code>permissions.deny</code>, Cline's auto-approve scope, and the like. A hook blocks that one tool call; a command that does the same thing another way can pass. One layer is not enough — rules, hooks, permissions and a sandbox become useful together.</p>
+<p>If an accident happens, keep the order. Revoke the key, reissue it, and only then look for where it was left behind. Assume that cleaning up history does not make you safe.</p>
+<h3>⑥ Model and cost routing</h3>
+<p>The sixth is getting more out of the same money. This is where the model characteristics from the second post multiply with the harness gates.</p>
+<p>Work usually falls into four kinds.</p>
+<ul>
+<li><strong>Fixed-format repetition</strong> — format conversion, matching test names, boilerplate. One correct answer.</li>
+<li><strong>Exploration and investigation</strong> — reading thirty files to understand a structure. Read a lot, think a little.</li>
+<li><strong>Design and debugging</strong> — finding a cause and comparing options. Read a little, think deeply.</li>
+<li><strong>Bulk classification and extraction</strong> — hundreds of cases against the same criteria. Consistency and unit price matter more than peak accuracy.</li>
+</ul>
+<p>Applying the second post's conclusions gives this. <code>Qwen3.8-27B</code> on a desk fits in one 24GB card at 4-bit, so it is the default for fixed-format repetition and local data work. <code>Qwen3.5-397B-A17B</code> on a server keeps 397B in memory and computes 17B per token, so cost per unit of throughput falls on long contexts, complex design and mixed multimodal work. Thinking is not a performance knob but <strong>a risk knob</strong>: where the answer is uniquely determined, low effort wins; where you are hunting a cause or choosing a design, high effort lowers total cost.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Work</th>
+<th>Model</th>
+<th>Thinking</th>
+<th>Harness gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Formatting, renames, boilerplate</td>
+<td>27B (non-thinking)</td>
+<td>Low</td>
+<td>Automatic after verification</td>
+</tr>
+<tr>
+<td>File exploration, structure</td>
+<td>27B or a small model</td>
+<td>Low</td>
+<td>Read-only, summarised report</td>
+</tr>
+<tr>
+<td>Feature work (blast radius clear)</td>
+<td>27B (thinking medium)</td>
+<td>Medium</td>
+<td>Plan approval, then verify</td>
+</tr>
+<tr>
+<td>Design choices, bugs with no known cause</td>
+<td>397B-A17B</td>
+<td>High</td>
+<td>Plan approval + human review</td>
+</tr>
+<tr>
+<td>Bulk classification and extraction</td>
+<td>27B or small</td>
+<td>Low</td>
+<td>Sample review</td>
+</tr>
+<tr>
+<td>Deploy, delete, pay, outbound send</td>
+<td>Any</td>
+<td>—</td>
+<td><strong>Human approval required</strong></td>
+</tr>
+</tbody>
+</table></div><p>Cost intuition is simple: tokens are the bill, and output costs more than input. Having a big model read thirty whole files during exploration is usually waste. Narrow the candidates with retrieval, then hand only the narrowed set to the big model.</p>
+<p>One caution: split routing too finely and the management cost exceeds the benefit. Two or three tiers is enough — &quot;light, proper, with a human&quot; — with one model and one gate attached to each.</p>
+<p><a href="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-model-harness-routing.png" alt="Routing matrix of models (small, high-performance, thinking) and harness gates by task difficulty and risk"></a></p>
+<p><em>Task difficulty and risk mapped to model size and gate strength.</em></p>
+<p>The six steps on one page — laid out so it can be printed and used as a checklist.</p>
+<p><a href="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-6step-checklist.png" alt="The six-step setup checklist: Git, context, plan/act, verification, guardrails, model routing"></a></p>
+<p><em>Six steps, minimum setup and pass condition for each.</em></p>
+<h2>Quick routines for when things go wrong</h2>
+<p>The six steps are what you keep in place. In practice they become urgently needed in three situations.</p>
+<h3>Starting a new project — 10 minutes</h3>
+<p>In an empty folder, order matters: setup before code.</p>
+<ol>
+<li><code>git init</code>; put <code>.env*</code>, <code>node_modules/</code>, <code>dist/</code> in <code>.gitignore</code> (2 min)</li>
+<li>The five sections of <code>AGENTS.md</code>, as much as you know now (3 min)</li>
+<li>One verify command — a script that chains lint, types, tests and build (2 min)</li>
+<li>Separate <code>.env.example</code> from the real <code>.env</code> (1 min)</li>
+<li>Branch rules and commit prefixes (1 min)</li>
+<li>First commit, and make the first request &quot;propose a structure&quot; (1 min)</li>
+</ol>
+<p>The point is that first request. Before asking for a feature, ask once: &quot;plan how you would proceed with this folder structure and verify command&quot;. The answer becomes the draft of <code>AGENTS.md</code>.</p>
+<h3>Joining an existing repository — 20 minutes</h3>
+<p>An existing repository has different traps. Some of it was already broken before you arrived.</p>
+<ul>
+<li><strong>Check whether the build works right now.</strong> If it doesn't, report that first and keep it separate from your work.</li>
+<li><strong>See whether there are tests, and how long they take.</strong> Nobody runs a 30-minute suite.</li>
+<li><strong>Decide the paths you must not touch.</strong> Build output (<code>dist/</code>, <code>build/</code>), <code>vendor/</code>, <code>legacy/</code>, migration history.</li>
+<li><strong>Find the deploy trigger.</strong> In many repositories, a merge to <code>main</code> is the deploy.</li>
+<li><strong>Find where the secrets are,</strong> and check whether the agent's environment can reach them.</li>
+<li>The first task is not code but <strong>reading and summarising</strong>. Take a structure summary and compare it with your understanding; where they disagree is the real danger zone.</li>
+</ul>
+<h3>When something starts coming apart — 5 minutes</h3>
+<p>The most important routine. The order is the whole point.</p>
+<ol>
+<li><strong>Roll back.</strong> Go to the last commit where the tests were green. Don't try to fix it; get back to green first.</li>
+<li><strong>Reset the session.</strong> Fixing on top of polluted context makes the pollution worse.</li>
+<li><strong>Split it.</strong> If the diff is over 400 lines, divide it by purpose. Splitting alone often reveals the cause.</li>
+<li><strong>Move it into a device.</strong> If you made the same mistake twice, move it into one rule line or one hook. The third time is not carelessness; it is a missing piece of setup.</li>
+<li><strong>Make a list.</strong> Write down what is broken now from the user's point of view — &quot;logging out when you refresh after login&quot; — as symptoms. Causes come after.</li>
+</ol>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Situation</th>
+<th>Time</th>
+<th>First move</th>
+<th>Don't</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New project</td>
+<td>10 min</td>
+<td><code>AGENTS.md</code> and a verify command</td>
+<td>Make the first request a big feature</td>
+</tr>
+<tr>
+<td>Existing repository</td>
+<td>20 min</td>
+<td>Check build and test state</td>
+<td>Start editing code</td>
+</tr>
+<tr>
+<td>Coming apart</td>
+<td>5 min</td>
+<td>Roll back to the last green commit</td>
+<td>Keep fixing with the same context</td>
+</tr>
+</tbody>
+</table></div><h2>To think about: the one thing a person should hold</h2>
+<p>By now the natural question is, &quot;so what should a human do themselves?&quot; The more automation there is, the more this question matters. Rather than an answer, here is the material.</p>
+<h3>Candidate 1 — scope, meaning what gets built</h3>
+<p>What to build is a product decision, not a matter of taste. A model follows requests well, but it is not good at not building what you didn't ask for. The moment &quot;while we're at it&quot; attaches itself the diff grows, and nobody reviews that diff. Hold the scope and the rest usually follows. Drop it and both verification and review lose their meaning.</p>
+<h3>Candidate 2 — approval of irreversible acts</h3>
+<p>Deploying, deleting, paying, sending mail, changing production data. Those five land in someone else's hands. They cannot be undone, and once out they do not come back. What a person holds here is not judgement but <strong>responsibility</strong>. Some acts need a record of who pressed the button.</p>
+<h3>Candidate 3 — what stays, meaning design decisions</h3>
+<p>Variable names can be delegated; boundaries cannot. What goes into one module, where dependencies sit, what gets thrown away. Those decisions are expensive to reverse and are closer to responsibility than taste. You don't have to hold all of them from day one — hold the ones that are hard to undo.</p>
+<h3>One criterion</h3>
+<p>A criterion runs through all three: <strong>is it irreversible, and is it responsibility rather than taste?</strong> If both, a person holds it; if either is no, delegate it. With that one criterion you don't have to agonise each time.</p>
+<h3>The trilogy compressed into a ten-minute first-day routine</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Time</th>
+<th>What</th>
+<th>What it produces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–3 min</td>
+<td>Draw the engine/harness boundary</td>
+<td>The five sections of <code>AGENTS.md</code></td>
+</tr>
+<tr>
+<td>3–6 min</td>
+<td>Make failure free</td>
+<td>Branch rules, one <code>verify</code> line</td>
+</tr>
+<tr>
+<td>6–8 min</td>
+<td>Block the irreversible</td>
+<td><code>.env</code> blocked, one hook</td>
+</tr>
+<tr>
+<td>8–10 min</td>
+<td>Choose the engine</td>
+<td>Three task classes with default model and effort</td>
+</tr>
+</tbody>
+</table></div><p>Those ten minutes change the next three days. They come before buying more tools.</p>
+<h3>Five questions to answer yourself</h3>
+<ol>
+<li><strong>Can you state your repository's <code>verify</code> command right now?</strong> If not, neither can the agent.</li>
+<li><strong>Do you know when the last green commit was?</strong> If not, going back is impossible.</li>
+<li><strong>Did you make the same mistake twice this week?</strong> If so, it is time to move it into a rule or a hook.</li>
+<li><strong>Are you reading approval dialogs, or just clicking them?</strong> If you just click, the gates are in the wrong places.</li>
+<li><strong>Are you using the most expensive model on simple work?</strong> One routing table fixes that.</li>
+</ol>
+<h2>To finish</h2>
+<p>Summed up:</p>
+<ul>
+<li>Vibe coding comes apart not from the model's intelligence but from context, verification and permission collapsing.</li>
+<li>Git is a permit to experiment, not a backup. Being able to go back is what makes you bold.</li>
+<li>Memory belongs in files, not conversations. Knowledge that lives only in the session disappears soon.</li>
+<li>Get a five-line plan before anything is written. Put approvals where they matter, not everywhere.</li>
+<li>Run verification automatically from the cheapest step up, and ask for &quot;it passed&quot;, not &quot;I ran it&quot;.</li>
+<li>The strongest security is a credential that isn't there. Layer hooks and permissions on top.</li>
+<li>Choose the model by the difficulty and risk of the work. Thinking is a risk knob.</li>
+</ul>
+<p>That closes the trilogy: what the harness is, how the engine works, and how to set both up every day. Next time I'll come back with a record of attaching real tools and turning the loop once on top of this setup.</p>
+<p>One thing to do today is enough. Open <code>AGENTS.md</code> in the repository you are working in and write one verify command. That line is where the six steps in this post begin.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        
+        <a class="pager-item pager-newer" href="/diary/en/posts/2026-11-18-onprem-pip-npm-offline-install/">
+            <span>← Newer</span>
+            <strong>Getting Packages Into a Closed Network: pip and npm, Offline</strong>
+        </a>
+        
+        
+        <a class="pager-item pager-older" href="/diary/en/posts/2026-11-18-llm-and-qwen-models/">
+            <span>Older →</span>
+            <strong>Under the Hood: How an LLM Works, and How to Choose a Qwen Model</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>

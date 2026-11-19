@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Getting Packages Into a Closed Network: pip and npm, Offline · HD2&#39;s Diary</title>
+    <meta name="description" content="On an air-gapped network, installing packages usually breaks at the handover, not at the install. Three causes — transitive dependencies, OS/CPU/version tags, and install scripts that reach back out — plus pip&#39;s wheelhouse and npm&#39;s three carry-in methods, with real commands, real failure messages, measured sizes and a pre-handover checklist.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Getting Packages Into a Closed Network: pip and npm, Offline · HD2&#39;s Diary">
+    <meta property="og:description" content="On an air-gapped network, installing packages usually breaks at the handover, not at the install. Three causes — transitive dependencies, OS/CPU/version tags, and install scripts that reach back out — plus pip&#39;s wheelhouse and npm&#39;s three carry-in methods, with real commands, real failure messages, measured sizes and a pre-handover checklist.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-18-onprem-pip-npm-offline-install/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-18-onprem-pip-npm-offline-install/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-18-onprem-pip-npm-offline-install/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+</head>
+<body class="page-en-posts-2026-11-18-onprem-pip-npm-offline-install">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-18-onprem-pip-npm-offline-install/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-18-onprem-pip-npm-offline-install/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.18</p>
+        <h1>Getting Packages Into a Closed Network: pip and npm, Offline</h1>
+        <p class="post-summary">On an air-gapped network, installing packages usually breaks at the handover, not at the install. Three causes — transitive dependencies, OS/CPU/version tags, and install scripts that reach back out — plus pip&#39;s wheelhouse and npm&#39;s three carry-in methods, with real commands, real failure messages, measured sizes and a pre-handover checklist.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-18">2026.11.18</time>
+            <span>11 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#on-premise</span><span class="tag">#airgap</span><span class="tag">#pip</span><span class="tag">#npm</span><span class="tag">#offline</span><span class="tag">#verdaccio</span><span class="tag">#python</span><span class="tag">#nodejs</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>The first post said the model is the engine and the harness is the steering wheel. The third laid out the setup for keeping your hands on that wheel every day. But there is a place where that setup stops dead: a network with no internet. The model, the tools and the skills all ultimately arrive as packages, and if the packages cannot get in, everything prepared beforehand is standing still at the door.</p>
+<p>These are notes on opening that door. Not a grand architecture, but a procedure: on a machine with internet, gather the packages and their dependencies into one bundle, carry that bundle across, and finish the install with nothing but the bundle. The <code>npx</code> skills story from <a href="/diary/en/posts/2026-11-18-harness-layer-concept-and-usage/">The Model Is the Engine, the Harness Is the Steering Wheel</a> comes back here too — why that command stops on a closed network is part of this post.</p>
+<p>The numbers below come from actually running it. On a Linux x86_64 machine, three lines of requirements produced 17 wheels, 8.7MB, and that wheelhouse installed into an empty virtual environment and imported cleanly. The examples are those values. Company network-separation policies and handover procedures differ, so follow your own rules; this post only covers the technical side.</p>
+<h2>1. Why offline installs keep breaking</h2>
+<h3>&quot;Installing is copying&quot; is the wrong model</h3>
+<p>Installing with internet is a machine that already works. <code>pip install fastapi</code> queries an index, picks candidates, resolves dependencies, and downloads the file that fits your platform. The process is so smooth that it looks like &quot;fetching a package&quot;.</p>
+<p>On a closed network that smoothness disappears. All that is left is a file. And when you copy that one file across, pip still wants to query an index, still wants to resolve dependencies, still wants to check it fits your platform. <strong>If the package manager's work isn't finished in advance, a copied file does not become an install.</strong> What breaks on a closed network narrows down to three causes.</p>
+<h3>Cause ① Transitive dependencies don't come along</h3>
+<p>Three lines in <code>requirements.txt</code> almost never mean three packages. <code>fastapi</code> pulls <code>starlette</code>, <code>starlette</code> pulls <code>anyio</code>, <code>pydantic</code> pulls <code>pydantic-core</code>. <code>uvicorn[standard]</code> drags in <code>uvloop</code>, <code>httptools</code>, <code>watchfiles</code> and <code>websockets</code>.</p>
+<p>With internet, the package manager resolves that chain. On a closed network there is nothing in the bundle to resolve against, so it stops where the chain breaks — and that point is usually a name you never wrote. In practice, three lines became seventeen.</p>
+<h3>Cause ② OS, CPU architecture and version ride along as tags</h3>
+<p>A Python wheel's file name states its conditions. <code>uvloop-0.23.0-cp311-cp311-manylinux2014_x86_64.whl</code> means &quot;usable only on Python 3.11, Linux, x86_64&quot;. When the conditions don't match, pip quietly drops the file from the candidates.</p>
+<p>The trouble is that the result doesn't say &quot;wrong platform&quot;. This is the actual message when a wheelhouse fetched for Python 3.11 is installed into a Python 3.12 environment.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">ERROR: Could not find a version that satisfies the requirement pydantic-core==2.27.2 (from versions: none)
+ERROR: No matching distribution found for pydantic-core==2.27.2
+</code></pre>
+<p>It looks like the version doesn't exist — but the file for that version was filtered out by its tag. Read it as &quot;the index must not have that version&quot; and you can wander for a long time. Node is the same. Packages like <code>esbuild</code> and <code>sharp</code> fetch per-platform binaries as separate packages (<code>@esbuild/linux-arm64</code> and so on), so a cache built on one architecture is missing the package for another. And in that case the install itself succeeds — it breaks when you run the tool.</p>
+<h3>Cause ③ Install scripts call the internet again</h3>
+<p>Even with every package file in the bundle, some packages run scripts during install. <code>playwright</code> checks for browsers, <code>sharp</code> for image libraries, <code>esbuild</code> for its platform binary, and anything using <code>node-gyp</code> looks for a compiler and headers. That step usually uses the network at install time.</p>
+<p>Hence &quot;all the packages are here but the install dies with a network error&quot;. What needed fetching wasn't a package — it was a <strong>binary</strong>.</p>
+<h3>So change the order</h3>
+<p>The three causes reduce to one line: <strong>if even one step still uses the network at install time, that is the step that breaks.</strong> The fix is to move all of those steps to the internet side and make the inside use no network at all. That gives four stages: collect, seal, verify, install.</p>
+<p><a href="/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png"><img src="/diary/assets/images/2026-11-18-onprem-airgap-pipeline.png" alt="The package handover pipeline: collect outside, hand over through security, install offline inside"></a></p>
+<p><em>Collect on the internet side, hand over through security review, install offline inside — with a manifest tying the two ends together.</em></p>
+<p>The important cell in that diagram is the middle one. A handover is not &quot;moving things&quot;; it is <strong>making them verifiable</strong>. One folder, one archive, one <code>sha256</code> list per file. With those three, verification and reproduction both finish at once. Scatter the files and bring them in one by one, and nobody can explain what came in.</p>
+<h2>2. pip: finishing the job with one wheelhouse</h2>
+<p>Python has a comparatively honest tool for this: <code>pip download</code>. It doesn't install; it gathers only the files an install would need. The folder that fills up is usually called a wheelhouse.</p>
+<h3>Method ① <code>pip download</code> + <code>--no-index --find-links</code></h3>
+<p>First, on the internet side, prepare the same <code>requirements.txt</code> the project uses. The example is the three lines actually used.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+</code></pre>
+<p>Pinning versions with <code>==</code> matters. With a range (<code>&gt;=</code>), a different day produces a different wheelhouse, and the result is not reproducible. &quot;It worked last month&quot; on the inside usually starts here.</p>
+<p>Now download on the internet side. If the inside server's platform differs from your machine, name the target.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># if you are downloading on the same environment as the inside server, two lines are enough</span>
+pip download -r requirements.txt -d ./wheelhouse
+
+<span class="hljs-comment"># if the inside server is Linux x86_64 · Python 3.11, name the target</span>
+pip download -r requirements.txt -d ./wheelhouse \
+  --platform manylinux2014_x86_64 \
+  --python-version 3.11 \
+  --only-binary=:all:
+</code></pre>
+<p>The moment you use <code>--platform</code> and <code>--python-version</code>, <code>--only-binary=:all:</code> becomes mandatory. Source distributions are not platform-neutral, and pip does not allow them here. Drop it without knowing that rule and you meet this message.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">ERROR: When restricting platform and interpreter constraints using --python-version,
+--platform, --abi, or --implementation, either --no-deps must be set,
+or --only-binary=:all: must be set and --no-binary must not be set.
+</code></pre>
+<p>The result:</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td>3 lines (<code>fastapi</code>, <code>uvicorn[standard]</code>, <code>pydantic</code>)</td>
+</tr>
+<tr>
+<td>Wheelhouse</td>
+<td>17 files, 8.7MB</td>
+</tr>
+<tr>
+<td>Actual install</td>
+<td>Succeeded in an empty virtual environment; <code>import fastapi</code> confirmed</td>
+</tr>
+</tbody>
+</table></div><p>Three lines becoming seventeen is normal. Writing that number down is the habit that matters: if the count drops on the next handover, something went missing.</p>
+<p>Inside, turn off the index and use the folder as one.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">pip install --no-index --find-links=./wheelhouse -r requirements.txt
+</code></pre>
+<p><code>--no-index</code> means &quot;look at no index at all&quot;; <code>--find-links</code> means &quot;look for files in this folder&quot;. Real offline install happens when both are present. With <code>--find-links</code> but no <code>--no-index</code>, pip tries to find a missing package in the index, the network is closed, and it dies on a timeout — because the package wasn't in the folder.</p>
+<p>To pin hashes as well, add <code>--require-hashes</code>. The requirements file must carry <code>--hash=sha256:...</code>, and pip refuses to install if a file's hash in the wheelhouse differs. If you keep a wheelhouse for a long time, that one line is the last line of defence.</p>
+<h3>Reading the three failure messages</h3>
+<p>Offline installs produce three kinds of message. Knowing which is which gives you the fix immediately.</p>
+<p><strong>First, a tag mismatch.</strong> The <code>No matching distribution found for pydantic-core==2.27.2</code> above. The file is there, the conditions don't match. Re-run <code>pip download</code> for the right platform, or check the actual tags with <code>ls wheelhouse | grep pydantic</code>.</p>
+<p><strong>Second, missing build tools.</strong> When pip meets a source distribution (sdist) it creates an isolated build environment and tries to install <code>setuptools</code> into it. With the index off, that fails too.</p>
+<pre class="code-block" data-lang="text"><code class="hljs language-text">ERROR: Could not find a version that satisfies the requirement setuptools&gt;=40.8.0 (from versions: none)
+</code></pre>
+<p>Two fixes: add <code>setuptools</code> and <code>wheel</code> to the wheelhouse, or install with <code>--no-build-isolation</code> in an environment that already has the build tools. If you plan to run an internal mirror long term, the first is better — one wheelhouse finishes the job.</p>
+<p><strong>Third, a version conflict.</strong> Two versions of package A in the wheelhouse, or requirements disagreeing with what the wheelhouse holds. The wheelhouse is &quot;that day's answer&quot;, so storing the lockfile from the day it was made alongside it reduces this confusion.</p>
+<h3>Method ② An internal PyPI</h3>
+<p>Once carrying a wheelhouse around becomes frequent, keeping a repository is better. <code>devpi</code>, Nexus and Artifactory are the usual names, and the principle is the same: run a proxy repository inside that fetches external packages on your behalf, and point pip only at it.</p>
+<p>The pip side is one file. On Linux it reads <code>/etc/pip.conf</code> (global), <code>~/.config/pip/pip.conf</code> (user), then <code>pip.conf</code> inside the virtual environment.</p>
+<pre class="code-block" data-lang="ini"><code class="hljs language-ini"><span class="hljs-section">[global]</span>
+<span class="hljs-attr">index-url</span> = http://pypi.internal/simple
+<span class="hljs-attr">trusted-host</span> = pypi.internal
+<span class="hljs-attr">timeout</span> = <span class="hljs-number">30</span>
+</code></pre>
+<p><code>trusted-host</code> is needed when the internal repository isn't HTTPS. With a certificate, pointing at it via <code>cert</code> is safer. The same settings can be made from the command line.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">pip config <span class="hljs-built_in">set</span> global.index-url http://pypi.internal/simple
+pip config <span class="hljs-built_in">set</span> global.trusted-host pypi.internal
+</code></pre>
+<p>In containers or CI, where a config file is awkward, use environment variables: <code>PIP_INDEX_URL</code>, <code>PIP_TRUSTED_HOST</code>, <code>PIP_NO_INDEX</code>. Precedence runs command line, then environment, then config file.</p>
+<p>With an internal repository, the unit of handover changes from &quot;project&quot; to &quot;package&quot;. A new project doesn't need to re-import packages the repository already holds. In exchange, somebody has to manage what came in and who approved it. That comes back in section 5.</p>
+<p><a href="/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png"><img src="/diary/assets/images/2026-11-18-onprem-pip-wheelhouse.png" alt="Building a wheelhouse with pip download, installing with --no-index --find-links, and how to read wheel tags"></a></p>
+<p><em>The collect-then-install flow on the left, and how to read a wheel's tag on the right.</em></p>
+<h2>3. npm: no &quot;gather it all&quot; command, so three routes</h2>
+<h3>How it differs from pip</h3>
+<p>Python has <code>pip download</code>. Node has no built-in command that corresponds exactly. <code>npm pack</code> turns one package into a <code>.tgz</code>, but it doesn't gather a project's whole dependency graph at once. So in practice you pick one of three routes: move the cache, stand up a mirror, or move the install result whole.</p>
+<p>The three are not better or worse; they are <strong>different situations</strong>. The answer depends on whether you are handing over one project once, whether several teams keep using it, and whether you can pin the target environment to a single machine.</p>
+<h3>Method ① Carry the npm cache whole</h3>
+<p>The least work by hand. <code>npm ci</code> installs exactly what the lockfile says, so one run leaves the needed tarballs in the cache. Carry that cache folder across.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># outside — install exactly as the lockfile says, filling the cache in this folder</span>
+npm ci --cache ./npm-cache --prefer-online
+
+<span class="hljs-comment"># inside — install from the same cache without using the network</span>
+npm ci --offline --cache ./npm-cache
+</code></pre>
+<p><code>--prefer-online</code> means &quot;re-check upstream even if it is cached&quot;. On the internet side that is the safe option. Inside, the opposite: <code>--offline</code> declares &quot;make no network requests at all&quot;, and if even one thing is missing from the cache it fails right there. Failing loudly instead of quietly is a feature.</p>
+<p>Trying it with a project that had only <code>esbuild</code> and <code>chalk</code>, the cache came to 4.3MB, and an offline install in an empty folder that held only the cache succeeded. Two conditions apply.</p>
+<ul>
+<li><code>package-lock.json</code> must be identical to the one used outside. A single character of difference and npm treats it as not in the cache and fails.</li>
+<li>The cache is content-addressed, so file names are hashes and no human can check them. Verification happens at the <code>sha256</code> and archive level instead.</li>
+</ul>
+<p>One more trap. Per-platform packages (like <code>@esbuild/linux-arm64</code>) are cached <strong>only for the environment that built the cache</strong>. Carry the same cache to another architecture and the install succeeds — &quot;added 2 packages&quot; — and breaks when you run the tool. So verify an npm handover by <strong>running</strong> the result, not by the install message.</p>
+<h3>Method ② A Verdaccio mirror</h3>
+<p>With several projects or several people, carrying a cache around hits its limit quickly. Then you stand up an internal npm registry. Verdaccio is a lightweight registry that runs from one config file, and the npm proxy repository in Nexus or Artifactory plays the same role.</p>
+<p>The point with Verdaccio is to <strong>separate filling it from using it</strong>. Run Verdaccio outside, install through it, and the packages you needed accumulate in its storage folder. Carry that folder in and put it where the inside Verdaccio stores its data — and the inside has a repository that is already full.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># outside — installing through the internal registry fills its storage</span>
+npm --registry http://localhost:4873 install
+
+<span class="hljs-comment"># inside — from now on every install looks at the internal registry</span>
+npm config <span class="hljs-built_in">set</span> registry http://npm.internal:4873
+</code></pre>
+<p>When authentication is needed, put the token in <code>.npmrc</code>. In a project file it can be committed to the repository, so keep it in the user's home <code>.npmrc</code> or in an environment variable.</p>
+<pre class="code-block" data-lang="ini"><code class="hljs language-ini"><span class="hljs-attr">registry</span>=http://npm.internal:<span class="hljs-number">4873</span>
+//npm.internal:4873/:<span class="hljs-attr">_authToken</span>=<span class="hljs-variable">${NPM_TOKEN}</span>
+<span class="hljs-attr">strict-ssl</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">cafile</span>=/etc/ssl/certs/internal-ca.pem
+</code></pre>
+<p><code>cafile</code> and <code>strict-ssl</code> are where internal CA setups usually trip. Setting <code>strict-ssl=false</code> looks like the fastest fix, but that one line switches off verification for every install afterwards. Pointing at the CA path lasts longer.</p>
+<h3>Method ③ Bundle node_modules</h3>
+<p>The fastest method, and the one that breaks most often. Finish installing on the outside, archive the result, unpack it as is.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># outside</span>
+tar -czf node_modules.tgz node_modules
+
+<span class="hljs-comment"># inside</span>
+tar -xzf node_modules.tgz
+</code></pre>
+<p>With no install step at all, nothing beats it for an air-gap demo. But all three conditions must hold: <strong>same OS, same CPU architecture, same Node major version.</strong> Change one and the symlinks in <code>node_modules/.bin</code> and the <code>.node</code> binaries disagree, and the error you get does not point at the cause.</p>
+<p>In practice, use it for &quot;demo where the target is one fixed machine&quot; or &quot;emergency recovery&quot;, not for day-to-day operation.</p>
+<h3>The three methods on one page</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th></th>
+<th>Cache handover</th>
+<th>Verdaccio mirror</th>
+<th>node_modules bundle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command</td>
+<td><code>npm ci --offline --cache</code></td>
+<td><code>npm config set registry</code></td>
+<td><code>tar -xzf</code></td>
+</tr>
+<tr>
+<td>What it needs</td>
+<td>lockfile + cache folder</td>
+<td>one server + storage</td>
+<td>same OS · CPU · Node</td>
+</tr>
+<tr>
+<td>Several projects</td>
+<td>start over each time</td>
+<td>fill once, keep going</td>
+<td>start over each time</td>
+</tr>
+<tr>
+<td>Where it breaks</td>
+<td>different lockfile, different architecture</td>
+<td>auth and certificate setup</td>
+<td>platform mismatch</td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>one project, once</td>
+<td>several teams, ongoing</td>
+<td>demos, emergency recovery</td>
+</tr>
+</tbody>
+</table></div><p><a href="/diary/assets/images/2026-11-18-onprem-npm-3ways.png"><img src="/diary/assets/images/2026-11-18-onprem-npm-3ways.png" alt="Three npm offline patterns compared, and the npx workaround"></a></p>
+<p><em>Cache, mirror and bundle side by side, with the <code>npx</code> fallbacks underneath.</em></p>
+<h3>Why <code>npx</code> is especially hard</h3>
+<p>The first post mentioned adding skills with <code>npx skills add https://github.com/cline/skills</code>. That command does not work as-is on a closed network. <code>npx</code> looks for the package <strong>at run time</strong> and fetches it from the registry, and <code>skills add</code> clones a GitHub repository. This is a case where the problem is execution, not installation.</p>
+<p>Three workarounds. Pick by purpose.</p>
+<p><strong>① Copy the folder in.</strong> Clone the repository outside and copy only the skill folders you need into the agent's skills directory. The <code>cline/skills</code> repository was 38 skills, about 4.8MB — small enough that bringing the whole thing in and choosing what to use is better.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># outside</span>
+git <span class="hljs-built_in">clone</span> --depth 1 https://github.com/cline/skills
+tar -czf skills.tgz skills
+
+<span class="hljs-comment"># inside — for project-level use</span>
+<span class="hljs-built_in">cp</span> -r skills/&lt;skill-name&gt; .cline/skills/
+</code></pre>
+<p><strong>② An internal Git mirror.</strong> Swap the GitHub address for the internal mirror and the command stays the same. With many repositories and frequent updates, this is the only answer.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git config --global url.<span class="hljs-string">&quot;https://git.internal/gh/&quot;</span>.insteadOf <span class="hljs-string">&quot;https://github.com/&quot;</span>
+</code></pre>
+<p><strong>③ Offline execution.</strong> If the package is already cached, <code>npx --offline</code> runs it without the network. It fails if the cache doesn't have it, so tools you use often have to be cached in advance.</p>
+<h2>4. Four traps that keep biting, and a pre-handover checklist</h2>
+<p>By now the procedure is in place. What actually eats time is not the procedure but the exceptions. Four of them.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Trap</th>
+<th>How it shows up</th>
+<th>Why</th>
+<th>How to block it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OS/CPU mismatch</td>
+<td>&quot;no version found&quot; message, or a native module failing to load after install</td>
+<td>Wheel tags and optional packages are split per platform</td>
+<td>Record the target machine's <code>uname -m</code>, <code>python -VV</code>, <code>node -p process.arch</code> in the handover doc and match <code>--platform</code></td>
+</tr>
+<tr>
+<td>Missing transitive dependencies</td>
+<td>Install stops on an unexpected package partway through</td>
+<td>Only the packages you named were downloaded</td>
+<td>Download from the whole lockfile and record the count. 3 lines becoming 17 is normal</td>
+</tr>
+<tr>
+<td>postinstall / native builds</td>
+<td>Install script fails looking for the network (<code>gyp ERR!</code>, <code>ECONNREFUSED</code>)</td>
+<td>The package is there but browsers, binaries or headers are fetched separately</td>
+<td>Install with <code>--ignore-scripts</code>, carry the binaries separately</td>
+</tr>
+<tr>
+<td><code>npx</code> and remote execution</td>
+<td>One command just hangs (<code>404</code>, <code>fetch failed</code>)</td>
+<td>It looks at the registry and GitHub at run time</td>
+<td>Choose folder copy, internal Git mirror, or <code>--offline</code></td>
+</tr>
+</tbody>
+</table></div><h3>Handling postinstall in practice</h3>
+<p>The third trap needs technique more than explanation. Take it in this order.</p>
+<ol>
+<li>Install the packages themselves with <code>npm ci --ignore-scripts</code>. This step uses no network.</li>
+<li>Fetch the binaries needed at run time separately. For <code>playwright</code>, the browsers.</li>
+<li>Re-run only the packages whose install scripts matter with <code>npm rebuild &lt;package&gt;</code>. If what they need is already local, no network is used.</li>
+</ol>
+<p><code>playwright</code> lets you move the browser path into an environment variable. Carry the folder the browsers were downloaded into, point at the same path inside, and you never have to run the install script again.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># outside — download the browsers into a chosen folder</span>
+PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright npx playwright install chromium
+
+<span class="hljs-comment"># after the handover, inside, use the same path</span>
+<span class="hljs-built_in">export</span> PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
+</code></pre>
+<h3>The pre-handover checklist</h3>
+<p>Six checks before you file the handover request. I run this list in the same order every time I build a bundle.</p>
+<ol>
+<li><strong>Is the lockfile committed?</strong> Pinned values, not ranges. <code>==</code> in <code>requirements.txt</code>, <code>package-lock.json</code> for Node.</li>
+<li><strong>Is the target platform written down?</strong> OS, CPU, Python and Node versions. Get those four wrong and the rest doesn't matter.</li>
+<li><strong>Are the build tools in the wheelhouse?</strong> Add <code>setuptools</code> and <code>wheel</code> for the case where a source distribution turns up.</li>
+<li><strong>Is there a manifest?</strong> <code>sha256</code> per file, the date fetched, the platform. That is the basis for verification and reproduction.</li>
+<li><strong>Did you install it somewhere clean?</strong> An empty virtual environment, an empty <code>node_modules</code>. If it works there, it will work inside.</li>
+<li><strong>Did it go through security and licence review?</strong> The handover ends here. A technically perfect bundle that fails this step doesn't go in.</li>
+</ol>
+<p>The manifest is simple enough to build like this. Even dozens of files fit on one page.</p>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash"><span class="hljs-comment"># build the manifest in the wheelhouse</span>
+<span class="hljs-built_in">cd</span> wheelhouse
+<span class="hljs-built_in">sha256sum</span> *.whl &gt; ../MANIFEST.sha256
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;# files: <span class="hljs-subst">$(ls *.whl | wc -l)</span>&quot;</span> &gt;&gt; ../MANIFEST.sha256
+<span class="hljs-built_in">cd</span> ..
+
+<span class="hljs-comment"># verify the same way inside</span>
+<span class="hljs-built_in">cd</span> wheelhouse &amp;&amp; <span class="hljs-built_in">sha256sum</span> -c ../MANIFEST.sha256
+</code></pre>
+<p><code>sha256sum</code> treats lines starting with <code>#</code> as comments and skips them, so human-readable notes like the file count can live in the same file. If a single file changed while the archive was unpacked, this step catches it.</p>
+<p><a href="/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png"><img src="/diary/assets/images/2026-11-18-onprem-pitfalls-checklist.png" alt="Top four air-gap handover failures as a checklist"></a></p>
+<p><em>The four traps, why each happens, and the check that catches it.</em></p>
+<h2>5. To think about: carry by hand, or run a private registry</h2>
+<p>By now the natural question is, &quot;so how far should we automate this?&quot; Rather than an answer, here is the material to judge with.</p>
+<h3>Candidate 1 — hand over a wheelhouse and cache by hand</h3>
+<p>The lightest way to start. No server, no permissions, and you can do it today. The list of handed-over files becomes the record, which also helps an audit: you can show &quot;what went into this deployment&quot; as a file list.</p>
+<p>The price is repetition. Every new project and every changed package means doing it again. It is human work, so eventually something is missed — usually discovered right before a deploy.</p>
+<h3>Candidate 2 — run a private registry</h3>
+<p>Stand one up and the unit of handover changes from &quot;project&quot; to &quot;package&quot;. A new project doesn't re-import what the repository already has. Version drift falls too, because everyone sees the same repository.</p>
+<p>The price is operating it. A server, backups, certificates, access rights, and <strong>a procedure for approving what comes in</strong>. A mirror is a convenience, not a security control. Let it fetch anything from upstream and you have effectively run the internet into your closed network.</p>
+<h3>Candidate 3 — overlap the two</h3>
+<p>The most common answer in practice. Keep an internal registry, but only load it from outside as <strong>verified snapshots</strong>. Day-to-day installs hit the registry; when a new package is needed you build a bundle, verify it, and load it. Handover records stay at bundle level and daily installs are automated.</p>
+<p>The key to this arrangement is the boundary: not &quot;anything in the registry may be installed freely&quot; but &quot;anything in the registry has already been approved&quot;. That approval happens when the bundle is built.</p>
+<h3>Decision criteria</h3>
+<p>Three questions separate the candidates.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Criterion</th>
+<th>Question</th>
+<th>Manual handover</th>
+<th>Private registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frequency</td>
+<td>How many times a month?</td>
+<td>Rare favours manual</td>
+<td>Frequent favours registry</td>
+</tr>
+<tr>
+<td>Project count</td>
+<td>How many share the same packages?</td>
+<td>One favours manual</td>
+<td>Several favour registry</td>
+</tr>
+<tr>
+<td>Operating capacity</td>
+<td>Is there someone to own a server and approvals?</td>
+<td>Not needed</td>
+<td>Needed</td>
+</tr>
+</tbody>
+</table></div><p>If all three answers are &quot;rare, one, nobody&quot;, manual handover is enough. If any answer is the opposite, that item is your moment to bring in a registry. Don't try to build a perfect mirror on day one; start with manual handover, and think about a repository the third time you fetch the same package.</p>
+<h3>Five questions to answer yourself</h3>
+<ol>
+<li><strong>Can you state your internal server's OS, CPU and runtime versions in one line?</strong> If not, the packages you fetch are already wrong.</li>
+<li><strong>Do you know how many packages were in the last bundle?</strong> If not, you won't know what went missing from the next one.</li>
+<li><strong>Are any of your dependencies packages whose install scripts use the network?</strong> <code>playwright</code>, <code>sharp</code> and <code>esbuild</code> are the usual suspects.</li>
+<li><strong>Did you install it in a clean environment?</strong> A bundle that only worked on a developer's machine has not been verified yet.</li>
+<li><strong>Is there a record of who approved the handover?</strong> If not, that bundle cannot be explained to the next person.</li>
+</ol>
+<h2>To finish</h2>
+<p>Summed up:</p>
+<ul>
+<li>Offline installs break at the handover, not at the install. Transitive dependencies, platform tags, and install scripts calling out are the causes.</li>
+<li>Python builds a wheelhouse with <code>pip download</code> and installs with <code>--no-index --find-links</code>. Using <code>--platform</code> forces <code>--only-binary=:all:</code>.</li>
+<li>&quot;No version found&quot; usually means the tag doesn't match. Being able to read a wheel file name speeds up diagnosis.</li>
+<li>Node has no built-in gather command, so choose cache, mirror or bundle. The cache needs the same lockfile and platform; the bundle needs all three to match.</li>
+<li><code>npx</code> looks at the network at run time. Work around it with a folder copy, an internal mirror, or <code>--offline</code>.</li>
+<li>A handover is making something verifiable: one folder, one manifest, one install rehearsal.</li>
+</ul>
+<p>This post is less an introduction to tools than a record of where tools stop. A closed network isn't a special environment; it is the environment where everything we normally take for granted shows up at once. Once you have made the list of what is needed there, work on the internet side gets a little more solid too.</p>
+<p>One thing to do today is enough. Open the <code>requirements.txt</code> and <code>package-lock.json</code> of the project you are on, and write the target environment's OS, CPU and versions at the top of the file. Those four lines become the blueprint for your first bundle.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+        
+        <a class="pager-item pager-older" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/">
+            <span>Older →</span>
+            <strong>Getting a Grip on the Wheel: Keeping Vibe Coding From Coming Apart</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>
