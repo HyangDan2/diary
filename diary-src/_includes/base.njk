@@ -23,7 +23,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="{{ '/assets/hd2-theme.css' | url }}?v=20261117-navy">
     <script src="{{ '/assets/hd2-theme.js' | url }}?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261120-table">
+    <link rel="stylesheet" href="{{ '/assets/diary.css' | url }}?v=20261120-visits">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-{{ page.url | slugify }}">
@@ -179,9 +179,16 @@
         <div class="footer-inner">
             <span>© {{ site.year }} {{ site.brand }}</span>
             <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <span class="visit-badge" data-visit-badge hidden>
+                <svg class="visit-eye" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.7 8S3.9 4.1 8 4.1 14.3 8 14.3 8 12.1 11.9 8 11.9 1.7 8 1.7 8Z"/><circle cx="8" cy="8" r="1.9"/></svg>
+                <span>Today <b class="visit-num" data-visit-today>—</b></span>
+                <span class="visit-sep" aria-hidden="true">·</span>
+                <span>Total <b class="visit-num" data-visit-total>—</b></span>
+            </span>
             <a href="{{ site.hqUrl }}">{{ site.hqLabel }} <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
+    <script src="{{ '/assets/visit-badge.js' | url }}?v=20261120-visits" defer></script>
     {% if pageScript %}<script src="{{ pageScript | url }}?v=20261119-koen" defer></script>{% endif %}
     <script src="{{ '/assets/diary-nav.js' | url }}?v=20261119-appsplay" defer></script>
 </body>
