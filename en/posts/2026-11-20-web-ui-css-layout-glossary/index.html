@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Naming What Went Wrong: Web UI, CSS and Layout, End to End · HD2&#39;s Diary</title>
+    <meta name="description" content="When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Naming What Went Wrong: Web UI, CSS and Layout, End to End · HD2&#39;s Diary">
+    <meta property="og:description" content="When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-20-web-ui-css-layout-glossary/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-20-web-ui-css-layout-glossary/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-20-web-ui-css-layout-glossary/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body class="page-en-posts-2026-11-20-web-ui-css-layout-glossary">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0002/">Todo Master</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0001/">Photos</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-20-web-ui-css-layout-glossary/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-20-web-ui-css-layout-glossary/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.20</p>
+        <h1>Naming What Went Wrong: Web UI, CSS and Layout, End to End</h1>
+        <p class="post-summary">When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-20">2026.11.20</time>
+            <span>14 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#css</span><span class="tag">#ui</span><span class="tag">#layout</span><span class="tag">#frontend</span><span class="tag">#responsive</span><span class="tag">#mobile</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>Fixing a screen almost always starts with words. &quot;It's cut off at the bottom.&quot; &quot;It slides off the side.&quot; &quot;There's a button floating in the wrong place.&quot; None of those statements are wrong. They are just too wide. The same sentence can point at ten different bugs, which is why every fix ends up touching a different line.</p>
+<p>If you build web apps for a while, you keep getting stuck in the same places: height math, safe areas, horizontal overflow, the ordering of overlapping layers, the size of a touch target, Korean line breaking. Knowing the name makes it searchable. Searchable narrows the cause. A narrow cause means one fix instead of five.</p>
+<p>This is a note that collects those names. It is split into eight groups, and each group follows the same order: <strong>the term → how it actually breaks → the CSS that matters → a comparison table</strong>. They come from work on Shutterplate's frame editor, Nordlys's video workspace and TechnicalHub's document views, where these exact things came back repeatedly.</p>
+<h2>The eight groups</h2>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Group</th>
+<th>Covers</th>
+<th>Symptom you hear</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Screen frame</td>
+<td>Viewport height, safe area, overflow, breakpoints</td>
+<td>Cut off at the bottom, spills sideways</td>
+</tr>
+<tr>
+<td>2. Placement</td>
+<td>Flex·Grid, margin·padding·gap, position, z-index</td>
+<td>Misaligned, elements overlapping</td>
+</tr>
+<tr>
+<td>3. Regions</td>
+<td>Topbar·Hero·Rail·Stage·Utility bar·Drawer</td>
+<td>Content under the header, double scroll</td>
+</tr>
+<tr>
+<td>4. Controls</td>
+<td>Badge·Tag·Chip·Pill, toggle·checkbox·radio, FAB</td>
+<td>Button won't press, nothing looks pressable</td>
+</tr>
+<tr>
+<td>5. Layers</td>
+<td>Modal·Sheet·Overlay·Popover·Toast</td>
+<td>Page behind the modal scrolls, toast hidden</td>
+</tr>
+<tr>
+<td>6. Type &amp; theme</td>
+<td>Tokens, keep-all, ellipsis, radius·shadow</td>
+<td>Words break mid-word, old screen after deploy</td>
+</tr>
+<tr>
+<td>7. Mobile</td>
+<td>16px inputs, touch-action, in-app browsers</td>
+<td>Page zooms on focus, no save in KakaoTalk</td>
+</tr>
+<tr>
+<td>8. Cheat sheet</td>
+<td>Symptom → term → first check</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div><h2>1. Screen frame, viewport and responsiveness</h2>
+<h3>100vh is not the height of the screen</h3>
+<p>On a mobile browser the address bar and the bottom toolbar collapse and expand as you scroll. So there is not one &quot;screen height&quot;. CSS splits it into three.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Unit</th>
+<th>Meaning</th>
+<th>Does it change?</th>
+<th>Where to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>100vh</code></td>
+<td>Viewport height. On mobile it behaves like <code>lvh</code></td>
+<td>No (fixed at first layout)</td>
+<td>Legacy code, desktop only</td>
+</tr>
+<tr>
+<td><code>100lvh</code></td>
+<td>Large viewport, toolbars <strong>collapsed</strong></td>
+<td>No</td>
+<td>Background images, full-bleed hero</td>
+</tr>
+<tr>
+<td><code>100svh</code></td>
+<td>Small viewport, toolbars <strong>expanded</strong></td>
+<td>No</td>
+<td>App frames that must always fit</td>
+</tr>
+<tr>
+<td><code>100dvh</code></td>
+<td>The viewport right now</td>
+<td>Yes (on every scroll)</td>
+<td>App shell filling the screen</td>
+</tr>
+</tbody>
+</table></div><p>Set an app frame to <code>100vh</code> and the bottom disappears behind the toolbar. To the user that reads as &quot;cut off at the bottom&quot;; to us it reads as &quot;the scroll doesn't reach the end&quot;. <code>100dvh</code> fixes that but changes value while scrolling, so on a screen with a canvas or a map the layout twitches by a frame.</p>
+<p>In practice: the outer shell uses <code>100dvh</code>; anything whose height must not move (a fixed bottom bar, a canvas wrapper) uses <code>100svh</code> or a fixed <code>px</code> value.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-comment">/* Order matters. Browsers that don&#x27;t understand a line ignore it. */</span>
+<span class="hljs-selector-class">.app-shell</span> {
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;   <span class="hljs-comment">/* very old browsers */</span>
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100</span>dvh;  <span class="hljs-comment">/* current browsers */</span>
+  <span class="hljs-attribute">min-height</span>: <span class="hljs-number">100s</span>vh;
+}
+</code></pre>
+<p>One caveat. On iOS the software keyboard barely affects <code>dvh</code>, because the keyboard is drawn by the OS, not by the browser chrome. An input bar that must sit on the keyboard needs <code>visualViewport</code> directly.</p>
+<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-keyword">const</span> vv = <span class="hljs-variable language_">window</span>.<span class="hljs-property">visualViewport</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">stick</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--kb&#x27;</span>, <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">window</span>.innerHeight - vv.height}</span>px`</span>);
+};
+vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;resize&#x27;</span>, stick);
+vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;scroll&#x27;</span>, stick);
+</code></pre>
+<h3>Safe area — the notch and the home bar</h3>
+<p>With <code>viewport-fit=cover</code> the page extends under the notch and the home indicator. In exchange, leaving that space empty becomes our job. The values come from <code>env(safe-area-inset-top·right·bottom·left)</code>.</p>
+<pre class="code-block" data-lang="html"><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1, viewport-fit=cover&quot;</span>&gt;</span>
+</code></pre>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-comment">/* Bottom bar: whichever is larger, the safe inset or a minimum padding */</span>
+<span class="hljs-selector-class">.utility-bar</span> {
+  <span class="hljs-attribute">position</span>: fixed;
+  <span class="hljs-attribute">inset-inline</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-built_in">max</span>(<span class="hljs-number">12px</span>, <span class="hljs-built_in">env</span>(safe-area-inset-bottom));
+  <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">12px</span>;
+}
+</code></pre>
+<p><code>max()</code> is the point. With <code>env()</code> alone, a device without a home bar gets zero padding and the buttons stick to the edge of the screen. For browsers without <code>env()</code>, give it a fallback: <code>max(12px, env(safe-area-inset-bottom, 0px))</code>.</p>
+<p><a href="/diary/assets/images/en/2026-11-20-ui-viewport-safe-area.png"><img src="/diary/assets/images/en/2026-11-20-ui-viewport-safe-area.png" alt="100vh vs 100dvh vs 100svh, and the four safe-area insets"></a></p>
+<h3>Overflow — the four usual causes of a page spilling sideways</h3>
+<p>Horizontal scroll is almost always one of these four.</p>
+<ol>
+<li><strong>A fixed width</strong> wider than the screen. A <code>width: 420px</code> card on a 390px phone overflows. Add <code>max-width: 100%</code>.</li>
+<li><strong>A flex or grid child that refuses to shrink.</strong> A flex item's default <code>min-width</code> is <code>auto</code>, so it never gets narrower than its content. Set <code>min-width: 0</code>. Grid needs <code>minmax(0, 1fr)</code>.</li>
+<li><strong><code>100vw</code> includes the scrollbar.</strong> With a vertical scrollbar present, <code>100vw</code> is wider than the content box. Use <code>width: 100%</code>, or <code>scrollbar-gutter: stable</code>.</li>
+<li><strong>Negative margins or absolute positioning</strong> reaching outside the parent. Give the parent <code>position: relative</code> and <code>overflow: clip</code>.</li>
+</ol>
+<p>Do not start by adding <code>overflow-x: hidden</code> to <code>body</code>. That hides the symptom and leaves the offender in place. Measure instead.</p>
+<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-keyword">const</span> wide = [...<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;*&#x27;</span>)]
+  .<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> el.<span class="hljs-title function_">getBoundingClientRect</span>().<span class="hljs-property">right</span> &gt; <span class="hljs-variable language_">window</span>.<span class="hljs-property">innerWidth</span> + <span class="hljs-number">1</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">table</span>(wide.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> ({ <span class="hljs-attr">tag</span>: el.<span class="hljs-property">tagName</span>, <span class="hljs-attr">cls</span>: el.<span class="hljs-property">className</span> })));
+</code></pre>
+<p>If <code>document.documentElement.scrollWidth &gt; window.innerWidth</code>, there is horizontal overflow. Putting that single line in a pre-deploy check catches it for good.</p>
+<h3>Breakpoints, media queries and container queries</h3>
+<p>A media query looks at <strong>the screen</strong> (the viewport). A container query looks at <strong>the parent box</strong>. If the same card component should look different in a sidebar than in the main column, media queries can only split on screen width. Container queries split on the width of wherever the card is placed.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.card-host</span> { <span class="hljs-attribute">container-type</span>: inline-size; <span class="hljs-attribute">container-name</span>: card; }
+
+<span class="hljs-keyword">@container</span> card (<span class="hljs-attribute">min-width</span>: <span class="hljs-number">420px</span>) {
+  <span class="hljs-selector-class">.card</span> { <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-number">96px</span> <span class="hljs-number">1</span>fr; }
+}
+<span class="hljs-keyword">@container</span> card (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">419px</span>) {
+  <span class="hljs-selector-class">.card</span> { <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-number">1</span>fr; }
+}
+</code></pre>
+<p>Set breakpoints where <strong>the layout breaks</strong>, not at device names. Three were enough for our apps: 640px (single column), 1024px (rail becomes a sidebar), 1440px (wider stage). Splitting on <code>iPhone</code> and <code>iPad</code> just adds rules every time a device ships.</p>
+<h3>Scroll lock and overscroll</h3>
+<p>If the page behind a modal scrolls, the user feels they are operating the page rather than the modal. <code>body { overflow: hidden }</code> is unreliable on iOS. Pinning the current scroll position is the dependable route.</p>
+<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">lockScroll</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> y = <span class="hljs-variable language_">window</span>.<span class="hljs-property">scrollY</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">position</span> = <span class="hljs-string">&#x27;fixed&#x27;</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">top</span> = <span class="hljs-string">`-<span class="hljs-subst">${y}</span>px`</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&#x27;100%&#x27;</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">dataset</span>.<span class="hljs-property">lockY</span> = <span class="hljs-title class_">String</span>(y);
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">unlockScroll</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> y = <span class="hljs-title class_">Number</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">dataset</span>.<span class="hljs-property">lockY</span> || <span class="hljs-number">0</span>);
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">position</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">top</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+  <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">scrollTo</span>(<span class="hljs-number">0</span>, y);
+}
+</code></pre>
+<p><code>overscroll-behavior: contain</code> stops an inner scroll area from handing the scroll to the page when it reaches the end. Bottom sheets, drawers and code blocks all need it. On iOS, <code>overscroll-behavior-y: none</code> reduces the rubber-band bounce.</p>
+<h2>2. Placement, spacing and alignment</h2>
+<h3>Flexbox or Grid</h3>
+<p>Both align things, on different axes. Flexbox flows in <strong>one direction</strong>; Grid places across <strong>rows and columns at once</strong>.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th></th>
+<th>Flexbox</th>
+<th>Grid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>One dimension</td>
+<td>Two dimensions</td>
+</tr>
+<tr>
+<td>Sizing</td>
+<td>Content and <code>flex</code> ratios</td>
+<td>Track definitions (<code>fr</code>, <code>minmax</code>)</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Toolbars, button rows, card interiors</td>
+<td>Page skeletons, card grids, dashboards</td>
+</tr>
+<tr>
+<td>Overflow fix</td>
+<td><code>min-width: 0</code></td>
+<td><code>minmax(0, 1fr)</code></td>
+</tr>
+<tr>
+<td>Gap</td>
+<td><code>gap</code></td>
+<td><code>gap</code>, <code>row-gap</code>, <code>column-gap</code></td>
+</tr>
+</tbody>
+</table></div><p>When it is unclear, ask this: &quot;do the children line up and share the leftover space?&quot; — Flex. &quot;do the children sit in defined cells?&quot; — Grid.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-comment">/* A toolbar that shares out the leftover space */</span>
+<span class="hljs-selector-class">.topbar</span> { <span class="hljs-attribute">display</span>: flex; <span class="hljs-attribute">align-items</span>: center; <span class="hljs-attribute">gap</span>: <span class="hljs-number">12px</span>; }
+<span class="hljs-selector-class">.topbar</span> <span class="hljs-selector-class">.spacer</span> { <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span> <span class="hljs-number">1</span> auto; <span class="hljs-attribute">min-width</span>: <span class="hljs-number">0</span>; }
+
+<span class="hljs-comment">/* A card grid whose column count follows the width */</span>
+<span class="hljs-selector-class">.grid</span> { <span class="hljs-attribute">display</span>: grid; <span class="hljs-attribute">gap</span>: <span class="hljs-number">16px</span>; <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-built_in">repeat</span>(auto-fill, <span class="hljs-built_in">minmax</span>(<span class="hljs-number">240px</span>, <span class="hljs-number">1</span>fr)); }
+</code></pre>
+<p><code>justify-content</code> works on the <strong>main axis</strong>; <code>align-items</code> works on the <strong>cross axis</strong>. Switching to <code>flex-direction: column</code> swaps those directions. A lot of &quot;vertical centering doesn't work&quot; comes from reaching for <code>justify-content: center</code> while the main axis is already vertical.</p>
+<h3>Margin, padding and gap</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Property</th>
+<th>Where</th>
+<th>Behaviour</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>margin</code></td>
+<td>Outside the element</td>
+<td>Distance to neighbours; vertical margins collapse</td>
+<td>No background painted</td>
+</tr>
+<tr>
+<td><code>padding</code></td>
+<td>Inside the element</td>
+<td>Between border and content; background is painted</td>
+<td>Needs <code>box-sizing: border-box</code></td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td>Between children</td>
+<td>Never after the last child</td>
+<td>Flex and Grid only</td>
+</tr>
+</tbody>
+</table></div><p>With <code>li { margin-bottom: 12px }</code> the last row keeps its margin and the container looks bottom-heavy. <code>gap</code> removes that. Margin collapsing happens vertically, and never between flex or grid children.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css">*, *<span class="hljs-selector-pseudo">::before</span>, *<span class="hljs-selector-pseudo">::after</span> { <span class="hljs-attribute">box-sizing</span>: border-box; }
+
+<span class="hljs-selector-class">.stack</span> &gt; * + * { <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">16px</span>; }      <span class="hljs-comment">/* vertical rhythm without collapsing */</span>
+<span class="hljs-selector-class">.row</span> { <span class="hljs-attribute">display</span>: flex; <span class="hljs-attribute">gap</span>: <span class="hljs-number">8px</span>; <span class="hljs-attribute">flex-wrap</span>: wrap; }
+</code></pre>
+<h3>The five positions</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Value</th>
+<th>Reference</th>
+<th>In flow</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>static</code></td>
+<td>Default</td>
+<td>Yes</td>
+<td>Most things</td>
+</tr>
+<tr>
+<td><code>relative</code></td>
+<td>Its own original spot</td>
+<td>Yes</td>
+<td>Anchor for absolute children, nudges</td>
+</tr>
+<tr>
+<td><code>absolute</code></td>
+<td>Nearest positioned ancestor</td>
+<td>No</td>
+<td>Badges, close buttons, decoration</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td>The viewport</td>
+<td>No</td>
+<td>Top bar, FAB, toast</td>
+</tr>
+<tr>
+<td><code>sticky</code></td>
+<td>The scroll container</td>
+<td>Yes</td>
+<td>Table headers, section headings</td>
+</tr>
+</tbody>
+</table></div><p>When <code>sticky</code> does nothing, an ancestor almost always has <code>overflow: hidden</code> or <code>auto</code>. That ancestor becomes the scroll container, and with nothing to scroll there is nothing to stick to. <code>top</code> is also required.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.panel</span> { <span class="hljs-attribute">overflow</span>: clip; }              <span class="hljs-comment">/* clipping that doesn&#x27;t kill sticky */</span>
+<span class="hljs-selector-class">.panel-head</span> { <span class="hljs-attribute">position</span>: sticky; <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">z-index</span>: <span class="hljs-number">2</span>; <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--surface); }
+</code></pre>
+<h3>Z-index and stacking contexts</h3>
+<p><code>z-index</code> is not &quot;bigger number wins&quot;. Numbers are only compared <strong>inside the same stacking context</strong>, and more things create one than people expect: <code>position</code> plus <code>z-index</code>, <code>transform</code>, <code>filter</code>, <code>opacity &lt; 1</code>, <code>will-change</code>, <code>isolation: isolate</code>, <code>contain: paint</code>.</p>
+<p>That is why <code>z-index: 9999</code> sometimes stays underneath. If the parent is already inside a lower context, a 9999 inside it cannot climb over its parent's siblings. The fix is not a bigger number but tidier contexts. Use <code>isolation: isolate</code> to keep an element's ordering local.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.app</span> { <span class="hljs-attr">--z-topbar</span>: <span class="hljs-number">100</span>; <span class="hljs-attr">--z-drawer</span>: <span class="hljs-number">300</span>; <span class="hljs-attr">--z-modal</span>: <span class="hljs-number">400</span>; <span class="hljs-attr">--z-toast</span>: <span class="hljs-number">500</span>; }
+
+<span class="hljs-selector-class">.modal</span> { <span class="hljs-attribute">position</span>: fixed; <span class="hljs-attribute">z-index</span>: <span class="hljs-built_in">var</span>(--z-modal); }
+<span class="hljs-selector-class">.toast</span> { <span class="hljs-attribute">position</span>: fixed; <span class="hljs-attribute">z-index</span>: <span class="hljs-built_in">var</span>(--z-toast); }
+<span class="hljs-selector-class">.card-stage</span> { <span class="hljs-attribute">isolation</span>: isolate; }   <span class="hljs-comment">/* keep card z-index inside the card */</span>
+</code></pre>
+<h3>Aspect ratio and object-fit</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.thumb</span> { <span class="hljs-attribute">aspect-ratio</span>: <span class="hljs-number">4</span> / <span class="hljs-number">3</span>; <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>; <span class="hljs-attribute">overflow</span>: hidden; <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">12px</span>; }
+<span class="hljs-selector-class">.thumb</span> <span class="hljs-selector-tag">img</span> { <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>; <span class="hljs-attribute">object-fit</span>: cover; <span class="hljs-attribute">object-position</span>: center; }
+</code></pre>
+<p><code>cover</code> fills the box and crops the rest. <code>contain</code> shows everything and leaves empty space. Photo lists want <code>cover</code>; an original-view or editor screen wants <code>contain</code>. A screen that places a photo inside a frame, like Shutterplate, mixes them: the outer box fills with <code>cover</code>, and the step where the user chooses the crop shows the whole photo with <code>contain</code>.</p>
+<p><a href="/diary/assets/images/en/2026-11-20-ui-spacing-position.png"><img src="/diary/assets/images/en/2026-11-20-ui-spacing-position.png" alt="Margin·padding·gap, and how position and z-index stack"></a></p>
+<h2>3. Page regions and navigation</h2>
+<p>A web app screen is usually a combination of the same regions. Once they have names, a request like &quot;shrink the hero and grow the stage&quot; fits in one line.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Region</th>
+<th>Job</th>
+<th>Implementation note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Topbar / Header</td>
+<td>App name, main nav, account</td>
+<td><code>position: sticky; top: 0</code>, offset the body by its height</td>
+</tr>
+<tr>
+<td>Hero</td>
+<td>First-screen intro and call to action</td>
+<td><code>min-height: 60svh</code>, background image <code>object-fit: cover</code></td>
+</tr>
+<tr>
+<td>Sidebar / Rail</td>
+<td>Section navigation. A rail is the icon-only narrow version</td>
+<td>Below 1024px it becomes a drawer</td>
+</tr>
+<tr>
+<td>Stage / Canvas</td>
+<td>The actual work area</td>
+<td><code>min-height: 0</code> inside a flex column is mandatory</td>
+</tr>
+<tr>
+<td>Utility bar / Status bar</td>
+<td>Bottom status and tools</td>
+<td><code>padding-bottom: max(12px, env(safe-area-inset-bottom))</code></td>
+</tr>
+<tr>
+<td>Footer</td>
+<td>Copyright, links</td>
+<td>Collapse or shorten on mobile</td>
+</tr>
+<tr>
+<td>Drawer</td>
+<td>A panel that slides in from off-screen</td>
+<td>Scrim + focus trap + close on Esc</td>
+</tr>
+</tbody>
+</table></div><p><a href="/diary/assets/images/en/2026-11-20-ui-page-anatomy.png"><img src="/diary/assets/images/en/2026-11-20-ui-page-anatomy.png" alt="Web app anatomy: topbar, hero, rail, stage, utility bar, drawer, FAB"></a></p>
+<h3>When the topbar covers the content</h3>
+<p>A <code>position: fixed</code> top bar leaves the flow, so the body slides underneath. The usual patch is <code>padding-top: 64px</code>, which drifts as soon as the bar's height changes. Keep the height in a variable and move both together.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-pseudo">:root</span> { <span class="hljs-attr">--topbar-h</span>: <span class="hljs-number">60px</span>; }
+<span class="hljs-selector-class">.topbar</span> { <span class="hljs-attribute">position</span>: sticky; <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">height</span>: <span class="hljs-built_in">var</span>(--topbar-h); <span class="hljs-attribute">z-index</span>: <span class="hljs-built_in">var</span>(--z-topbar); }
+<span class="hljs-selector-tag">main</span> { <span class="hljs-attribute">padding-top</span>: <span class="hljs-built_in">var</span>(--topbar-h); }
+<span class="hljs-selector-pseudo">:target</span>, <span class="hljs-selector-class">.anchor</span> { <span class="hljs-attribute">scroll-margin-top</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-built_in">var</span>(--topbar-h) + <span class="hljs-number">16px</span>); }
+</code></pre>
+<p><code>scroll-margin-top</code> stops a heading from hiding under the bar after an anchor jump. That matters most on document screens with a table of contents, like TechnicalHub.</p>
+<h3>When the stage overflows its flex column</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.app</span> { <span class="hljs-attribute">display</span>: flex; <span class="hljs-attribute">flex-direction</span>: column; <span class="hljs-attribute">height</span>: <span class="hljs-number">100</span>dvh; }
+<span class="hljs-selector-class">.stage</span> { <span class="hljs-attribute">flex</span>: <span class="hljs-number">1</span> <span class="hljs-number">1</span> auto; <span class="hljs-attribute">min-height</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">overflow</span>: auto; }
+</code></pre>
+<p>Without <code>min-height: 0</code>, the stage tries to keep its content height and the whole page scrolls instead. The topbar scrolls away and the bottom bar is pushed off-screen. That is usually what &quot;there are two scrollbars now&quot; really means.</p>
+<h3>Drawer, accordion, tab, segmented control, breadcrumb</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Pattern</th>
+<th>What it does</th>
+<th>Accessibility</th>
+<th>Commonly confused with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drawer</td>
+<td>Slides a panel in from off-screen</td>
+<td><code>aria-modal</code>, focus trap, Esc</td>
+<td>Modal (does it fully block the background?)</td>
+</tr>
+<tr>
+<td>Accordion</td>
+<td>Expands content under a heading</td>
+<td><code>aria-expanded</code>, <code>hidden</code> panel</td>
+<td>Tabs (can several be open?)</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>Swaps the content of one region</td>
+<td><code>role=&quot;tablist&quot;</code>, <code>aria-selected</code></td>
+<td>Segmented control</td>
+</tr>
+<tr>
+<td>Segmented control</td>
+<td>A row of mutually exclusive choices</td>
+<td><code>role=&quot;radiogroup&quot;</code></td>
+<td>Tabs</td>
+</tr>
+<tr>
+<td>Breadcrumb</td>
+<td>The path to the current page</td>
+<td><code>aria-label=&quot;Breadcrumb&quot;</code>, <code>aria-current=&quot;page&quot;</code></td>
+<td>Navigation menu</td>
+</tr>
+</tbody>
+</table></div><p>Tabs and segmented controls look alike and behave differently. A tab <strong>changes the content below</strong>; a segmented control is <strong>an input that picks one</strong>. So a tab gets <code>role=&quot;tab&quot;</code> and arrow-key movement, while a segmented control behaves like radios. For screen-reader users that difference is substantial.</p>
+<h3>Icon names: kebab, meatball, hamburger</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Glyph</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⋮</code></td>
+<td>Kebab</td>
+<td>Three vertical dots = more options</td>
+</tr>
+<tr>
+<td><code>⋯</code></td>
+<td>Meatball</td>
+<td>Three horizontal dots = more options</td>
+</tr>
+<tr>
+<td><code>☰</code></td>
+<td>Hamburger</td>
+<td>Open the main menu</td>
+</tr>
+<tr>
+<td><code>⋯</code> with four dots</td>
+<td>Just &quot;four dots&quot;</td>
+<td>Don't</td>
+</tr>
+</tbody>
+</table></div><p>Say &quot;the three dots at the top right&quot; and you will be asked again whether they are vertical or horizontal. Kebab and meatball settle it in one word. Vertical kebabs usually belong to per-card or per-row menus; horizontal meatballs to toolbars.</p>
+<h2>4. Buttons and controls</h2>
+<h3>Badge, tag, chip, pill</h3>
+<p>They differ by <strong>role</strong>, not by shape. All four can be drawn as a small rounded label, so without the names everything becomes &quot;the badge&quot;.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Name</th>
+<th>Role</th>
+<th>Clickable</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Badge</td>
+<td>Count or status</td>
+<td>No</td>
+<td>Cart <code>3</code>, <code>NEW</code></td>
+</tr>
+<tr>
+<td>Tag</td>
+<td>Category label</td>
+<td>Usually no (at most removable)</td>
+<td><code>#css</code>, <code>#notes</code></td>
+</tr>
+<tr>
+<td>Chip</td>
+<td>Filter or selection</td>
+<td>Yes</td>
+<td><code>All</code> <code>Photos</code> <code>Videos</code></td>
+</tr>
+<tr>
+<td>Pill</td>
+<td>A shape, not a role</td>
+<td>n/a</td>
+<td>Pill-shaped button or tab</td>
+</tr>
+</tbody>
+</table></div><p>Pill names a shape; the other three name roles. Which is why &quot;a pill-shaped chip&quot; is a valid sentence. Refer to the role when giving instructions, and mention the shape only if it matters.</p>
+<h3>Toggle, checkbox, radio</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Control</th>
+<th>How many</th>
+<th>When it applies</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Toggle / switch</td>
+<td>One on-off</td>
+<td><strong>Immediately</strong></td>
+<td>Settings, dark mode</td>
+</tr>
+<tr>
+<td>Checkbox</td>
+<td>Several</td>
+<td>On form submit</td>
+<td>List selection, consent</td>
+</tr>
+<tr>
+<td>Radio</td>
+<td>One</td>
+<td>On form submit</td>
+<td>Delivery method, sort order</td>
+</tr>
+</tbody>
+</table></div><p>A toggle has no save button. It applies on press, rolls back on failure, and says so in a toast. Checkboxes and radios are part of a form and need a Save. Mixing the two leaves the user unable to tell what has already been applied.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.switch</span> { <span class="hljs-attribute">appearance</span>: none; <span class="hljs-attribute">width</span>: <span class="hljs-number">44px</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">26px</span>; <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">999px</span>; <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--track); }
+<span class="hljs-selector-class">.switch</span><span class="hljs-selector-pseudo">:checked</span> { <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--accent); }
+<span class="hljs-selector-class">.switch</span><span class="hljs-selector-pseudo">::after</span> { <span class="hljs-attribute">content</span>: <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">width</span>: <span class="hljs-number">20px</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">20px</span>; <span class="hljs-attribute">margin</span>: <span class="hljs-number">3px</span>; <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>; <span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span>; <span class="hljs-attribute">transition</span>: translate .<span class="hljs-number">18s</span>; }
+<span class="hljs-selector-class">.switch</span><span class="hljs-selector-pseudo">:checked</span><span class="hljs-selector-pseudo">::after</span> { <span class="hljs-attribute">translate</span>: <span class="hljs-number">18px</span> <span class="hljs-number">0</span>; }
+<span class="hljs-selector-class">.switch</span><span class="hljs-selector-pseudo">:focus-visible</span> { <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-built_in">var</span>(--accent); <span class="hljs-attribute">outline-offset</span>: <span class="hljs-number">2px</span>; }
+</code></pre>
+<h3>Minimum touch target for icon buttons</h3>
+<p>The icon can be 20px. The <strong>pressable area</strong> must be at least 44×44px (Apple HIG; Material says 48dp). Growing the icon wrecks the design, so add the area as transparent padding.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.icon-btn</span> {
+  <span class="hljs-attribute">display</span>: inline-grid;
+  <span class="hljs-attribute">place-items</span>: center;
+  <span class="hljs-attribute">inline-size</span>: <span class="hljs-number">44px</span>;
+  <span class="hljs-attribute">block-size</span>: <span class="hljs-number">44px</span>;          <span class="hljs-comment">/* minimum touch target */</span>
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">12px</span>;
+  <span class="hljs-attribute">background</span>: transparent;
+  <span class="hljs-attribute">color</span>: inherit;
+  -webkit-tap-highlight-<span class="hljs-attribute">color</span>: transparent;
+  <span class="hljs-attribute">touch-action</span>: manipulation;
+}
+<span class="hljs-selector-class">.icon-btn</span> <span class="hljs-selector-tag">svg</span> { <span class="hljs-attribute">inline-size</span>: <span class="hljs-number">20px</span>; <span class="hljs-attribute">block-size</span>: <span class="hljs-number">20px</span>; }
+</code></pre>
+<p>Put an icon button in a list row shorter than 44px and users hit the row next to it. Either grow the row with padding or separate the button from the row's own click area.</p>
+<h3>FAB — the floating button at bottom right</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.fab</span> {
+  <span class="hljs-attribute">position</span>: fixed;
+  <span class="hljs-attribute">inset-inline-end</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attribute">bottom</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">16px</span> + <span class="hljs-built_in">env</span>(safe-area-inset-bottom));
+  <span class="hljs-attribute">inline-size</span>: <span class="hljs-number">56px</span>;
+  <span class="hljs-attribute">block-size</span>: <span class="hljs-number">56px</span>;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">18px</span>;
+  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">8px</span> <span class="hljs-number">24px</span> <span class="hljs-built_in">rgb</span>(<span class="hljs-number">18</span> <span class="hljs-number">18</span> <span class="hljs-number">58</span> / .<span class="hljs-number">28</span>);
+  <span class="hljs-attribute">z-index</span>: <span class="hljs-built_in">var</span>(--z-toast);
+}
+</code></pre>
+<p>One FAB per screen. On a screen with a bottom bar, <code>bottom</code> must include the bar's height, or the FAB sits on top of it. On Shutterplate's mobile screen, &quot;the bottom-right button overlaps the bar&quot; was exactly this calculation.</p>
+<p><a href="/diary/assets/images/en/2026-11-20-ui-controls-comparison.png"><img src="/diary/assets/images/en/2026-11-20-ui-controls-comparison.png" alt="Badge, tag, chip and pill next to toggle, icon button and FAB"></a></p>
+<h3>Slider, stepper, dropdown</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Element</th>
+<th>Where</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slider (<code>input[type=range]</code>)</td>
+<td>Continuous values (brightness, filter strength)</td>
+<td>Show the value; unify colour with <code>accent-color</code></td>
+</tr>
+<tr>
+<td>Stepper (<code>−</code> <code>+</code>)</td>
+<td>Integers (quantity, frame count)</td>
+<td>Long-press to repeat; disable at the bounds</td>
+</tr>
+<tr>
+<td>Dropdown / select</td>
+<td>Five or more options</td>
+<td>On mobile a native <code>select</code> is safest</td>
+</tr>
+</tbody>
+</table></div><h2>5. Overlapping layers and feedback</h2>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Layer</th>
+<th>Position and size</th>
+<th>How it closes</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modal / dialog</td>
+<td>Centred, fixed width</td>
+<td>Button, Esc, outside click</td>
+<td>Decisions that need an answer</td>
+</tr>
+<tr>
+<td>Bottom sheet</td>
+<td>Rises from the bottom, full width</td>
+<td>Drag, outside click</td>
+<td>Mobile pickers and options</td>
+</tr>
+<tr>
+<td>Overlay</td>
+<td>Full screen, transparent</td>
+<td>Outside click</td>
+<td>Click capture, blocking input</td>
+</tr>
+<tr>
+<td>Popover</td>
+<td>Next to an anchor</td>
+<td>Outside click, Esc</td>
+<td>Small menus and explanations</td>
+</tr>
+<tr>
+<td>Tooltip</td>
+<td>Above an anchor</td>
+<td>Pointer leaves</td>
+<td>Short supporting text</td>
+</tr>
+<tr>
+<td>Toast / snackbar</td>
+<td>Bottom (or top), brief</td>
+<td>Timeout, swipe</td>
+<td>Result notifications</td>
+</tr>
+<tr>
+<td>Skeleton</td>
+<td>The content's own shape</td>
+<td>Data arrives</td>
+<td>First load</td>
+</tr>
+<tr>
+<td>Spinner</td>
+<td>Centre of the region</td>
+<td>Completion</td>
+<td>Short waits, retries</td>
+</tr>
+</tbody>
+</table></div><p><a href="/diary/assets/images/en/2026-11-20-ui-overlays-comparison.png"><img src="/diary/assets/images/en/2026-11-20-ui-overlays-comparison.png" alt="How modal, bottom sheet, overlay, popover and toast stack"></a></p>
+<h3>Modal with a backdrop/scrim</h3>
+<p>The <code>&lt;dialog&gt;</code> element gives you the scrim (<code>::backdrop</code>) and a good part of the focus handling for free.</p>
+<pre class="code-block" data-lang="html"><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;confirm-title&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm-title&quot;</span>&gt;</span>Delete this frame?<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>A deleted frame cannot be restored.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;dialog&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;cancel&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ok&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dialog</span>&gt;</span>
+</code></pre>
+<pre class="code-block" data-lang="js"><code class="hljs language-js"><span class="hljs-keyword">const</span> dlg = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;confirm&#x27;</span>);
+dlg.<span class="hljs-title function_">showModal</span>();              <span class="hljs-comment">// background inert + ::backdrop</span>
+dlg.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;close&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">restoreFocus</span>());
+</code></pre>
+<p><code>showModal()</code> makes the rest of the page inert, but it does not always stop the document from scrolling. Call <code>lockScroll()</code> above when opening, and return focus to the element that opened the dialog when closing. Skip either and you keep the two complaints: &quot;the page behind the modal scrolls&quot; and &quot;after closing, focus is gone&quot;.</p>
+<h3>Bottom sheet</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.sheet</span> {
+  <span class="hljs-attribute">position</span>: fixed;
+  <span class="hljs-attribute">inset-inline</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">max-height</span>: <span class="hljs-number">90</span>dvh;
+  <span class="hljs-attribute">overflow</span>: auto;
+  <span class="hljs-attribute">overscroll-behavior</span>: contain;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">20px</span> <span class="hljs-number">20px</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-built_in">max</span>(<span class="hljs-number">16px</span>, <span class="hljs-built_in">env</span>(safe-area-inset-bottom));
+  <span class="hljs-attribute">translate</span>: <span class="hljs-number">0</span> <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">transition</span>: translate .<span class="hljs-number">24s</span> ease;
+}
+<span class="hljs-selector-class">.sheet</span><span class="hljs-selector-attr">[data-open=<span class="hljs-string">&quot;true&quot;</span>]</span> { <span class="hljs-attribute">translate</span>: <span class="hljs-number">0</span> <span class="hljs-number">0</span>; }
+</code></pre>
+<p>If the sheet has its own scroll, the drag-to-dismiss gesture fights the content scroll. Accept the dismiss gesture only on the handle area, and keep the content scrolling separately.</p>
+<h3>Overlay, popover, tooltip</h3>
+<p>An overlay is a <strong>transparent</strong> layer. A scrim darkens what is behind it. Use the scrim to close a side menu on an outside click; use a transparent overlay to block clicks during loading. For popovers the browser's own <code>popover</code> attribute supplies the outside-click dismissal and layering.</p>
+<p>A tooltip is an aid for pointer devices. On touch it may never appear, and if it does it is hard to dismiss. Anything that exists only in a tooltip does not exist for a touch user.</p>
+<h3>Toast, snackbar, skeleton, spinner</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.toast</span> {
+  <span class="hljs-attribute">position</span>: fixed;
+  <span class="hljs-attribute">inset-inline</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">bottom</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">72px</span> + <span class="hljs-built_in">env</span>(safe-area-inset-bottom));
+  <span class="hljs-attribute">margin-inline</span>: auto;
+  <span class="hljs-attribute">inline-size</span>: max-content;
+  <span class="hljs-attribute">max-inline-size</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100%</span> - <span class="hljs-number">32px</span>);
+  <span class="hljs-attribute">z-index</span>: <span class="hljs-built_in">var</span>(--z-toast);
+}
+</code></pre>
+<p>A toast disappears in three to five seconds and takes its message with it. If the action needs an undo, put an <strong>Undo</strong> button in a snackbar instead. Split loading in two: if it will finish within 300ms, show nothing; if the layout is already known, prefer a skeleton to a spinner. A skeleton reserves the geometry, so nothing jumps when the data lands.</p>
+<h2>6. Type, theme and detail</h2>
+<h3>Design tokens — colours with names</h3>
+<p>Once colours are hard-coded in hexadecimal, half of them get repainted for dark mode. Give them names and let the theme change only the values.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-pseudo">:root</span> {
+  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#F7F6FB</span>;
+  <span class="hljs-attr">--surface</span>: <span class="hljs-number">#FFFFFF</span>;
+  <span class="hljs-attr">--surface-2</span>: <span class="hljs-number">#EFECFA</span>;
+  <span class="hljs-attr">--text</span>: <span class="hljs-number">#1B1B2F</span>;
+  <span class="hljs-attr">--text-body</span>: <span class="hljs-number">#3F3950</span>;
+  <span class="hljs-attr">--muted</span>: <span class="hljs-number">#6B6880</span>;
+  <span class="hljs-attr">--accent</span>: <span class="hljs-number">#7C5CF0</span>;
+  <span class="hljs-attr">--accent-hover</span>: <span class="hljs-number">#6446D8</span>;
+  <span class="hljs-attr">--border</span>: <span class="hljs-number">#E2DDF0</span>;
+  <span class="hljs-attr">--radius</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attr">--shadow-1</span>: <span class="hljs-number">0</span> <span class="hljs-number">1px</span> <span class="hljs-number">2px</span> <span class="hljs-built_in">rgb</span>(<span class="hljs-number">24</span> <span class="hljs-number">20</span> <span class="hljs-number">48</span> / .<span class="hljs-number">06</span>);
+  <span class="hljs-attr">--shadow-2</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span> <span class="hljs-number">30px</span> <span class="hljs-built_in">rgb</span>(<span class="hljs-number">24</span> <span class="hljs-number">20</span> <span class="hljs-number">48</span> / .<span class="hljs-number">12</span>);
+}
+<span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;dark&quot;</span>]</span> {
+  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#0E1020</span>;
+  <span class="hljs-attr">--surface</span>: <span class="hljs-number">#171A2E</span>;
+  <span class="hljs-attr">--surface-2</span>: <span class="hljs-number">#232741</span>;
+  <span class="hljs-attr">--text</span>: <span class="hljs-number">#F2F1FA</span>;
+  <span class="hljs-attr">--text-body</span>: <span class="hljs-number">#C6C9DC</span>;
+  <span class="hljs-attr">--muted</span>: <span class="hljs-number">#8E93AE</span>;
+  <span class="hljs-attr">--accent</span>: <span class="hljs-number">#A48CFF</span>;
+  <span class="hljs-attr">--border</span>: <span class="hljs-number">#2E3350</span>;
+}
+</code></pre>
+<p>Name tokens by role. <code>--accent</code> outlives <code>--purple-500</code>. Three tokens — <code>--bg</code>, <code>--surface</code>, <code>--accent</code> — already tidy most screens.</p>
+<h3>word-break: keep-all</h3>
+<p>Breaking a Korean word in the middle makes it hard to read. The default (<code>normal</code>) breaks Korean between any two characters. <code>keep-all</code> keeps words whole and breaks at spaces.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-tag">body</span> { <span class="hljs-attribute">word-break</span>: keep-all; <span class="hljs-attribute">overflow-wrap</span>: break-word; }
+<span class="hljs-selector-class">.url</span>, <span class="hljs-selector-class">.code</span> { <span class="hljs-attribute">word-break</span>: break-all; }   <span class="hljs-comment">/* long Latin strings and URLs are the exception */</span>
+</code></pre>
+<p>With <code>keep-all</code> alone, a long unbroken English word or URL punches through the container. So pair it with <code>overflow-wrap: break-word</code>, and use <code>break-all</code> or <code>overflow-wrap: anywhere</code> only where breaking is genuinely needed. <code>line-break: strict</code> also improves Korean line-breaking around punctuation.</p>
+<h3>Ellipsis</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-comment">/* One line */</span>
+<span class="hljs-selector-class">.ellipsis</span> { <span class="hljs-attribute">overflow</span>: hidden; <span class="hljs-attribute">text-overflow</span>: ellipsis; <span class="hljs-attribute">white-space</span>: nowrap; }
+
+<span class="hljs-comment">/* Several lines */</span>
+<span class="hljs-selector-class">.clamp-2</span> {
+  <span class="hljs-attribute">display</span>: -webkit-box;
+  -webkit-<span class="hljs-attribute">box-orient</span>: vertical;
+  -webkit-<span class="hljs-selector-tag">line</span>-clamp: <span class="hljs-number">2</span>;
+  <span class="hljs-attribute">overflow</span>: hidden;
+}
+</code></pre>
+<p>Single-line ellipsis needs <strong>a defined width</strong> to work. Inside a flex item, add <code>min-width: 0</code> as well. Without it there is no ellipsis and the card stretches sideways instead.</p>
+<h3>line-height and letter-spacing</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Target</th>
+<th>line-height</th>
+<th>letter-spacing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Body (Korean)</td>
+<td>1.75–1.9</td>
+<td><code>-0.01em</code></td>
+</tr>
+<tr>
+<td>Headings</td>
+<td>1.25–1.35</td>
+<td><code>-0.03em</code></td>
+</tr>
+<tr>
+<td>Small labels (eyebrow)</td>
+<td>1.2</td>
+<td><code>0.12em</code> + uppercase</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>1.7</td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table></div><p>English defaults (1.5) look cramped under Korean body text; 1.9 on a heading scatters it. Korean takes slightly negative tracking, and small uppercase labels take positive tracking.</p>
+<h3>border-radius, box-shadow, backdrop-filter</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-class">.card</span> { <span class="hljs-attribute">border-radius</span>: <span class="hljs-built_in">var</span>(--radius); <span class="hljs-attribute">box-shadow</span>: <span class="hljs-built_in">var</span>(--shadow-<span class="hljs-number">1</span>); }
+<span class="hljs-selector-class">.card</span><span class="hljs-selector-pseudo">:hover</span> { <span class="hljs-attribute">box-shadow</span>: <span class="hljs-built_in">var</span>(--shadow-<span class="hljs-number">2</span>); }
+
+<span class="hljs-selector-class">.glass</span> {
+  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">color-mix</span>(in srgb, <span class="hljs-built_in">var</span>(--surface) <span class="hljs-number">72%</span>, transparent);
+  <span class="hljs-attribute">backdrop-filter</span>: <span class="hljs-built_in">blur</span>(<span class="hljs-number">14px</span>) <span class="hljs-built_in">saturate</span>(<span class="hljs-number">1.2</span>);
+  -webkit-<span class="hljs-attribute">backdrop-filter</span>: <span class="hljs-built_in">blur</span>(<span class="hljs-number">14px</span>) <span class="hljs-built_in">saturate</span>(<span class="hljs-number">1.2</span>); <span class="hljs-comment">/* Safari */</span>
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-built_in">color-mix</span>(in srgb, <span class="hljs-built_in">var</span>(--border) <span class="hljs-number">70%</span>, transparent);
+}
+</code></pre>
+<p>Two shadows read better than one: close and dense, then far and faint. <code>backdrop-filter</code> over a large scrolling area visibly costs frames. Keep it to small fixed surfaces like a top bar, and lay down a translucent background first for browsers without support.</p>
+<h3>Cache busting</h3>
+<p>If you changed the CSS and the screen did not change, it is usually the cache. GitHub Pages serves the same filename from the browser cache.</p>
+<pre class="code-block" data-lang="html"><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/diary/assets/diary.css?v=20261120-ui&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/diary/assets/diary-search.js?v=20261120-ui&quot;</span> <span class="hljs-attr">defer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>Bump <code>?v=</code> on every deploy. This diary's search script is versioned the same way.</p>
+<h3>Favicon and OG image</h3>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Asset</th>
+<th>Size</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>favicon.ico</code></td>
+<td>32×32, with 48×48</td>
+<td>At the root</td>
+</tr>
+<tr>
+<td><code>favicon.svg</code></td>
+<td>Vector</td>
+<td>Preferred by current browsers</td>
+</tr>
+<tr>
+<td><code>apple-touch-icon.png</code></td>
+<td>180×180</td>
+<td>The browser rounds the corners</td>
+</tr>
+<tr>
+<td>OG image</td>
+<td>1200×630</td>
+<td><code>og:image</code> must be an <strong>absolute URL</strong></td>
+</tr>
+<tr>
+<td>Twitter card</td>
+<td>1200×600 or 1200×630</td>
+<td><code>summary_large_image</code></td>
+</tr>
+</tbody>
+</table></div><p>Leave generous margins on an OG image and place the logo and title slightly above centre. KakaoTalk and Slack crop different amounts.</p>
+<p><a href="/diary/assets/images/en/2026-11-20-ui-typo-aspect.png"><img src="/diary/assets/images/en/2026-11-20-ui-typo-aspect.png" alt="keep-all vs break-all, ellipsis, and cover vs contain"></a></p>
+<h2>7. Mobile and in-app browser quirks</h2>
+<h3>iOS Safari auto-zoom on inputs</h3>
+<p>If an <code>input</code>, <code>textarea</code> or <code>select</code> has <code>font-size</code> below 16px, iOS Safari zooms in when it gets focus. The user has to pinch back out, and the layout is shifted sideways in the meantime.</p>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-tag">input</span>, <span class="hljs-selector-tag">textarea</span>, <span class="hljs-selector-tag">select</span>, <span class="hljs-selector-tag">button</span> { <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">max</span>(<span class="hljs-number">16px</span>, <span class="hljs-number">1rem</span>); }
+</code></pre>
+<p><code>maximum-scale=1</code> is not the answer: it hurts accessibility and is ignored by recent iOS. A font size of 16px or more is.</p>
+<h3>Pinch zoom and touch control</h3>
+<pre class="code-block" data-lang="css"><code class="hljs language-css"><span class="hljs-selector-tag">button</span>, <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-attr">[role=<span class="hljs-string">&quot;button&quot;</span>]</span> {
+  <span class="hljs-attribute">touch-action</span>: manipulation;          <span class="hljs-comment">/* removes the double-tap zoom delay */</span>
+  -webkit-tap-highlight-<span class="hljs-attribute">color</span>: transparent;
+}
+<span class="hljs-selector-class">.canvas-wrap</span> { <span class="hljs-attribute">touch-action</span>: none; }   <span class="hljs-comment">/* canvases that handle gestures themselves */</span>
+<span class="hljs-selector-class">.no-select</span> { <span class="hljs-attribute">user-select</span>: none; -webkit-<span class="hljs-attribute">user-select</span>: none; }
+</code></pre>
+<p><code>touch-action: manipulation</code> disables double-tap zoom and the 300ms delay. A canvas or map that implements zoom and pan through pointer events sets <code>none</code> and builds pinch itself. Blocking page zoom altogether is an accessibility violation.</p>
+<h3>KakaoTalk in-app browser (WebView)</h3>
+<p>A link opened from KakaoTalk runs in a Chrome-based WebView on Android and <code>WKWebView</code> on iOS. Some things behave differently from Safari.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Item</th>
+<th>Symptom</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File download</td>
+<td><code>&lt;a download&gt;</code> ignored, or a blank window opens</td>
+<td>Save through Blob or a data URL without a new window; if that fails, tell the user to open in a browser</td>
+</tr>
+<tr>
+<td><code>window.open</code></td>
+<td>Popup blocked, or opens in the same tab</td>
+<td>Use a modal inside the app instead</td>
+</tr>
+<tr>
+<td>Viewport height</td>
+<td><code>100vh</code> is taller than what you see</td>
+<td><code>100dvh</code> plus <code>env()</code></td>
+</tr>
+<tr>
+<td><code>localStorage</code></td>
+<td>Sometimes emptied when the app is killed</td>
+<td>Keep important state on the server or in the URL</td>
+</tr>
+<tr>
+<td>Clipboard</td>
+<td><code>navigator.clipboard</code> permission denied</td>
+<td><code>execCommand</code> fallback, then select-the-text guidance</td>
+</tr>
+<tr>
+<td>Service worker, PWA install</td>
+<td>Unsupported or limited</td>
+<td>An &quot;open in browser&quot; banner</td>
+</tr>
+<tr>
+<td>Fixed bottom bar</td>
+<td>Jumps or drifts while scrolling</td>
+<td><code>position: sticky</code>, or a <code>100dvh</code> grid</td>
+</tr>
+</tbody>
+</table></div><p>The one that bit Shutterplate was file download. In the Android KakaoTalk WebView, <code>&lt;a download&gt;</code> and Blob saves were blocked, and only a <code>data:</code> URL went through. Since then the export screen carries a line saying downloads may be limited in an in-app browser and to open the page in a browser.</p>
+<h3>iOS visual viewport and the keyboard</h3>
+<p>When the keyboard opens, <code>window.innerHeight</code> stays the same and only <code>visualViewport.height</code> shrinks. A <code>position: fixed; bottom: 0</code> bar therefore floats above the keyboard, or hides behind it. Chat-style inputs position themselves from <code>visualViewport</code>.</p>
+<pre class="code-block" data-lang="js"><code class="hljs language-js">vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;resize&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  bar.<span class="hljs-property">style</span>.<span class="hljs-property">transform</span> = <span class="hljs-string">`translateY(<span class="hljs-subst">${<span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, <span class="hljs-variable language_">window</span>.innerHeight - vv.height - vv.offsetTop)}</span>px)`</span>;
+});
+</code></pre>
+<h2>8. A working cheat sheet</h2>
+<p>A table that turns a symptom into the exact term. Use it as the first stop when you receive a report — or when you write one.</p>
+<div class="table-wrap"><table><thead>
+<tr>
+<th>Symptom</th>
+<th>Exact term</th>
+<th>First check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Cut off at the bottom&quot;</td>
+<td>Viewport height miscalculation, missing safe area</td>
+<td><code>100dvh</code>, <code>env(safe-area-inset-bottom)</code>, <code>min-height: 0</code></td>
+</tr>
+<tr>
+<td>&quot;Spills off the side&quot;</td>
+<td>Horizontal overflow</td>
+<td>Fixed widths, flex child <code>min-width: 0</code>, <code>100vw</code></td>
+</tr>
+<tr>
+<td>&quot;The floating button is in the wrong place&quot;</td>
+<td>FAB offset</td>
+<td><code>bottom: calc(16px + env(...))</code>, bottom-bar height</td>
+</tr>
+<tr>
+<td>&quot;The page scrolls behind the modal&quot;</td>
+<td>Scroll lock failure</td>
+<td><code>position: fixed</code> lock, <code>overscroll-behavior</code></td>
+</tr>
+<tr>
+<td>&quot;The header covers the content&quot;</td>
+<td>Fixed header offset</td>
+<td><code>--topbar-h</code>, <code>padding-top</code>, <code>scroll-margin-top</code></td>
+</tr>
+<tr>
+<td>&quot;The image is squashed&quot;</td>
+<td>Aspect distortion</td>
+<td><code>aspect-ratio</code>, <code>object-fit: cover/contain</code></td>
+</tr>
+<tr>
+<td>&quot;Words break in the middle&quot;</td>
+<td>Korean line breaking</td>
+<td><code>word-break: keep-all</code></td>
+</tr>
+<tr>
+<td>&quot;Focusing an input zooms the page&quot;</td>
+<td>iOS auto-zoom</td>
+<td>input <code>font-size: 16px</code> or more</td>
+</tr>
+<tr>
+<td>&quot;The scroll bounces&quot;</td>
+<td>Overscroll</td>
+<td><code>overscroll-behavior: contain/none</code></td>
+</tr>
+<tr>
+<td>&quot;The dropdown hides behind something&quot;</td>
+<td>Stacking context</td>
+<td><code>z-index</code> tokens, <code>isolation: isolate</code>, ancestor <code>overflow</code></td>
+</tr>
+<tr>
+<td>&quot;The button won't press&quot;</td>
+<td>Touch target, blocked by a layer</td>
+<td>Transparent overlay, <code>pointer-events</code>, 44×44</td>
+</tr>
+<tr>
+<td>&quot;Old screen after deploy&quot;</td>
+<td>Cache</td>
+<td>Bump <code>?v=</code>, hard reload</td>
+</tr>
+<tr>
+<td>&quot;The layout jitters for a frame&quot;</td>
+<td>Reflow</td>
+<td><code>svh</code> instead of <code>dvh</code>, <code>font-display</code></td>
+</tr>
+<tr>
+<td>&quot;There are two scrollbars&quot;</td>
+<td>Nested scroll containers</td>
+<td>Flex column <code>min-height: 0</code>, where <code>overflow: auto</code> sits</td>
+</tr>
+<tr>
+<td>&quot;Tapping a tab doesn't change anything&quot;</td>
+<td>Tab role confusion</td>
+<td><code>role=&quot;tab&quot;</code>, <code>aria-selected</code>, panel association</td>
+</tr>
+</tbody>
+</table></div><p>The left column is the user's language; the middle column is the code's. Search by the middle, report back in the left. A user never needs to understand &quot;the stacking context got tangled&quot;, and we can never find the cause from &quot;the three-dot menu is weird&quot;.</p>
+<h2>Closing</h2>
+<p>Almost everything in this note is a one-line change. One <code>min-height: 0</code>. One <code>max(12px, env(safe-area-inset-bottom))</code>. One <code>word-break: keep-all</code>. The time went into finding that line, not into typing it.</p>
+<p>Which is why the names matter. A name makes it searchable; searchable narrows the cause; a narrow cause means the next time the same symptom appears, you do not start from the beginning again. Half of fixing a screen is calling the broken part by its name.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+        
+        <a class="pager-item pager-older" href="/diary/en/posts/2026-11-18-onprem-pip-npm-offline-install/">
+            <span>Older →</span>
+            <strong>Getting Packages Into a Closed Network: pip and npm, Offline</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261119-appsplay" defer></script>
+</body>
+</html>
