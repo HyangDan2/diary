@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-18-harness-layer-concept-and-usage">
@@ -287,7 +287,7 @@ description: 릴리스를 준비할 때 사용합니다. 버전 올리기, 체�
 <p>네 축이 한 바퀴를 돕니다. 요청이 들어오면 규칙과 관련 스킬이 실리고, 모델이 도구를 고르고, 훅이 검사하고, 실행 결과가 다시 문맥으로 돌아옵니다. 모델은 이 루프를 돌면서 자기 출력을 조금씩 고칩니다.</p>
 <p>문제는 문맥이 유한하다는 것입니다. 대화가 길어지면 앞부분이 요약되거나 잘립니다. 그때 가장 먼저 사라지는 것이 대개 초반에 넣은 규칙입니다. 그래서 긴 세션에서 규칙을 잊는 것은 모델의 성실성 문제가 아니라, 매 턴 다시 넣어 주는 장치가 없기 때문입니다. 압축 직후에 핵심 규칙을 다시 주입하는 훅(<code>SessionStart</code>의 compact 시점)이 이런 이유로 쓰입니다.</p>
 <p>네 축을 한 표로 정리하면 이렇습니다.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>축</th>
 <th>언제 문맥에 들어오나</th>

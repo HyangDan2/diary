@@ -79,8 +79,9 @@ export default function (eleventyConfig) {
   /* ---------- markdown ---------- */
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.amendLibrary("md", (lib) => {
-    // Tables get a scroll container so wide tables never break the layout.
-    lib.renderer.rules.table_open = () => '<div class="table-wrap"><table>';
+    // Tables get a scroll container so wide tables never break the layout. The
+    // wrapper is focusable so a keyboard can scroll it too.
+    lib.renderer.rules.table_open = () => '<div class="table-wrap" role="region" tabindex="0"><table>';
     lib.renderer.rules.table_close = () => "</table></div>";
     // External links open in a new tab; internal ones stay put.
     const defaultLinkOpen = lib.renderer.rules.link_open || ((tokens, idx, options, env, self) => self.renderToken(tokens, idx, options));

@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-18-one-control-per-job-theme-toggles-and-hud">
@@ -206,7 +206,7 @@
 <p>Every HD2Lab surface shares one theme system: <code>hd2-theme.js</code> and <code>hd2-theme.css</code> provide a floating button in a corner, the <code>hd2-theme</code> storage key, and a <code>hd2-theme-change</code> event. Apps were built at different times, though, and several of them had grown their own header button before that shared toggle existed — or alongside it. Two toggles on one screen is not a cosmetic problem: one of them is always the one the user did not press, and the two can disagree.</p>
 <p>Reasoning from the source would not settle it, because the interesting question is what is actually <em>on screen</em> at a given width. So the audit rendered every public surface — hubs, apps, the diary, the analysis pages — with Playwright at 1440×900 and 390×844 and counted the light/dark controls that were visible and hit-testable. Anything with a count of one was left alone. Anything above one was a duplicate.</p>
 <p>Four repositories had duplicates, in five PRs.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Service</th>
 <th>Before</th>
@@ -269,7 +269,7 @@
 <p>Enlarging controls broke the joystick in a subtle way. Direction was normalised from <code>getBoundingClientRect()</code> — the rendered size — and the knob was then moved by that same radius, which is not the same unit once CSS scales things. At 1.229× the knob overshot its ring by 22% and the input range was no longer whole. Direction now comes from the rendered rect and knob travel from layout pixels (<code>offsetWidth / 2</code>). A rising swipe on the attack button also no longer relies on a fixed 32px threshold: it uses 55% of the rendered button height, with an 18px floor.</p>
 <h3>Measured on the deployed site</h3>
 <p>Playwright with coarse-pointer emulation, entering actual gameplay rather than a test harness, at three sizes:</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Screen</th>
 <th><code>--hud-scale</code></th>

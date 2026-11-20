@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-en-posts-2026-11-18-git-basics-for-beginners">
@@ -256,7 +256,7 @@ git push -u origin main
 <p>When you start work the next day, and whenever you want other people's changes, this comes first.</p>
 <pre class="code-block" data-lang="bash"><code class="hljs language-bash">git pull
 </code></pre>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Command</th>
 <th>What it does</th>
@@ -334,7 +334,7 @@ git branch -d feat/login-ui
 <p>When you merge a pull request, GitHub offers three styles. The result is the same — the code lands on <code>main</code>. What differs is <strong>which history is left behind</strong>.</p>
 <p><img src="/diary/assets/images/en/2026-11-18-git-merge-3ways.png" alt="Merge, squash and rebase compared"></p>
 <p><em>Merge keeps every commit, squash folds the branch into one commit, rebase replays the commits on top of <code>main</code>.</em></p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Style</th>
 <th>Strength</th>
@@ -370,7 +370,7 @@ git rebase origin/main
 <p>Knowing the tool and working well with others are different problems. These five are habits that reduce accidents rather than rules.</p>
 <p><strong>① Commit small, and often.</strong> One commit, one change. If you bundle a login button, a typo fix and a settings change into one commit, a problem with the login takes all three down with it. Committing at every natural stopping point and pushing two or three times a day is safer than one big push at the end of the day.</p>
 <p><strong>② Write commit messages that read at a glance.</strong> Keep the first line under 50 characters and say <strong>what happened</strong>. <code>fix</code> or <code>update</code> tells nobody anything. Prefixing the kind of change (the Conventional Commits convention) makes the history far easier to read.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Prefix</th>
 <th>Use it for</th>

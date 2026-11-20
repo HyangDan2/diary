@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-18-vibe-coding-setup-checklist">
@@ -244,7 +244,7 @@
 <p><a href="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png"><img src="/diary/assets/images/2026-11-18-vibe-coding-failure-vs-safe-loop.png" alt="무작정 바이브코딩의 실패 루프와 계획 → 작은 변경 → 자동 검증 → 리뷰 안전 루프 비교"></a></p>
 <h2>실전 세팅 6단계 점검표</h2>
 <p>여섯 단계에는 순서가 있습니다. ①~③은 사고의 <strong>횟수</strong>를 줄이고, ④~⑥은 사고의 <strong>비용</strong>을 줄입니다. 순서를 바꾸면 효율이 떨어집니다. 검증 루프부터 깔면 Git 없이 테스트만 도는 셈이고, 모델 라우팅부터 정하면 검증 없이 비싼 모델만 쓰게 됩니다.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>단계</th>
 <th>무엇을</th>
@@ -373,7 +373,7 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <p>그리고 실패를 만나면 고치기 전에 재현부터 합니다. 재현 스크립트가 있으면 고친 것을 확인할 수 있고, 없으면 고쳤다는 느낌만 남습니다.</p>
 <h3>⑤ 시크릿·권한 가드레일</h3>
 <p>다섯 번째는 되돌릴 수 없는 것들을 미리 막는 일입니다. 위험도는 세 단계로 나뉩니다.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>위험도</th>
 <th>예</th>
@@ -429,7 +429,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <li><strong>대량 분류·추출</strong> — 수백 건을 같은 기준으로 처리하는 일. 정확도보다 일관성과 단가가 중요합니다.</li>
 </ul>
 <p>둘째 편의 결론을 여기에 맞추면 이렇게 됩니다. 책상 위의 <code>Qwen3.8-27B</code>는 4비트로 24GB 카드 한 장에 들어가므로, 형식이 정해진 반복과 로컬 데이터 작업의 기본값입니다. 서버의 <code>Qwen3.5-397B-A17B</code>는 총 397B를 메모리에 두고 토큰당 17B만 계산하므로, 긴 문맥과 복잡한 설계, 멀티모달이 섞인 작업에서 처리량당 비용이 내려갑니다. 씽킹은 성능 손잡이가 아니라 <strong>위험 손잡이</strong>입니다. 정답이 하나로 정해진 작업에서는 낮은 effort가 이기고, 원인 탐색과 설계에서는 높은 effort가 총비용을 줄입니다.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>작업</th>
 <th>모델</th>
@@ -512,7 +512,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <li><strong>장치로 옮깁니다.</strong> 같은 실수를 두 번 했다면 규칙 한 줄이나 훅 하나로 옮깁니다. 세 번째는 사람의 부주의가 아니라 세팅의 부재입니다.</li>
 <li><strong>목록화합니다.</strong> 지금 깨진 것을 사용자 관점에서 적습니다. &quot;로그인 후 새로고침하면 로그아웃됨&quot;처럼 증상으로 적습니다. 원인은 그다음에 찾습니다.</li>
 </ol>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>상황</th>
 <th>시간</th>
@@ -551,7 +551,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <h3>판단 기준 하나</h3>
 <p>세 후보를 관통하는 기준이 있습니다. <strong>되돌릴 수 없는가</strong>, 그리고 <strong>취향이 아니라 책임인가</strong>. 둘 다 그렇다면 사람이 쥐고, 하나라도 아니라면 위임합니다. 이 기준 하나면 매번 고민하지 않아도 됩니다.</p>
 <h3>3부작을 첫날 10분 루틴으로 압축하면</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>시간</th>
 <th>하는 일</th>
