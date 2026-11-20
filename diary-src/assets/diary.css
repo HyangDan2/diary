@@ -503,9 +503,15 @@ body.drawer-open .hd2-theme-toggle { opacity: 0; pointer-events: none; }
 /* a figure caption: the one paragraph that is nothing but emphasis */
 .md-body p:has(> em:only-child) { margin: -12px 0 26px; color: var(--text-secondary); font-size: 12.5px; line-height: 1.7; text-align: center; }
 .md-body p:has(> em:only-child) em { font-style: normal; }
-.md-body .table-wrap { margin: 26px 0; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
-.md-body table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.md-body th, .md-body td { padding: 11px 14px; border-bottom: 1px solid var(--border-soft); text-align: left; vertical-align: top; word-break: keep-all; overflow-wrap: break-word; }
+/* Tables keep readable column widths; on a narrow screen the table slides
+   sideways inside .table-wrap instead of squeezing, and the page itself never
+   gains a horizontal scrollbar. */
+.md-body .table-wrap { margin: 26px 0; max-width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; border: 1px solid var(--border); border-radius: var(--radius); }
+.md-body .table-wrap::-webkit-scrollbar { height: 6px; }
+.md-body .table-wrap::-webkit-scrollbar-thumb { border-radius: 999px; background: var(--line-strong); }
+.md-body .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.md-body table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 13.5px; }
+.md-body th, .md-body td { min-width: 5.5rem; padding: 11px 14px; border-bottom: 1px solid var(--border-soft); text-align: left; vertical-align: top; word-break: keep-all; overflow-wrap: break-word; }
 .md-body th { background: var(--surface); color: var(--accent-hover); font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
 .md-body tr:last-child td { border-bottom: none; }
 .md-body .code-block { position: relative; margin: 26px 0; padding: 40px 20px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); overflow-x: auto; font-size: 12.8px; line-height: 1.75; word-break: normal; overflow-wrap: normal; }

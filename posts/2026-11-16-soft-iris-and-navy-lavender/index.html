@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-16-soft-iris-and-navy-lavender">
@@ -206,7 +206,7 @@
 <h2>One token set, two palettes</h2>
 <p>The light palette is <strong>Soft Iris</strong>: a white ground with the faintest wash of violet, and violet used as a single accent point. The dark palette is <strong>Navy &amp; Lavender</strong>: the same composition, with the ground dropped to navy and the accent lifted to lavender.</p>
 <p>Colours live in CSS variables rather than baked into components, so switching the theme is a single line: <code>&lt;html data-theme=&quot;dark&quot;&gt;</code>.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Token</th>
 <th>Soft Iris (light)</th>
@@ -268,7 +268,7 @@
 <li>For app scripts that need to drive it directly, <code>window.HD2Theme.get() / set() / toggle()</code> and the <code>hd2-theme-change</code> event are exposed.</li>
 </ul>
 <p>What differs per app is only the position. Placement, z-index, and surface colour are adjusted through CSS variables set on <code>.hd2-theme-toggle</code>.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Route</th>
 <th>Toggle position</th>

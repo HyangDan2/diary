@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-16-doom-jsdos-key-mapping-troubleshooting">
@@ -230,7 +230,7 @@
 <h2>Step 2: up and down still did nothing</h2>
 <p>Esc worked; the view in DOOM still did not turn. So I dug one level deeper, and the cause was not code but <strong>a settings file inside the bundle</strong>.</p>
 <p>Unzip <code>doom.jsdos</code> and there is a <code>DEFAULT.CFG</code>. Its key bindings look like this.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Setting</th>
 <th>Value</th>

@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-18-unified-nav-accordion-and-about">
@@ -204,7 +204,7 @@
         <p>Web-HQ, ApplicationHub, GameHub, TechnicalHub, and HD2's Diary. Five sites of the same service, with five different navigations. Moving between hubs meant scrolling to the bottom of a page to find a row of cards or links, and About was a modal rather than a page, so it had no address, no back button, and no search presence.</p>
 <p>This work fixed <strong>how you move</strong>, not how a page looks. One title bar sits above the page, and on narrow screens the same list folds into a drawer on the right. It took two rebuilds, and the second was put up thirty minutes after the first.</p>
 <h2>The problem: navigation lived inside the content</h2>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Site</th>
 <th>Previous navigation</th>
@@ -333,7 +333,7 @@
 <p><img src="/diary/assets/images/2026-11-18-nav-pc-diary-dropdown.png" alt="The Diary dropdown in the desktop title bar, in dark mode, with Top marked as the current location"></p>
 <h2>Specification</h2>
 <p>These values are shared by all six routes. Fix the numbers and the hand lands in the same place on every site.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Item</th>
 <th>Value</th>

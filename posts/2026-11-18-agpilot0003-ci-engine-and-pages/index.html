@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-posts-2026-11-18-agpilot0003-ci-engine-and-pages">
@@ -242,7 +242,7 @@
 </ul>
 <p>Because of <code>reuseExistingServer: !process.env.CI</code>, local runs reuse an engine already running and CI always starts a fresh one. <strong>Not one line of any spec changed. No mocking, no skips.</strong></p>
 <p>Numbers measured locally:</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Situation</th>
 <th>Time</th>
@@ -285,7 +285,7 @@ Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
 <p>I removed the <code>upload-pages</code> and <code>deploy-pages</code> jobs from <code>ci.yml</code> (27 lines deleted), leaving the guide build step inside the build job untouched.</p>
 <h2>Result</h2>
 <p>On the final commit <code>8ff203e9</code> (<code>44209661363</code>), the <code>build</code> job ran green end to end.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Item</th>
 <th>Result</th>
@@ -310,7 +310,7 @@ Error: Not Found - https://docs.github.com/rest/pages/pages#get-a-pages-site
 </tr>
 </tbody>
 </table></div><p>The three commits, and what each one did.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Commit</th>
 <th>Change</th>

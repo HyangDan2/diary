@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-en-posts-2026-11-18-onprem-pip-npm-offline-install">
@@ -256,7 +256,7 @@ pip download -r requirements.txt -d ./wheelhouse \
 or --only-binary=:all: must be set and --no-binary must not be set.
 </code></pre>
 <p>The result:</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Item</th>
 <th>Value</th>
@@ -352,7 +352,7 @@ tar -xzf node_modules.tgz
 <p>With no install step at all, nothing beats it for an air-gap demo. But all three conditions must hold: <strong>same OS, same CPU architecture, same Node major version.</strong> Change one and the symlinks in <code>node_modules/.bin</code> and the <code>.node</code> binaries disagree, and the error you get does not point at the cause.</p>
 <p>In practice, use it for &quot;demo where the target is one fixed machine&quot; or &quot;emergency recovery&quot;, not for day-to-day operation.</p>
 <h3>The three methods on one page</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th></th>
 <th>Cache handover</th>
@@ -411,7 +411,7 @@ tar -czf skills.tgz skills
 <p><strong>③ Offline execution.</strong> If the package is already cached, <code>npx --offline</code> runs it without the network. It fails if the cache doesn't have it, so tools you use often have to be cached in advance.</p>
 <h2>4. Four traps that keep biting, and a pre-handover checklist</h2>
 <p>By now the procedure is in place. What actually eats time is not the procedure but the exceptions. Four of them.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Trap</th>
 <th>How it shows up</th>
@@ -495,7 +495,7 @@ PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright npx playwright install chromium
 <p>The key to this arrangement is the boundary: not &quot;anything in the registry may be installed freely&quot; but &quot;anything in the registry has already been approved&quot;. That approval happens when the bundle is built.</p>
 <h3>Decision criteria</h3>
 <p>Three questions separate the candidates.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Criterion</th>
 <th>Question</th>
@@ -563,7 +563,7 @@ PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright npx playwright install chromium
         
         <a class="pager-item pager-newer" href="/diary/en/posts/2026-11-20-web-ui-css-layout-glossary/">
             <span>← Newer</span>
-            <strong>Naming What Went Wrong: Web UI, CSS and Layout, End to End</strong>
+            <strong>Web UI, CSS, and Layout Glossary</strong>
         </a>
         
         

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
-    <title>Naming What Went Wrong: Web UI, CSS and Layout, End to End · HD2&#39;s Diary</title>
+    <title>Web UI, CSS, and Layout Glossary · HD2&#39;s Diary</title>
     <meta name="description" content="When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
-    <meta property="og:title" content="Naming What Went Wrong: Web UI, CSS and Layout, End to End · HD2&#39;s Diary">
+    <meta property="og:title" content="Web UI, CSS, and Layout Glossary · HD2&#39;s Diary">
     <meta property="og:description" content="When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
     <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-en-posts-2026-11-20-web-ui-css-layout-glossary">
@@ -188,7 +188,7 @@
 
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.20</p>
-        <h1>Naming What Went Wrong: Web UI, CSS and Layout, End to End</h1>
+        <h1>Web UI, CSS, and Layout Glossary</h1>
         <p class="post-summary">When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix.</p>
         <div class="post-meta">
             <span class="badge">Notes</span>
@@ -210,7 +210,7 @@
 <p>If you build web apps for a while, you keep getting stuck in the same places: height math, safe areas, horizontal overflow, the ordering of overlapping layers, the size of a touch target, Korean line breaking. Knowing the name makes it searchable. Searchable narrows the cause. A narrow cause means one fix instead of five.</p>
 <p>This is a note that collects those names. It is split into eight groups, and each group follows the same order: <strong>the term → how it actually breaks → the CSS that matters → a comparison table</strong>. They come from work on Shutterplate's frame editor, Nordlys's video workspace and TechnicalHub's document views, where these exact things came back repeatedly.</p>
 <h2>The eight groups</h2>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Group</th>
 <th>Covers</th>
@@ -262,7 +262,7 @@
 </table></div><h2>1. Screen frame, viewport and responsiveness</h2>
 <h3>100vh is not the height of the screen</h3>
 <p>On a mobile browser the address bar and the bottom toolbar collapse and expand as you scroll. So there is not one &quot;screen height&quot;. CSS splits it into three.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Unit</th>
 <th>Meaning</th>
@@ -375,7 +375,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <h2>2. Placement, spacing and alignment</h2>
 <h3>Flexbox or Grid</h3>
 <p>Both align things, on different axes. Flexbox flows in <strong>one direction</strong>; Grid places across <strong>rows and columns at once</strong>.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th></th>
 <th>Flexbox</th>
@@ -419,7 +419,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </code></pre>
 <p><code>justify-content</code> works on the <strong>main axis</strong>; <code>align-items</code> works on the <strong>cross axis</strong>. Switching to <code>flex-direction: column</code> swaps those directions. A lot of &quot;vertical centering doesn't work&quot; comes from reaching for <code>justify-content: center</code> while the main axis is already vertical.</p>
 <h3>Margin, padding and gap</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Property</th>
 <th>Where</th>
@@ -454,7 +454,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <span class="hljs-selector-class">.row</span> { <span class="hljs-attribute">display</span>: flex; <span class="hljs-attribute">gap</span>: <span class="hljs-number">8px</span>; <span class="hljs-attribute">flex-wrap</span>: wrap; }
 </code></pre>
 <h3>The five positions</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Value</th>
 <th>Reference</th>
@@ -515,7 +515,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <p><a href="/diary/assets/images/en/2026-11-20-ui-spacing-position.png"><img src="/diary/assets/images/en/2026-11-20-ui-spacing-position.png" alt="Margin·padding·gap, and how position and z-index stack"></a></p>
 <h2>3. Page regions and navigation</h2>
 <p>A web app screen is usually a combination of the same regions. Once they have names, a request like &quot;shrink the hero and grow the stage&quot; fits in one line.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Region</th>
 <th>Job</th>
@@ -574,7 +574,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </code></pre>
 <p>Without <code>min-height: 0</code>, the stage tries to keep its content height and the whole page scrolls instead. The topbar scrolls away and the bottom bar is pushed off-screen. That is usually what &quot;there are two scrollbars now&quot; really means.</p>
 <h3>Drawer, accordion, tab, segmented control, breadcrumb</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Pattern</th>
 <th>What it does</th>
@@ -616,7 +616,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </tbody>
 </table></div><p>Tabs and segmented controls look alike and behave differently. A tab <strong>changes the content below</strong>; a segmented control is <strong>an input that picks one</strong>. So a tab gets <code>role=&quot;tab&quot;</code> and arrow-key movement, while a segmented control behaves like radios. For screen-reader users that difference is substantial.</p>
 <h3>Icon names: kebab, meatball, hamburger</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Glyph</th>
 <th>Name</th>
@@ -649,7 +649,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <h2>4. Buttons and controls</h2>
 <h3>Badge, tag, chip, pill</h3>
 <p>They differ by <strong>role</strong>, not by shape. All four can be drawn as a small rounded label, so without the names everything becomes &quot;the badge&quot;.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Name</th>
 <th>Role</th>
@@ -685,7 +685,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </tbody>
 </table></div><p>Pill names a shape; the other three name roles. Which is why &quot;a pill-shaped chip&quot; is a valid sentence. Refer to the role when giving instructions, and mention the shape only if it matters.</p>
 <h3>Toggle, checkbox, radio</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Control</th>
 <th>How many</th>
@@ -753,7 +753,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <p>One FAB per screen. On a screen with a bottom bar, <code>bottom</code> must include the bar's height, or the FAB sits on top of it. On Shutterplate's mobile screen, &quot;the bottom-right button overlaps the bar&quot; was exactly this calculation.</p>
 <p><a href="/diary/assets/images/en/2026-11-20-ui-controls-comparison.png"><img src="/diary/assets/images/en/2026-11-20-ui-controls-comparison.png" alt="Badge, tag, chip and pill next to toggle, icon button and FAB"></a></p>
 <h3>Slider, stepper, dropdown</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Element</th>
 <th>Where</th>
@@ -778,7 +778,7 @@ vv?.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </tr>
 </tbody>
 </table></div><h2>5. Overlapping layers and feedback</h2>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Layer</th>
 <th>Position and size</th>
@@ -933,7 +933,7 @@ dlg.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </code></pre>
 <p>Single-line ellipsis needs <strong>a defined width</strong> to work. Inside a flex item, add <code>min-width: 0</code> as well. Without it there is no ellipsis and the card stretches sideways instead.</p>
 <h3>line-height and letter-spacing</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Target</th>
 <th>line-height</th>
@@ -982,7 +982,7 @@ dlg.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </code></pre>
 <p>Bump <code>?v=</code> on every deploy. This diary's search script is versioned the same way.</p>
 <h3>Favicon and OG image</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Asset</th>
 <th>Size</th>
@@ -1035,7 +1035,7 @@ dlg.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 <p><code>touch-action: manipulation</code> disables double-tap zoom and the 300ms delay. A canvas or map that implements zoom and pan through pointer events sets <code>none</code> and builds pinch itself. Blocking page zoom altogether is an accessibility violation.</p>
 <h3>KakaoTalk in-app browser (WebView)</h3>
 <p>A link opened from KakaoTalk runs in a Chrome-based WebView on Android and <code>WKWebView</code> on iOS. Some things behave differently from Safari.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Item</th>
 <th>Symptom</th>
@@ -1088,7 +1088,7 @@ dlg.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </code></pre>
 <h2>8. A working cheat sheet</h2>
 <p>A table that turns a symptom into the exact term. Use it as the first stop when you receive a report — or when you write one.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Symptom</th>
 <th>Exact term</th>

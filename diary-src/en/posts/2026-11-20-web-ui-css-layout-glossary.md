@@ -1,5 +1,5 @@
 ---
-title: "Naming What Went Wrong: Web UI, CSS and Layout, End to End"
+title: "Web UI, CSS, and Layout Glossary"
 date: 2026-11-20T12:40:00+09:00
 category: Notes
 summary: "When the bottom of a screen is clipped, the page spills sideways, or the page behind a modal keeps scrolling, we usually cannot name the symptom — so we fix the same thing over and over. Eight groups of terms and CSS essentials: viewport, spacing, page regions, controls, layers, typography and mobile quirks, written to be used in a bug report or a fix."

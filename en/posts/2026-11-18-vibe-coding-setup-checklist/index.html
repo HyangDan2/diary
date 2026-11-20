@@ -20,7 +20,7 @@
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
     <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
     <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261119-koen">
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261120-table">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-en-posts-2026-11-18-vibe-coding-setup-checklist">
@@ -245,7 +245,7 @@
 <p><em>Left: guess, patch, break something else. Right: plan, small change, automatic verification, review.</em></p>
 <h2>The six-step setup checklist</h2>
 <p>The six steps have an order. ① to ③ reduce the <strong>number</strong> of accidents; ④ to ⑥ reduce their <strong>cost</strong>. Change the order and it gets less efficient: start with the verification loop and you are running tests without Git; start with model routing and you are paying for the expensive model without verification.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Step</th>
 <th>What</th>
@@ -375,7 +375,7 @@ Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · pnpm
 <p>And when you meet a failure, reproduce it before fixing it. A reproduction script lets you confirm the fix; without one, all you have is the feeling of having fixed it.</p>
 <h3>⑤ Secrets and permission guardrails</h3>
 <p>The fifth is blocking what cannot be undone. Risk has three levels.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Risk</th>
 <th>Example</th>
@@ -431,7 +431,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <li><strong>Bulk classification and extraction</strong> — hundreds of cases against the same criteria. Consistency and unit price matter more than peak accuracy.</li>
 </ul>
 <p>Applying the second post's conclusions gives this. <code>Qwen3.8-27B</code> on a desk fits in one 24GB card at 4-bit, so it is the default for fixed-format repetition and local data work. <code>Qwen3.5-397B-A17B</code> on a server keeps 397B in memory and computes 17B per token, so cost per unit of throughput falls on long contexts, complex design and mixed multimodal work. Thinking is not a performance knob but <strong>a risk knob</strong>: where the answer is uniquely determined, low effort wins; where you are hunting a cause or choosing a design, high effort lowers total cost.</p>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Work</th>
 <th>Model</th>
@@ -516,7 +516,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <li><strong>Move it into a device.</strong> If you made the same mistake twice, move it into one rule line or one hook. The third time is not carelessness; it is a missing piece of setup.</li>
 <li><strong>Make a list.</strong> Write down what is broken now from the user's point of view — &quot;logging out when you refresh after login&quot; — as symptoms. Causes come after.</li>
 </ol>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Situation</th>
 <th>Time</th>
@@ -555,7 +555,7 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
 <h3>One criterion</h3>
 <p>A criterion runs through all three: <strong>is it irreversible, and is it responsibility rather than taste?</strong> If both, a person holds it; if either is no, delegate it. With that one criterion you don't have to agonise each time.</p>
 <h3>The trilogy compressed into a ten-minute first-day routine</h3>
-<div class="table-wrap"><table><thead>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
 <tr>
 <th>Time</th>
 <th>What</th>
