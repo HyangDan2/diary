@@ -42,25 +42,38 @@
     // Returning through bfcache should never restore an unfolded sidebar.
     window.addEventListener('pageshow', function () { closeDrawer(false); });
 
-    // Section accordions (Apps, Play, Diary): the row label links to the hub page,
-    // the caret unfolds that group's sections on its own. A page can start with its
-    // own group open by setting is-open / aria-expanded="true" in the markup.
-    Array.prototype.forEach.call(document.querySelectorAll('.drawer-group'), function (group) {
+    // Section accordions (Apps, Play, Diary, Info): the row label links to the hub
+    // page, the caret unfolds that group's sections — and unfolding one group folds
+    // the others, so a long section such as Apps never pushes About off the drawer.
+    // A page can start with its own group open by setting is-open /
+    // aria-expanded="true" in the markup.
+    var groups = Array.prototype.slice.call(document.querySelectorAll('.drawer-group'));
+    var setOpen = function (group, open) {
         var toggle = group.querySelector('.drawer-toggle');
         var panel = group.querySelector('.drawer-sub');
         if (!toggle || !panel) return;
-        var setOpen = function (open) {
-            group.classList.toggle('is-open', open);
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            // A collapsed panel keeps its height transition, so its links have to
-            // leave the tab order another way than display:none.
-            panel.inert = !open;
-            if (open) panel.removeAttribute('aria-hidden');
-            else panel.setAttribute('aria-hidden', 'true');
-        };
-        setOpen(toggle.getAttribute('aria-expanded') === 'true');
+        group.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        // A collapsed panel keeps its height transition, so its links have to
+        // leave the tab order another way than display:none.
+        panel.inert = !open;
+        if (open) {
+            panel.removeAttribute('aria-hidden');
+            // Reopening a scrolled section starts it at its first row again.
+            var list = panel.querySelector('.drawer-sub-inner') || panel;
+            list.scrollTop = 0;
+        } else {
+            panel.setAttribute('aria-hidden', 'true');
+        }
+    };
+    groups.forEach(function (group) {
+        var toggle = group.querySelector('.drawer-toggle');
+        if (!toggle) return;
+        setOpen(group, toggle.getAttribute('aria-expanded') === 'true');
         toggle.addEventListener('click', function () {
-            setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+            var open = toggle.getAttribute('aria-expanded') !== 'true';
+            if (open) groups.forEach(function (other) { if (other !== group) setOpen(other, false); });
+            setOpen(group, open);
         });
     });
 })();
