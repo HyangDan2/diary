@@ -2,14 +2,14 @@
 title: "What Survives a Failure — Nine Projects, One Rule, One Night"
 date: 2026-11-23T08:50:00+09:00
 category: Devlog
-summary: "From midday on November 22 to the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but they broke in the same places: when a save is called successful, responses that arrive late, and two tabs opening the same workspace."
+summary: "From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace."
 tags: [pkpilot, devlog, stability, indexeddb, qa]
 lang: en
 translationKey: devlog-night-stability-pass
 layout: post
 ---
 
-The run started on the afternoon of November 22, cleaning up CinePlate's filter windows, and ended after midnight with 青松館 Phase 3. In about twenty hours I touched nine projects. Each one does something different, and yet the places that needed fixing were almost identical.
+The run started on the afternoon of November 22 with a cleanup of CinePlate's filter windows and carried on through the night to 青松館 Phase 3. In about twenty hours I touched nine projects. Each one does something different, and yet the places that needed fixing were almost identical.
 
 An app that runs in the browser has no server behind it. When a save fails, nobody tells you, and when the tab closes, the last few seconds disappear without a sound. Half of this pass was not about features at all. It was about making that quiet failure audible.
 
@@ -49,7 +49,7 @@ Slides and handwritten notes share one screen, and the notes are written to Inde
 - Tabs compare `workspace:revision` and the notes' `{ revision, strokes }`. Saving notes also publishes on `BroadcastChannel`, and a tab with unsaved changes gets a banner: "Save this tab / Load the saved copy."
 - Writes are serialised through a single queue and flushed immediately on `pagehide`. The chip at the top shows exactly five states: saved, saving, save failed, saving paused, conflict.
 
-Checks: Vitest 169/169, Playwright 76/76 on desktop and mobile, and a live round trip of notes and reload with zero console errors.
+Checks: Vitest 169/169, Playwright 76/76 on desktop and mobile, and a live round trip in which notes were saved, the page reloaded and the notes came back, with zero console errors.
 
 ## Lýra (PKPilot0019) — sound does not come back
 
@@ -72,7 +72,7 @@ Checks: the seven known defects were reproduced and made to fail first; then uni
 This one runs classic DOS games in the browser through js-dos. Booting, input and session shutdown were tangled in one file, so fixing one corner shook another.
 
 - `app.js`, 1,423 lines long, became 15 modules, and `js-dos` is pinned at 8.5.4. Each boot carries a generation ID so a late boot can be cancelled.
-- Physical keys are counted per input source (`kbd:KeyJ`, `kbd:KeyZ`). Pressing the same key in two places still leaves the other one held when you release one.
+- Physical keys are counted per input source (`kbd:KeyJ`, `kbd:KeyZ`). The same key pressed through two sources is tracked separately, so releasing one does not release the other.
 - Keyboard capture is released before a game starts, and cards take focus with Space and Enter.
 - Session shutdown is serialised in `SessionManager`, and the `target` snapshot is frozen while shutdown runs.
 - The second QA round of eight items covered independent physical keys, serialised shutdown, a frozen target during shutdown, card replacement during boot, preserved volume and mute, per-generation input queues, stale requests blocked after cancel or error, and overlapping elements in dark landscape mode.
@@ -106,7 +106,7 @@ One is a photo-plate studio, the other a four-cut frame workbench. Here, more of
 
 **FrameBuilder (PKPilot0015)**
 
-- Six dual-squircle favicons; matte cotton (0.55 by default) and archival paper texture.
+- Six dual-squircle favicons; a matte cotton finish (0.55 by default) and an archival paper texture.
 - The iPhone long-press menu is blocked (`-webkit-touch-callout: none`), and each slot's photo can be deleted on its own.
 - Arrow keys rotate by 1°/5° and scale by 2%/10%. Double-click and double-tap open a slot-only `SlotModal`.
 - The dock now separates `Shutterplate · 4-cut print` from `CinePlate · film and video`.
@@ -120,7 +120,7 @@ The shell no longer looks different from 0008 Viewer; it follows the 0008 spec, 
 
 - The titlebar is down to four places: `? · ⚙ · ☾ · ⋮`.
 - A single `#ghDialog` holds two presets, three image paths, a category and the PAT.
-- The publish dialog shows the target repository as a badge and a `Include YAML frontmatter` toggle.
+- The publish dialog shows the target repository as a badge and an `Include YAML frontmatter` toggle.
 - Loading and image upload both follow the configured repository; change the repository and both paths change with it.
 
 Checks: local Playwright 25/25, live 7/7, zero console errors.
@@ -152,7 +152,7 @@ This is a workbench where five tools sit on one screen: test generation, documen
 
 Checks: Phase 1 — Vitest 124/124 and 38/38 on generated output; Phase 2 — 147/147; Phase 3 — 184/184. Playwright passed through all 14 phase-3 cases; only the gcc step of REG-11 was skipped, because the sandbox has no C compiler.
 
-## The same place was breaking in four different apps
+## The same four places kept collapsing
 
 Different apps, the same conclusion. Written down so the next pass makes fewer of the same mistakes.
 
