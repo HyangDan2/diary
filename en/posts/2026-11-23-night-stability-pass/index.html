@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FAFAFD">
     <title>What Survives a Failure — Nine Projects, One Rule, One Night · HD2&#39;s Diary</title>
-    <meta name="description" content="From midday on November 22 to the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but they broke in the same places: when a save is called successful, responses that arrive late, and two tabs opening the same workspace.">
+    <meta name="description" content="From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
     <meta property="og:title" content="What Survives a Failure — Nine Projects, One Rule, One Night · HD2&#39;s Diary">
-    <meta property="og:description" content="From midday on November 22 to the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but they broke in the same places: when a save is called successful, responses that arrive late, and two tabs opening the same workspace.">
+    <meta property="og:description" content="From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace.">
     <meta property="og:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
     <meta property="og:image:secure_url" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
     <meta property="og:image:type" content="image/png">
@@ -18,7 +18,7 @@
     <meta property="og:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="What Survives a Failure — Nine Projects, One Rule, One Night · HD2&#39;s Diary">
-    <meta name="twitter:description" content="From midday on November 22 to the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but they broke in the same places: when a save is called successful, responses that arrive late, and two tabs opening the same workspace.">
+    <meta name="twitter:description" content="From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace.">
     <meta name="twitter:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
     <meta name="twitter:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
     <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
@@ -206,7 +206,7 @@
     <header class="post-header">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.23</p>
         <h1>What Survives a Failure — Nine Projects, One Rule, One Night</h1>
-        <p class="post-summary">From midday on November 22 to the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but they broke in the same places: when a save is called successful, responses that arrive late, and two tabs opening the same workspace.</p>
+        <p class="post-summary">From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace.</p>
         <div class="post-meta">
             <span class="badge">Devlog</span>
             
@@ -223,7 +223,7 @@
     </header>
 
     <div class="md-body post-content">
-        <p>The run started on the afternoon of November 22, cleaning up CinePlate's filter windows, and ended after midnight with 青松館 Phase 3. In about twenty hours I touched nine projects. Each one does something different, and yet the places that needed fixing were almost identical.</p>
+        <p>The run started on the afternoon of November 22 with a cleanup of CinePlate's filter windows and carried on through the night to 青松館 Phase 3. In about twenty hours I touched nine projects. Each one does something different, and yet the places that needed fixing were almost identical.</p>
 <p>An app that runs in the browser has no server behind it. When a save fails, nobody tells you, and when the tab closes, the last few seconds disappear without a sound. Half of this pass was not about features at all. It was about making that quiet failure audible.</p>
 <h2>What the night covered</h2>
 <div class="table-wrap" role="region" tabindex="0"><table><thead>
@@ -299,7 +299,7 @@
 <li>Tabs compare <code>workspace:revision</code> and the notes' <code>{ revision, strokes }</code>. Saving notes also publishes on <code>BroadcastChannel</code>, and a tab with unsaved changes gets a banner: &quot;Save this tab / Load the saved copy.&quot;</li>
 <li>Writes are serialised through a single queue and flushed immediately on <code>pagehide</code>. The chip at the top shows exactly five states: saved, saving, save failed, saving paused, conflict.</li>
 </ul>
-<p>Checks: Vitest 169/169, Playwright 76/76 on desktop and mobile, and a live round trip of notes and reload with zero console errors.</p>
+<p>Checks: Vitest 169/169, Playwright 76/76 on desktop and mobile, and a live round trip in which notes were saved, the page reloaded and the notes came back, with zero console errors.</p>
 <h2>Lýra (PKPilot0019) — sound does not come back</h2>
 <p>This is a multi-track loop station. Once a take drifts, the only fix is to perform it again. Most of the ten fixes here came down to two questions: who owns this take, and when can we be sure it has finished?</p>
 <ul>
@@ -317,7 +317,7 @@
 <p>This one runs classic DOS games in the browser through js-dos. Booting, input and session shutdown were tangled in one file, so fixing one corner shook another.</p>
 <ul>
 <li><code>app.js</code>, 1,423 lines long, became 15 modules, and <code>js-dos</code> is pinned at 8.5.4. Each boot carries a generation ID so a late boot can be cancelled.</li>
-<li>Physical keys are counted per input source (<code>kbd:KeyJ</code>, <code>kbd:KeyZ</code>). Pressing the same key in two places still leaves the other one held when you release one.</li>
+<li>Physical keys are counted per input source (<code>kbd:KeyJ</code>, <code>kbd:KeyZ</code>). The same key pressed through two sources is tracked separately, so releasing one does not release the other.</li>
 <li>Keyboard capture is released before a game starts, and cards take focus with Space and Enter.</li>
 <li>Session shutdown is serialised in <code>SessionManager</code>, and the <code>target</code> snapshot is frozen while shutdown runs.</li>
 <li>The second QA round of eight items covered independent physical keys, serialised shutdown, a frozen target during shutdown, card replacement during boot, preserved volume and mute, per-generation input queues, stale requests blocked after cancel or error, and overlapping elements in dark landscape mode.</li>
@@ -346,7 +346,7 @@
 </ul>
 <p><strong>FrameBuilder (PKPilot0015)</strong></p>
 <ul>
-<li>Six dual-squircle favicons; matte cotton (0.55 by default) and archival paper texture.</li>
+<li>Six dual-squircle favicons; a matte cotton finish (0.55 by default) and an archival paper texture.</li>
 <li>The iPhone long-press menu is blocked (<code>-webkit-touch-callout: none</code>), and each slot's photo can be deleted on its own.</li>
 <li>Arrow keys rotate by 1°/5° and scale by 2%/10%. Double-click and double-tap open a slot-only <code>SlotModal</code>.</li>
 <li>The dock now separates <code>Shutterplate · 4-cut print</code> from <code>CinePlate · film and video</code>.</li>
@@ -358,7 +358,7 @@
 <ul>
 <li>The titlebar is down to four places: <code>? · ⚙ · ☾ · ⋮</code>.</li>
 <li>A single <code>#ghDialog</code> holds two presets, three image paths, a category and the PAT.</li>
-<li>The publish dialog shows the target repository as a badge and a <code>Include YAML frontmatter</code> toggle.</li>
+<li>The publish dialog shows the target repository as a badge and an <code>Include YAML frontmatter</code> toggle.</li>
 <li>Loading and image upload both follow the configured repository; change the repository and both paths change with it.</li>
 </ul>
 <p>Checks: local Playwright 25/25, live 7/7, zero console errors.</p>
@@ -386,7 +386,7 @@
 <li>DATA-001 validates the bundle schema and the <code>toolId</code> allowlist, and keeps a backup so an import can be undone. Three realistic samples were added, bringing the total to seven.</li>
 </ul>
 <p>Checks: Phase 1 — Vitest 124/124 and 38/38 on generated output; Phase 2 — 147/147; Phase 3 — 184/184. Playwright passed through all 14 phase-3 cases; only the gcc step of REG-11 was skipped, because the sandbox has no C compiler.</p>
-<h2>The same place was breaking in four different apps</h2>
+<h2>The same four places kept collapsing</h2>
 <p>Different apps, the same conclusion. Written down so the next pass makes fewer of the same mistakes.</p>
 <ol>
 <li><strong>A save is called successful only after it finishes.</strong> <code>savedStrokes</code> is not updated before the transaction completes, and export success appears only after the download.</li>
