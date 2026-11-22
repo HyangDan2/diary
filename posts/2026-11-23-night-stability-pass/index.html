@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>실패한 뒤에도 남는 것 — 밤사이 아홉 개 프로젝트를 같은 규칙으로 손봤습니다 · HD2&#39;s Diary</title>
+    <meta name="description" content="11월 22일 낮부터 23일 새벽까지 CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, Markdown Editor와 青松館을 고쳤습니다. 앱은 달라도 무너지는 자리는 같았습니다. 저장을 성공이라고 말하는 시점, 늦게 도착한 응답, 같은 작업실을 여는 두 개의 탭입니다.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="실패한 뒤에도 남는 것 — 밤사이 아홉 개 프로젝트를 같은 규칙으로 손봤습니다 · HD2&#39;s Diary">
+    <meta property="og:description" content="11월 22일 낮부터 23일 새벽까지 CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, Markdown Editor와 青松館을 고쳤습니다. 앱은 달라도 무너지는 자리는 같았습니다. 저장을 성공이라고 말하는 시점, 늦게 도착한 응답, 같은 작업실을 여는 두 개의 탭입니다.">
+    <meta property="og:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:secure_url" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="실패한 뒤에도 남는 것 — 밤사이 아홉 개 프로젝트를 같은 규칙으로 손봤습니다 · HD2&#39;s Diary">
+    <meta name="twitter:description" content="11월 22일 낮부터 23일 새벽까지 CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, Markdown Editor와 青松館을 고쳤습니다. 앱은 달라도 무너지는 자리는 같았습니다. 저장을 성공이라고 말하는 시점, 늦게 도착한 응답, 같은 작업실을 여는 두 개의 탭입니다.">
+    <meta name="twitter:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta name="twitter:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-23-night-stability-pass/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-23-night-stability-pass/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-23-night-stability-pass/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261121-nav15">
+    <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body class="page-posts-2026-11-23-night-stability-pass">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/categories/devlog/">Devlog</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="언어">
+    <a class="lang-switch-item is-active" href="/diary/posts/2026-11-23-night-stability-pass/" hreflang="ko" lang="ko" aria-current="true">KO</a>
+    <a class="lang-switch-item" href="/diary/en/posts/2026-11-23-night-stability-pass/" hreflang="en" lang="en">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.23</p>
+        <h1>실패한 뒤에도 남는 것 — 밤사이 아홉 개 프로젝트를 같은 규칙으로 손봤습니다</h1>
+        <p class="post-summary">11월 22일 낮부터 23일 새벽까지 CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, Markdown Editor와 青松館을 고쳤습니다. 앱은 달라도 무너지는 자리는 같았습니다. 저장을 성공이라고 말하는 시점, 늦게 도착한 응답, 같은 작업실을 여는 두 개의 탭입니다.</p>
+        <div class="post-meta">
+            <span class="badge">Devlog</span>
+            
+            <time datetime="2026-11-23">2026년 11월 23일</time>
+            <span>5분 읽기</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#pkpilot</span><span class="tag">#devlog</span><span class="tag">#stability</span><span class="tag">#indexeddb</span><span class="tag">#qa</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>11월 22일 낮에 CinePlate의 필터 창을 정리하며 시작했고, 23일 새벽 青松館 Phase 3에서 끝냈습니다. 스무 시간 남짓 동안 아홉 개 프로젝트를 만졌습니다. 앱마다 하는 일은 달랐지만, 고친 자리는 놀랄 만큼 비슷했습니다.</p>
+<p>브라우저에서 도는 앱은 서버가 없습니다. 그래서 저장이 실패해도 알려 주는 사람이 없고, 탭을 닫으면 마지막 몇 초가 조용히 사라집니다. 이번에 손댄 것의 절반은 기능이 아니라 그 조용한 실패를 소리 내게 만드는 일이었습니다.</p>
+<h2>이번 밤에 지나간 목록</h2>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>프로젝트</th>
+<th>이번에 고친 자리</th>
+<th>확인한 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CodePlayground (PKPilot0013) v2.2.0</td>
+<td>Git 병합 충돌 상태, Python 반복 실행 메모리, 다중 탭 충돌</td>
+<td>Vitest 158/158, 라이브 12/12</td>
+</tr>
+<tr>
+<td>SlideDeck (PKPilot0014)</td>
+<td>필기 저장 무결성, 다중 탭 revision, 저장 상태 칩</td>
+<td>Vitest 169/169, Playwright 76/76</td>
+</tr>
+<tr>
+<td>Lýra (PKPilot0019)</td>
+<td>오디오 엔진 10건, 상단 압축 헤더와 프로젝트 드로워</td>
+<td>유닛 130/130, 라이브 E2E 24/24</td>
+</tr>
+<tr>
+<td>DOS Player (PKPilot0006) v2.0.0</td>
+<td>1,423줄을 15개 모듈로 분리, 2차 QA 8종</td>
+<td>단위 90/90, E2E 102/102</td>
+</tr>
+<tr>
+<td>Midpoint (PKPilot0002)</td>
+<td>테마 토글·범례 동기화, 429 즉시 전환, 검색 큐</td>
+<td>단위 214/214</td>
+</tr>
+<tr>
+<td>CinePlate (PKPilot0011)</td>
+<td>마가린 58종·엠블럼 11종 전용 창, EXIF Auto, 톤 커브</td>
+<td>Vitest 159/159, 모바일 E2E 3/3</td>
+</tr>
+<tr>
+<td>FrameBuilder (PKPilot0015)</td>
+<td>일곱 가지 개선, 위치 기반 두 손가락 회전</td>
+<td>Vitest 148/148, Playwright 130/130</td>
+</tr>
+<tr>
+<td>Markdown Editor (PKPilot0007)</td>
+<td>0008 규격 앱 셸, 범용 GitHub 설정 창</td>
+<td>로컬 25/25, 라이브 7/7</td>
+</tr>
+<tr>
+<td>青松館 (ADOP0001)</td>
+<td>Phase 1~3 — 테스트 생성, 문서 변환, 코드 분석</td>
+<td>Vitest 124 → 147 → 184</td>
+</tr>
+</tbody>
+</table></div><h2>CodePlayground (PKPilot0013) v2.2.0 — 브라우저 안의 Git과 Python</h2>
+<p>이 앱은 브라우저 안에서 VS Code를 닮은 화면을 열고, Git 명령과 Python 실행을 실제로 돌립니다. 흉내가 아니라 진짜로 돌기 때문에, 상태 하나가 어긋나면 작업물이 통째로 사라질 수 있습니다. 이번에는 지워지는 길부터 막았습니다.</p>
+<ul>
+<li><strong>병합 충돌을 상태로 다룹니다.</strong> <code>unmergedPaths</code>를 따로 추적하고, 충돌 파일을 해결해 <code>git add</code>하기 전까지 커밋을 막습니다. 다른 staged 파일이 남아 있어도 미해결 충돌을 우회할 수 없고, 해결한 뒤에는 부모가 둘인 merge commit이 만들어집니다.</li>
+<li><strong><code>merge --abort</code>는 병합 전으로 돌아갑니다.</strong> staged·unstaged·untracked 스냅샷을 모두 복원합니다. <code>git rm</code>은 커밋하지 않은 수정이 있으면 거부하고(<code>-f</code>를 주면 진행), <code>git rm --cached</code>는 디스크의 파일을 untracked로 남깁니다.</li>
+<li><strong>Python을 120번 돌려도 힙이 늘지 않습니다.</strong> 실행마다 VFS 임시 디렉터리를 지우고 PyProxy를 <code>.destroy()</code>합니다. 실측에서 남은 디렉터리는 0개, WASM 힙 증가는 0 MiB였습니다. 고치기 전에는 120회에 4.8 MiB가 늘고 125개가 남았습니다.</li>
+<li><strong>두 탭이 같은 작업실을 엽니다.</strong> <code>revision</code>과 <code>updatedAt</code>을 비교해 충돌 카드(&quot;이 탭으로 저장 / 다른 탭 불러오기&quot;)를 띄웁니다. <code>mergeState</code>가 없는 예전 저장 세션도 충돌 표시를 복구하면서 untracked 파일을 보존합니다.</li>
+</ul>
+<p>확인은 <code>tsc</code> clean, Vitest 158/158, 로컬 20/20, 라이브 스모크 12/12와 Python 실제 실행으로 마쳤습니다.</p>
+<h2>SlideDeck (PKPilot0014) — 필기는 저장이 끝난 뒤에 저장됐다고 말합니다</h2>
+<p>슬라이드와 필기가 한 화면에 있고, 필기는 획 단위로 IndexedDB에 쌓입니다. 문제는 저장에 실패했을 때나 읽기에 실패했을 때나 똑같이 빈 화면이 보인다는 점이었습니다. 사용자는 자기 필기가 사라진 줄 알지만, 실제로는 읽지 못한 것일 수도 있습니다.</p>
+<ul>
+<li><code>savedStrokes</code>는 저장 요청을 보내기 전이 아니라 트랜잭션이 끝난 뒤에 갱신합니다.</li>
+<li>실패한 획은 <code>dirty</code>로 남겨 두고 백오프로 다시 시도합니다. 계속 실패하면 &quot;다시 시도&quot; 버튼과 알림이 뜹니다.</li>
+<li><code>loadAllStrokes()</code>는 읽기 실패와 데이터가 없는 경우를 구분합니다. 하나라도 읽지 못하면 샘플 덱 갱신과 워크스페이스 저장을 곧바로 멈춥니다.</li>
+<li>덱과 슬라이드를 지울 때는 필기까지 한 트랜잭션으로 지웁니다. 중간에 실패하면 통째로 되돌립니다.</li>
+<li>두 탭은 <code>workspace:revision</code>과 필기의 <code>{ revision, strokes }</code>로 서로를 비교합니다. 필기를 저장할 때도 <code>BroadcastChannel</code>로 알리고, 저장하지 않은 변경이 있는 탭에는 &quot;이 탭 내용 저장 / 저장본 불러오기&quot; 배너가 뜹니다.</li>
+<li>쓰기는 단일 큐로 직렬화하고, <code>pagehide</code>에서 곧바로 플러시합니다. 상단 칩은 <code>저장됨 / 저장 중… / 저장 실패 / 저장 멈춤 / 충돌 확인</code> 다섯 상태만 보여줍니다.</li>
+</ul>
+<p>확인은 Vitest 169/169, Playwright 데스크톱과 모바일 76/76, 라이브에서 필기·새로고침 왕복과 콘솔 오류 0건입니다.</p>
+<h2>Lýra (PKPilot0019) — 소리는 되돌릴 수 없습니다</h2>
+<p>멀티트랙 루프 스테이션입니다. 녹음은 한 번 어긋나면 그 테이크를 다시 하는 수밖에 없습니다. 이번에 고친 10건은 대부분 &quot;누가 이 테이크를 소유하는가&quot;와 &quot;끝났다고 언제 확신할 수 있는가&quot;에 관한 것이었습니다.</p>
+<ul>
+<li><code>RecSession.token</code>을 비동기 finalize의 소유권 검사에 넣고, 같은 트랙의 commit을 <code>commitChain</code>으로 직렬화했습니다. 녹음이 늦게 끝나도 다른 세션의 테이크를 덮지 않습니다.</li>
+<li><code>importFile</code>은 <code>decodeAudioData</code> 전후로 <code>generation</code>, <code>epoch</code>, <code>token</code>을 확인합니다. 프로젝트를 바꾼 뒤에 도착한 예전 임포트는 버립니다.</li>
+<li>BPM을 바꿔도 PCM을 자르지 않습니다. 타임 스트레칭을 붙이기 전까지는 <code>playbackRate</code> 매핑으로 길이를 맞추고, 피치가 함께 움직인다는 사실을 화면에 적었습니다.</li>
+<li>악기의 직접 모니터와 녹음 입력 경로를 분리해 이중 출력과 피드백을 없앴습니다.</li>
+<li><code>stopAsync</code>는 150ms를 기다렸다가 끝난 것으로 치던 자리에서 flush ACK를 기다리고, 응답이 없으면 <code>RecorderFlushTimeoutError</code>를 던집니다.</li>
+<li>음수 레이턴시(-150~0ms)를 실제 캡처 보정에 반영했고, 장치 변경이 실패하면 기존 장치 선택과 권한 상태를 그대로 둡니다.</li>
+<li>자동 저장은 메인 스레드에서 Base64로 직렬화하지 않습니다. <code>Float32Array</code>를 IndexedDB에 그대로 넣어 저장 시간이 <strong>765ms에서 2.7ms</strong>로 줄었습니다.</li>
+</ul>
+<p>같은 앱에서 상단 헤더를 두 단으로 접고 프로젝트 드로워를 넣었습니다. 아이폰 사파리에서 겹치던 파형과 드로워 아코디언도 이때 정리했습니다.</p>
+<p>확인은 수정 전 결함 7건을 먼저 재현해 실패시킨 뒤, 유닛 130/130, 라이브 E2E 24/24, 콘솔 오류 0건으로 마쳤습니다.</p>
+<h2>DOS Player (PKPilot0006) v2.0.0 — 1,423줄을 15개 모듈로</h2>
+<p>js-dos로 고전 게임을 브라우저에서 돌리는 앱입니다. 부팅과 입력, 세션 종료가 한 파일에 엉켜 있어서, 한 곳을 고치면 다른 곳이 흔들렸습니다.</p>
+<ul>
+<li>1,423줄짜리 <code>app.js</code>를 15개 모듈로 나누고 <code>js-dos 8.5.4</code>를 고정했습니다. 부팅마다 세대 ID를 붙여 늦게 도착한 부팅을 취소합니다.</li>
+<li>물리 키는 입력원별로 따로 셉니다(<code>kbd:KeyJ</code>, <code>kbd:KeyZ</code>). 같은 키를 두 곳에서 눌러도 하나를 떼면 다른 하나는 살아 있습니다.</li>
+<li>실행 전에는 키보드 가로채기를 풀고, 카드에는 Space와 Enter로 포커스가 갑니다.</li>
+<li>세션 종료는 <code>SessionManager</code>에서 직렬화하고, 종료 중에는 <code>target</code> 스냅샷을 고정합니다.</li>
+<li>2차 QA 8종은 물리 키 독립, 종료 직렬화, 종료 중 대상 고정, 부팅 중 카드 교체, 음량과 음소거 유지, 입력 세대 큐 분리, 취소·오류 뒤 옛 요청 차단, 다크 가로모드 겹침입니다.</li>
+<li>화면은 Player-first로 바꾸고, 모바일 가로 모드에는 게임 선택 바를 붙였습니다. 명암비는 WCAG AA까지 올렸습니다.</li>
+</ul>
+<p>확인은 정적 검사 통과, 단위 90/90, E2E 102/102(데스크톱 60 + iPhone 13 프로필 42), 라이브에서 <code>Digger</code> 실행과 콘솔 오류 0건입니다.</p>
+<h2>Midpoint (PKPilot0002) — 지도는 기다려 주지 않습니다</h2>
+<p>Nominatim과 Photon 두 지오코더를 번갈아 쓰는 중간 지점 앱입니다. 한도에 걸린 서버가 120초를 버티게 두면, 그동안 사용자는 아무것도 할 수 없습니다.</p>
+<ul>
+<li>상단 타이틀바에 라이트·다크 슬라이드 토글을 옮기고, 라이트에서도 어둡게 굳어 있던 범례 바, 네이버 말풍선, 마커 라벨, 지도 도구 버튼 색을 테마 변수로 바꿨습니다.</li>
+<li>Nominatim이 <code>429</code>와 <code>Retry-After: 120</code>을 주면 120초를 기다리지 않고 Photon으로 넘어갑니다. 라이브 응답은 1.32~1.39초였고, 정상으로 돌아오면 <code>cooldownStreak</code>을 초기화합니다.</li>
+<li>검색어가 바뀌거나 목록을 닫거나 Escape를 누르면 토큰을 무효화합니다. 늦게 도착한 응답이 새 결과를 덮어쓰지 않습니다.</li>
+<li>POI 중복 판정에서 거리 하나만 보던 기준을 걷어내고 OSM id, 이름, 주소, 좌표를 함께 봤습니다. OSM이 0건이면 늦게 오는 Overpass 응답을 2.5~6초 더 받습니다.</li>
+<li>사용자가 직접 친 검색을 큐 앞으로 올리고, 화면을 떠나면 역주소 요청을 큐에서 빼고 Abort합니다. 12명을 등록하는 동안 검색이 <strong>13,165ms에서 1,052ms</strong>로 줄었습니다.</li>
+</ul>
+<p>확인은 단위 214/214, 로컬과 라이브 E2E 통과, 콘솔 오류 0건입니다.</p>
+<h2>CinePlate와 FrameBuilder — 손끝에서 끝나는 일</h2>
+<p>사진 인화 화면과 4컷 프레임 작업대입니다. 여기서는 숫자를 고치는 일보다 손이 미끄러지는 자리를 고치는 일이 많았습니다.</p>
+<p><strong>CinePlate (PKPilot0011)</strong></p>
+<ul>
+<li>마가린 필터 58종을 전용 창으로 분리했습니다. 그룹 칩, 검색, 썸네일 그리드, 강도 슬라이더가 한 창에 있습니다.</li>
+<li>엠블럼은 프레임 설정창의 세 갈래 토글 대신 전용 창에서 11종 정식 로고를 고릅니다. <code>Auto</code>와 <code>없음</code>, <code>Original</code>과 <code>All Black</code> 전환도 그 창에 있습니다.</li>
+<li>EXIF <code>Auto</code>가 늘 HD2Lab으로 떨어지던 원인은 <code>resolveEmblem</code>이 <code>Make</code>만 보고 <code>Model</code>을 넘기지 않은 데 있었습니다. 이제 둘을 함께 보고, EXIF에 모델명만 있어도 해당 제조사 로고로 인화합니다.</li>
+<li>톤 커브는 바깥 여백을 탭해도 닫히고, 우상단 <code>X</code> 버튼도 커졌습니다. 점 개수로만 판정하던 보라색 뱃지는 정밀한 항등 판정으로 바꿨습니다.</li>
+<li>좌하단과 우상단 끝점의 X좌표가 0과 1에 묶여 좌우로 움직이지 않던 문제를 풀고, 양 끝의 수평 구간까지 그래프와 스플라인에 반영했습니다.</li>
+</ul>
+<p><strong>FrameBuilder (PKPilot0015)</strong></p>
+<ul>
+<li>듀얼스큐 파비콘 6종, 매트 코튼(기본 0.55)과 아카이벌 페이퍼 종이 질감.</li>
+<li>아이폰 롱프레스 메뉴 차단(<code>-webkit-touch-callout: none</code>), 칸별 사진 삭제.</li>
+<li>PC 방향키로 회전 1°/5°, 크기 2%/10%. 더블클릭과 더블탭은 칸 전용 <code>SlotModal</code>을 엽니다.</li>
+<li>하단 독의 앱 이름을 <code>Shutterplate · 4컷 인화</code>, <code>CinePlate · 필름·영상</code>으로 나눴습니다.</li>
+<li>두 손가락 동작은 손가락이 프레임 위에 닿으면 곧바로 회전과 크기 조절로 들어가고, 바깥 여백에 닿으면 화면 전체 줌으로 갑니다. 예전에는 빠른 핀치를 구분하려고 잠깐 기다렸는데, 그 대기를 없앴습니다.</li>
+</ul>
+<p>확인은 CinePlate가 Vitest 159/159, 모바일 E2E 3/3, 라이브 Apple EXIF 업로드와 콘솔 오류 0건입니다. FrameBuilder는 Vitest 148/148, Playwright 130/130, 390×844 실측에서 프레임을 0도에서 24도까지 돌리고 여백 핀치로 화면 배율을 1에서 0.729까지 줄여 확인했습니다.</p>
+<h2>Markdown Editor (PKPilot0007) — 쓰는 창을 읽는 창과 같은 규격으로</h2>
+<p>0008 Viewer와 달라 보이던 앱 셸을 0008 규격으로 맞추고, GitHub 설정을 한 창에 모았습니다.</p>
+<ul>
+<li>타이틀바는 <code>? · ⚙ · ☾ · ⋮</code> 네 자리로 정리했습니다.</li>
+<li><code>#ghDialog</code> 하나에서 프리셋 2종, 이미지 경로 3종, 카테고리, PAT를 설정합니다.</li>
+<li>발행 모달에는 대상 저장소 배지와 <code>YAML Frontmatter 포함</code> 토글이 붙었습니다.</li>
+<li>불러오기와 이미지 업로드가 설정한 저장소를 따라갑니다. 저장소를 바꾸면 두 경로가 함께 바뀝니다.</li>
+</ul>
+<p>확인은 로컬 Playwright 25/25, 라이브 7/7, 콘솔 오류 0건입니다.</p>
+<h2>青松館 (ADOP0001) Phase 1~3 — 다섯 도구가 한 화면을 나눠 씁니다</h2>
+<p>테스트 코드 생성, 문서 변환, 코드 분석 같은 다섯 도구가 한 화면에 있는 작업대입니다. 22일 밤부터 23일 새벽까지 Phase 1에서 Phase 3까지 지나갔습니다.</p>
+<p><strong>Phase 1 — Haruhi(테스트)와 Takane(코드 생성)</strong></p>
+<ul>
+<li>공통 <code>TestCase</code> IR을 두고 경계값, 예외, 비동기, 메서드 입력을 실제 실행과 맞췄습니다.</li>
+<li>Vitest, Jest, Pytest, JUnit5, Go 다섯 프레임워크 생성기를 다시 썼습니다.</li>
+<li>정적 분기 매핑률과 실행 커버리지를 한 숫자로 섞지 않고 나눠 표시합니다.</li>
+<li>Takane은 Python 인자와 필드 순서를 검사하고, C/C++/MCU는 헤더와 구현을 나눠 씁니다.</li>
+</ul>
+<p><strong>Phase 2 — Kotoha(문서 변환)와 APP-001(작업 저장)</strong></p>
+<ul>
+<li>OOXML의 모든 ZIP 파트와 네임스페이스를 보존합니다. 지원하지 않는 블록(텍스트 상자, 각주, 변경 추적, 병합 표)은 바이트 슬라이스로 남기고 변환 전에 경고합니다.</li>
+<li>표는 <code>w:tblHeader</code>로 헤더를 판정하고, PNG·JPEG·GIF·BMP의 실제 크기와 <code>wp:extent</code> 종횡비를 지킵니다. 여러 <code>numId</code>, <code>ilvl</code>, <code>startOverride</code> 목록도 유지합니다.</li>
+<li>여섯 도구를 오가거나 새로고침해도 입력과 옵션이 남습니다. 큰 데이터는 IndexedDB에 두고, <code>⋮ → 下書きをすべて破棄</code>로 초기화합니다.</li>
+<li>파일 25MB, 엔트리 수와 압축 해제 크기에 상한을 두고, 오류가 나면 기존 문서를 건드리지 않습니다.</li>
+</ul>
+<p><strong>Phase 3 — ANA-001, UI-001~002, DATA-001</strong></p>
+<ul>
+<li>ANA-001 파서를 다시 썼습니다. 문자열과 템플릿 리터럴 안의 주석을 구분하고, 멀티라인, 제네릭, Go 리시버, Java throws, Python 데코레이터를 읽습니다. 지원하지 않는 문법은 조용히 넘기지 않고 진단으로 보여줍니다.</li>
+<li>UI-001은 요청 게이트로 최신 요청만 반영하고, <code>ExportModal</code>은 실제 다운로드가 끝난 뒤에만 성공을 표시합니다. Kotoha에서 편집한 뒤 재구성하지 않고 <code>.docx</code>로 내보내는 길은 막았습니다.</li>
+<li>UI-002는 워크스페이스 파일 수를 하위 폴더까지 세고, 1024px 아래에서는 PC 전용 레일과 프롬프트 팬을 아예 띄우지 않습니다.</li>
+<li>DATA-001은 번들 스키마와 <code>toolId</code> 화이트리스트를 검사하고, 가져오기 전에 백업해 되돌릴 수 있게 했습니다. 실무형 샘플 3종을 더해 모두 7종입니다.</li>
+</ul>
+<p>확인은 Phase 1이 Vitest 124/124와 생성물 QA 38/38, Phase 2가 147/147, Phase 3이 184/184입니다. Playwright는 phase3 14건까지 통과했고, 샌드박스에 C 컴파일러가 없어 REG-11의 gcc 단계 하나만 건너뛰었습니다.</p>
+<h2>네 곳에서 같은 자리가 무너지고 있었습니다</h2>
+<p>서로 다른 앱을 고쳤는데 결론이 겹쳤습니다. 적어 두면 다음에 같은 실수를 덜 합니다.</p>
+<ol>
+<li><strong>저장은 끝난 뒤에 성공이라고 말합니다.</strong> 트랜잭션 완료 전에 <code>savedStrokes</code>를 갱신하지 않고, 다운로드가 끝난 뒤에만 내보내기 성공을 표시합니다.</li>
+<li><strong>늦게 도착한 응답은 버립니다.</strong> 녹음 세션의 <code>token</code>, 임포트의 <code>generation</code>, 검색의 토큰, 부팅의 세대 ID가 모두 같은 역할을 합니다.</li>
+<li><strong>같은 작업실이 두 개 열릴 수 있습니다.</strong> <code>revision</code>과 <code>BroadcastChannel</code>로 서로를 확인하고, 조용히 덮어쓰지 않고 물어봅니다.</li>
+<li><strong>실패를 빈 화면으로 보여주지 않습니다.</strong> 읽기 실패와 데이터 없음을 나누고, flush가 끝나지 않으면 오류를 던지고, 지오코더의 한도 초과를 따로 표시합니다.</li>
+</ol>
+<h2>남은 것</h2>
+<ul>
+<li>저장소 워크플로를 직접 올릴 권한이 없어 CI 워크플로는 각 저장소의 <code>docs/</code>에 YAML로 보관했습니다. 웹 화면에서 한 번 옮기면 다음부터 PR마다 검사가 자동으로 돕니다.</li>
+<li>실 iOS 사파리, 실제 마이크와 오디오 인터페이스는 이 환경에서 확인하지 못했습니다. 390×844와 iPhone 13 프로필까지는 확인했습니다.</li>
+<li>Midpoint의 서버 프록시는 정적 페이지라 만들지 않았습니다. 운영 문서만 남겼습니다.</li>
+<li>青松館은 Phase 4, 전체 회귀 18건이 남아 있습니다.</li>
+</ul>
+<p>밤에 고친 것의 절반은 다음 날 아침에 다시 열어 봐야 완성됩니다. 이번에도 아침에 앱을 열어 보니 고칠 것이 몇 가지 더 보였습니다.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>전체 글 목록</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/categories/devlog/">
+            <span class="post-nav-label">Category</span>
+            <strong>Devlog</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+        
+        <a class="pager-item pager-older" href="/diary/posts/2026-11-20-web-ui-css-layout-glossary/">
+            <span>이전 글 →</span>
+            <strong>웹 UI·CSS·레이아웃 용어 정리</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <span class="visit-badge" data-visit-badge hidden>
+                <svg class="visit-eye" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.7 8S3.9 4.1 8 4.1 14.3 8 14.3 8 12.1 11.9 8 11.9 1.7 8 1.7 8Z"/><circle cx="8" cy="8" r="1.9"/></svg>
+                <span>Today <b class="visit-num" data-visit-today>—</b></span>
+                <span class="visit-sep" aria-hidden="true">·</span>
+                <span>Total <b class="visit-num" data-visit-total>—</b></span>
+            </span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    <script src="/diary/assets/visit-badge.js?v=20261120-visits" defer></script>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261121-nav15" defer></script>
+</body>
+</html>
