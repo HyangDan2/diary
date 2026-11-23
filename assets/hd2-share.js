@@ -19,7 +19,7 @@
 
   var toast = document.querySelector('[data-hd2-share-toast]');
   var hideTimer = 0;
-  var TOAST_MS = 2200;
+  var TOAST_MS = 3000;
 
   function korean() {
     var lang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
