@@ -4,7 +4,8 @@
    :root[data-theme] between "light" (Soft Iris) and "dark" (Navy & Lavender).
 
    Per-page placement: an app overrides the custom properties below on
-   `.hd2-theme-toggle` (bottom offset, z-index, surface colours).
+   `.hd2-theme-toggle` (bottom offset, z-index, surface colours), or marks a
+   header spot with [data-hd2-theme-slot] to move it out of the corner.
    ========================================================================== */
 
 .hd2-theme-toggle {
@@ -61,6 +62,39 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
+}
+
+/* ---------- header placement ([data-hd2-theme-slot]) ----------------------
+   In the page header the toggle sits in the flow: 36px circle on a wide
+   screen, and the same 44px rounded square as the mobile menu button beside
+   it on a narrow one. */
+.hd2-theme-toggle--header {
+  position: static;
+  inset: auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgb(29 25 43 / 7%);
+  backdrop-filter: none;
+}
+
+.hd2-theme-toggle--header .hd2-theme-ic {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 880px) {
+  .hd2-theme-toggle--header {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .hd2-theme-toggle--header .hd2-theme-ic {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* the icon shows where the button takes you */
