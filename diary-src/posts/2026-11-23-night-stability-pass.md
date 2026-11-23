@@ -1,170 +1,170 @@
 ---
-title: "실패한 뒤에도 남는 것 — 밤사이 아홉 개 프로젝트를 같은 규칙으로 손봤습니다"
+title: "What Survives a Failure — Nine Projects, One Rule, One Night"
 date: 2026-11-23T08:50:00+09:00
 category: Devlog
-summary: "11월 22일 낮부터 23일 새벽까지 CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, Markdown Editor와 青松館을 고쳤습니다. 앱은 달라도 무너지는 자리는 같았습니다. 저장을 성공이라고 말하는 시점, 늦게 도착한 응답, 같은 작업실을 여는 두 개의 탭입니다."
+summary: "From midday on November 22 into the early hours of the 23rd I worked through CodePlayground, SlideDeck, Lýra, DOS Player, Midpoint, CinePlate, FrameBuilder, the Markdown Editor and 青松館. The apps do different jobs, but the same three things broke: whether a save is announced as done, what happens to a response that arrives late, and what two tabs do to one workspace."
 tags: [pkpilot, devlog, stability, indexeddb, qa]
+lang: en
 layout: post
-translationKey: devlog-night-stability-pass
 ---
 
-11월 22일 낮에 CinePlate의 필터 창을 정리하며 시작해, 23일 새벽 青松館 Phase 3까지 이어졌습니다. 스무 시간 남짓 동안 아홉 개 프로젝트를 만졌습니다. 앱마다 하는 일은 달랐지만, 고친 자리는 놀랄 만큼 비슷했습니다.
+The run started on the afternoon of November 22 with a cleanup of CinePlate's filter windows and carried on through the night to 青松館 Phase 3. In about twenty hours I touched nine projects. Each one does something different, and yet the places that needed fixing were almost identical.
 
-브라우저에서 도는 앱은 서버가 없습니다. 그래서 저장이 실패해도 알려 주는 사람이 없고, 탭을 닫으면 마지막 몇 초가 조용히 사라집니다. 이번에 손댄 것의 절반은 기능이 아니라 그 조용한 실패를 소리 내게 만드는 일이었습니다.
+An app that runs in the browser has no server behind it. When a save fails, nobody tells you, and when the tab closes, the last few seconds disappear without a sound. Half of this pass was not about features at all. It was about making that quiet failure audible.
 
-## 이번 밤에 지나간 목록
+## What the night covered
 
-| 프로젝트 | 이번에 고친 자리 | 확인한 것 |
+| Project | What was fixed | What was checked |
 | --- | --- | --- |
-| CodePlayground (PKPilot0013) v2.2.0 | Git 병합 충돌 상태, Python 반복 실행 메모리, 다중 탭 충돌 | Vitest 158/158, 라이브 12/12 |
-| SlideDeck (PKPilot0014) | 필기 저장 무결성, 다중 탭 revision, 저장 상태 칩 | Vitest 169/169, Playwright 76/76 |
-| Lýra (PKPilot0019) | 오디오 엔진 10건, 상단 압축 헤더와 프로젝트 드로워 | 유닛 130/130, 라이브 E2E 24/24 |
-| DOS Player (PKPilot0006) v2.0.0 | 1,423줄을 15개 모듈로 분리, 2차 QA 8종 | 단위 90/90, E2E 102/102 |
-| Midpoint (PKPilot0002) | 테마 토글·범례 동기화, 429 즉시 전환, 검색 큐 | 단위 214/214 |
-| CinePlate (PKPilot0011) | 마가린 58종·엠블럼 11종 전용 창, EXIF Auto, 톤 커브 | Vitest 159/159, 모바일 E2E 3/3 |
-| FrameBuilder (PKPilot0015) | 일곱 가지 개선, 위치 기반 두 손가락 회전 | Vitest 148/148, Playwright 130/130 |
-| Markdown Editor (PKPilot0007) | 0008 규격 앱 셸, 범용 GitHub 설정 창 | 로컬 25/25, 라이브 7/7 |
-| 青松館 (ADOP0001) | Phase 1~3 — 테스트 생성, 문서 변환, 코드 분석 | Vitest 124 → 147 → 184 |
+| CodePlayground (PKPilot0013) v2.2.0 | Git merge-conflict state, Python memory across runs, multi-tab conflicts | Vitest 158/158, live 12/12 |
+| SlideDeck (PKPilot0014) | Note-save integrity, multi-tab revisions, save-status chip | Vitest 169/169, Playwright 76/76 |
+| Lýra (PKPilot0019) | Ten audio-engine fixes, two-tier header and project drawer | Unit 130/130, live E2E 24/24 |
+| DOS Player (PKPilot0006) v2.0.0 | 1,423 lines split into 15 modules, second QA round of 8 items | Unit 90/90, E2E 102/102 |
+| Midpoint (PKPilot0002) | Theme toggle and legend sync, immediate 429 fallback, search queue | Unit 214/214 |
+| CinePlate (PKPilot0011) | Dedicated windows for 58 margarine filters and 11 emblems, EXIF Auto, tone curve | Vitest 159/159, mobile E2E 3/3 |
+| FrameBuilder (PKPilot0015) | Seven improvements, position-aware two-finger rotation | Vitest 148/148, Playwright 130/130 |
+| Markdown Editor (PKPilot0007) | App shell matching 0008, general GitHub settings dialog | Local 25/25, live 7/7 |
+| 青松館 (ADOP0001) | Phases 1–3: test generation, document conversion, code analysis | Vitest 124 → 147 → 184 |
 
-## CodePlayground (PKPilot0013) v2.2.0 — 브라우저 안의 Git과 Python
+## CodePlayground (PKPilot0013) v2.2.0 — Git and Python inside the browser
 
-이 앱은 브라우저 안에서 VS Code를 닮은 화면을 열고, Git 명령과 Python 실행을 실제로 돌립니다. 흉내가 아니라 진짜로 돌기 때문에, 상태 하나가 어긋나면 작업물이 통째로 사라질 수 있습니다. 이번에는 지워지는 길부터 막았습니다.
+The app opens a VS Code-like screen in the browser and runs Git commands and Python for real. Because they really run, a single inconsistent state can wipe out everything you have made. This time I blocked the deleting side first.
 
-- **병합 충돌을 상태로 다룹니다.** `unmergedPaths`를 따로 추적하고, 충돌 파일을 해결해 `git add`하기 전까지 커밋을 막습니다. 다른 staged 파일이 남아 있어도 미해결 충돌을 우회할 수 없고, 해결한 뒤에는 부모가 둘인 merge commit이 만들어집니다.
-- **`merge --abort`는 병합 전으로 돌아갑니다.** staged·unstaged·untracked 스냅샷을 모두 복원합니다. `git rm`은 커밋하지 않은 수정이 있으면 거부하고(`-f`를 주면 진행), `git rm --cached`는 디스크의 파일을 untracked로 남깁니다.
-- **Python을 120번 돌려도 힙이 늘지 않습니다.** 실행마다 VFS 임시 디렉터리를 지우고 PyProxy를 `.destroy()`합니다. 실측에서 남은 디렉터리는 0개, WASM 힙 증가는 0 MiB였습니다. 고치기 전에는 120회에 4.8 MiB가 늘고 125개가 남았습니다.
-- **두 탭이 같은 작업실을 엽니다.** `revision`과 `updatedAt`을 비교해 충돌 카드("이 탭으로 저장 / 다른 탭 불러오기")를 띄웁니다. `mergeState`가 없는 예전 저장 세션도 충돌 표시를 복구하면서 untracked 파일을 보존합니다.
+- **Merge conflicts are treated as state.** `unmergedPaths` is tracked separately, and commits are blocked until every conflicted file is resolved and `git add`ed. Other staged files cannot be used to slip past an unresolved conflict, and once it is resolved the commit has two parents.
+- **`merge --abort` returns to the pre-merge state.** It restores the staged, unstaged and untracked snapshots. `git rm` refuses when there are uncommitted changes (and proceeds with `-f`), while `git rm --cached` leaves the file on disk as untracked.
+- **Running Python 120 times no longer grows the heap.** Each run clears its VFS temporary directory and calls `.destroy()` on the PyProxy. The measurement left 0 directories behind and grew the WASM heap by 0 MiB; before the fix, 120 runs added 4.8 MiB and left 125 directories.
+- **Two tabs can open the same workspace.** `revision` and `updatedAt` are compared and a conflict card appears ("Save this tab / Load the other tab"). Older saved sessions without `mergeState` recover the conflict marker while keeping their untracked files.
 
-확인은 `tsc` clean, Vitest 158/158, 로컬 20/20, 라이브 스모크 12/12와 Python 실제 실행으로 마쳤습니다.
+Checks: clean `tsc`, Vitest 158/158, local 20/20, live smoke 12/12, and Python actually executing in the live build.
 
-## SlideDeck (PKPilot0014) — 필기는 저장이 끝난 뒤에 저장됐다고 말합니다
+## SlideDeck (PKPilot0014) — a note is saved only after the save finishes
 
-슬라이드와 필기가 한 화면에 있고, 필기는 획 단위로 IndexedDB에 쌓입니다. 문제는 저장에 실패했을 때나 읽기에 실패했을 때나 똑같이 빈 화면이 보인다는 점이었습니다. 사용자는 자기 필기가 사라진 줄 알지만, 실제로는 읽지 못한 것일 수도 있습니다.
+Slides and handwritten notes share one screen, and the notes are written to IndexedDB stroke by stroke. The trouble was that a failed save and a failed read looked the same: an empty page. The user assumes their notes are gone when the app simply could not read them.
 
-- `savedStrokes`는 저장 요청을 보내기 전이 아니라 트랜잭션이 끝난 뒤에 갱신합니다.
-- 실패한 획은 `dirty`로 남겨 두고 백오프로 다시 시도합니다. 계속 실패하면 "다시 시도" 버튼과 알림이 뜹니다.
-- `loadAllStrokes()`는 읽기 실패와 데이터가 없는 경우를 구분합니다. 하나라도 읽지 못하면 샘플 덱 갱신과 워크스페이스 저장을 곧바로 멈춥니다.
-- 덱과 슬라이드를 지울 때는 필기까지 한 트랜잭션으로 지웁니다. 중간에 실패하면 통째로 되돌립니다.
-- 두 탭은 `workspace:revision`과 필기의 `{ revision, strokes }`로 서로를 비교합니다. 필기를 저장할 때도 `BroadcastChannel`로 알리고, 저장하지 않은 변경이 있는 탭에는 "이 탭 내용 저장 / 저장본 불러오기" 배너가 뜹니다.
-- 쓰기는 단일 큐로 직렬화하고, `pagehide`에서 곧바로 플러시합니다. 상단 칩은 `저장됨 / 저장 중… / 저장 실패 / 저장 멈춤 / 충돌 확인` 다섯 상태만 보여줍니다.
+- `savedStrokes` is updated after the transaction completes, not when the request is sent.
+- A stroke that fails stays `dirty` and is retried with backoff. If it keeps failing, a "Try again" button and a notice appear.
+- `loadAllStrokes()` separates a read failure from an absence of data. If any note store cannot be read, sample-deck refresh and workspace saving stop immediately.
+- Deleting a deck or a slide deletes its notes in the same transaction, or rolls the whole thing back.
+- Tabs compare `workspace:revision` and the notes' `{ revision, strokes }`. Saving notes also publishes on `BroadcastChannel`, and a tab with unsaved changes gets a banner: "Save this tab / Load the saved copy."
+- Writes are serialised through a single queue and flushed immediately on `pagehide`. The chip at the top shows exactly five states: saved, saving, save failed, saving paused, conflict.
 
-확인은 Vitest 169/169, Playwright 데스크톱과 모바일 76/76, 라이브에서 필기·새로고침 왕복과 콘솔 오류 0건입니다.
+Checks: Vitest 169/169, Playwright 76/76 on desktop and mobile, and a live round trip in which notes were saved, the page reloaded and the notes came back, with zero console errors.
 
-## Lýra (PKPilot0019) — 소리는 되돌릴 수 없습니다
+## Lýra (PKPilot0019) — sound does not come back
 
-멀티트랙 루프 스테이션입니다. 녹음은 한 번 어긋나면 그 테이크를 다시 하는 수밖에 없습니다. 이번에 고친 10건은 대부분 "누가 이 테이크를 소유하는가"와 "끝났다고 언제 확신할 수 있는가"에 관한 것이었습니다.
+This is a multi-track loop station. Once a take drifts, the only fix is to perform it again. Most of the ten fixes here came down to two questions: who owns this take, and when can we be sure it has finished?
 
-- `RecSession.token`을 비동기 finalize의 소유권 검사에 넣고, 같은 트랙의 commit을 `commitChain`으로 직렬화했습니다. 녹음이 늦게 끝나도 다른 세션의 테이크를 덮지 않습니다.
-- `importFile`은 `decodeAudioData` 전후로 `generation`, `epoch`, `token`을 확인합니다. 프로젝트를 바꾼 뒤에 도착한 예전 임포트는 버립니다.
-- BPM을 바꿔도 PCM을 자르지 않습니다. 타임 스트레칭을 붙이기 전까지는 `playbackRate` 매핑으로 길이를 맞추고, 피치가 함께 움직인다는 사실을 화면에 적었습니다.
-- 악기의 직접 모니터와 녹음 입력 경로를 분리해 이중 출력과 피드백을 없앴습니다.
-- `stopAsync`는 150ms를 기다렸다가 끝난 것으로 치던 자리에서 flush ACK를 기다리고, 응답이 없으면 `RecorderFlushTimeoutError`를 던집니다.
-- 음수 레이턴시(-150~0ms)를 실제 캡처 보정에 반영했고, 장치 변경이 실패하면 기존 장치 선택과 권한 상태를 그대로 둡니다.
-- 자동 저장은 메인 스레드에서 Base64로 직렬화하지 않습니다. `Float32Array`를 IndexedDB에 그대로 넣어 저장 시간이 **765ms에서 2.7ms**로 줄었습니다.
+- `RecSession.token` is now part of the ownership check in asynchronous finalisation, and commits on the same track are serialised through `commitChain`. A recording that finishes late can no longer overwrite another session's take.
+- `importFile` checks `generation`, `epoch` and `token` on both sides of `decodeAudioData`. An import that lands after the project changed is discarded.
+- Changing the BPM no longer cuts the PCM. Until time stretching arrives, length is matched through `playbackRate`, and the screen says plainly that the pitch moves with it.
+- An instrument's direct monitor and its recording input are separated, which removes the doubled output and the feedback.
+- `stopAsync` used to wait 150ms and assume it was done. It now waits for a flush ACK and throws `RecorderFlushTimeoutError` when none arrives.
+- Negative latency (-150 to 0ms) is applied to the actual capture correction, and a failed device switch keeps the previous device selection and permission state.
+- Autosave no longer serialises to Base64 on the main thread. A `Float32Array` goes straight into IndexedDB, which brought a save from **765ms to 2.7ms**.
 
-같은 앱에서 상단 헤더를 두 단으로 접고 프로젝트 드로워를 넣었습니다. 아이폰 사파리에서 겹치던 파형과 드로워 아코디언도 이때 정리했습니다.
+In the same app, the header now folds into two tiers and a project drawer sits behind it. The waveform and drawer accordion that overlapped in iPhone Safari were cleaned up at the same time.
 
-확인은 수정 전 결함 7건을 먼저 재현해 실패시킨 뒤, 유닛 130/130, 라이브 E2E 24/24, 콘솔 오류 0건으로 마쳤습니다.
+Checks: the seven known defects were reproduced and made to fail first; then unit tests 130/130, live E2E 24/24, zero console errors.
 
-## DOS Player (PKPilot0006) v2.0.0 — 1,423줄을 15개 모듈로
+## DOS Player (PKPilot0006) v2.0.0 — 1,423 lines into 15 modules
 
-js-dos로 고전 게임을 브라우저에서 돌리는 앱입니다. 부팅과 입력, 세션 종료가 한 파일에 엉켜 있어서, 한 곳을 고치면 다른 곳이 흔들렸습니다.
+This one runs classic DOS games in the browser through js-dos. Booting, input and session shutdown were tangled in one file, so fixing one corner shook another.
 
-- 1,423줄짜리 `app.js`를 15개 모듈로 나누고 `js-dos 8.5.4`를 고정했습니다. 부팅마다 세대 ID를 붙여 늦게 도착한 부팅을 취소합니다.
-- 물리 키는 입력원별로 따로 셉니다(`kbd:KeyJ`, `kbd:KeyZ`). 같은 키를 두 곳에서 눌러도 하나를 떼면 다른 하나는 살아 있습니다.
-- 실행 전에는 키보드 가로채기를 풀고, 카드에는 Space와 Enter로 포커스가 갑니다.
-- 세션 종료는 `SessionManager`에서 직렬화하고, 종료 중에는 `target` 스냅샷을 고정합니다.
-- 2차 QA 8종은 물리 키 독립, 종료 직렬화, 종료 중 대상 고정, 부팅 중 카드 교체, 음량과 음소거 유지, 입력 세대 큐 분리, 취소·오류 뒤 옛 요청 차단, 다크 가로모드 겹침입니다.
-- 화면은 Player-first로 바꾸고, 모바일 가로 모드에는 게임 선택 바를 붙였습니다. 명암비는 WCAG AA까지 올렸습니다.
+- `app.js`, 1,423 lines long, became 15 modules, and `js-dos` is pinned at 8.5.4. Each boot carries a generation ID so a late boot can be cancelled.
+- Physical keys are counted per input source (`kbd:KeyJ`, `kbd:KeyZ`). The same key pressed through two sources is tracked separately, so releasing one does not release the other.
+- Keyboard capture is released before a game starts, and cards take focus with Space and Enter.
+- Session shutdown is serialised in `SessionManager`, and the `target` snapshot is frozen while shutdown runs.
+- The second QA round of eight items covered independent physical keys, serialised shutdown, a frozen target during shutdown, card replacement during boot, preserved volume and mute, per-generation input queues, stale requests blocked after cancel or error, and overlapping elements in dark landscape mode.
+- The screen is now Player-first, with a game bar in mobile landscape, and contrast was raised to WCAG AA.
 
-확인은 정적 검사 통과, 단위 90/90, E2E 102/102(데스크톱 60 + iPhone 13 프로필 42), 라이브에서 `Digger` 실행과 콘솔 오류 0건입니다.
+Checks: static checks, unit 90/90, E2E 102/102 (60 desktop plus 42 under an iPhone 13 profile), and `Digger` running live with zero console errors.
 
-## Midpoint (PKPilot0002) — 지도는 기다려 주지 않습니다
+## Midpoint (PKPilot0002) — a map will not wait for you
 
-Nominatim과 Photon 두 지오코더를 번갈아 쓰는 중간 지점 앱입니다. 한도에 걸린 서버가 120초를 버티게 두면, 그동안 사용자는 아무것도 할 수 없습니다.
+This app finds a fair meeting point by alternating between two geocoders, Nominatim and Photon. If a rate-limited server is allowed to hold on for 120 seconds, the user can do nothing for those 120 seconds.
 
-- 상단 타이틀바에 라이트·다크 슬라이드 토글을 옮기고, 라이트에서도 어둡게 굳어 있던 범례 바, 네이버 말풍선, 마커 라벨, 지도 도구 버튼 색을 테마 변수로 바꿨습니다.
-- Nominatim이 `429`와 `Retry-After: 120`을 주면 120초를 기다리지 않고 Photon으로 넘어갑니다. 라이브 응답은 1.32~1.39초였고, 정상으로 돌아오면 `cooldownStreak`을 초기화합니다.
-- 검색어가 바뀌거나 목록을 닫거나 Escape를 누르면 토큰을 무효화합니다. 늦게 도착한 응답이 새 결과를 덮어쓰지 않습니다.
-- POI 중복 판정에서 거리 하나만 보던 기준을 걷어내고 OSM id, 이름, 주소, 좌표를 함께 봤습니다. OSM이 0건이면 늦게 오는 Overpass 응답을 2.5~6초 더 받습니다.
-- 사용자가 직접 친 검색을 큐 앞으로 올리고, 화면을 떠나면 역주소 요청을 큐에서 빼고 Abort합니다. 12명을 등록하는 동안 검색이 **13,165ms에서 1,052ms**로 줄었습니다.
+- The light and dark slide toggle moved into the titlebar, and the legend bar, Naver speech bubble, marker labels and map tool buttons — all of which stayed charcoal in light mode — now follow the theme variables.
+- When Nominatim answers `429` with `Retry-After: 120`, the app switches to Photon instead of waiting; the live response took 1.32–1.39s. `cooldownStreak` resets once the service recovers.
+- Changing the query, closing the list or pressing Escape invalidates the token, so a late response cannot overwrite newer results.
+- Duplicate POIs are no longer judged by distance alone; OSM id, name, address and coordinates are weighed together. When OSM returns nothing, a late Overpass response still gets 2.5–6 seconds to arrive.
+- A search the user typed moves to the front of the queue, and leaving the screen removes reverse-geocode work from the queue and aborts it. With 12 participants being registered, a search went from **13,165ms to 1,052ms**.
 
-확인은 단위 214/214, 로컬과 라이브 E2E 통과, 콘솔 오류 0건입니다.
+Checks: unit 214/214, local and live E2E, zero console errors.
 
-## CinePlate와 FrameBuilder — 손끝에서 끝나는 일
+## CinePlate and FrameBuilder — work that ends at the fingertips
 
-사진 인화 화면과 4컷 프레임 작업대입니다. 여기서는 숫자를 고치는 일보다 손이 미끄러지는 자리를 고치는 일이 많았습니다.
+One is a photo-plate studio, the other a four-cut frame workbench. Here, more of the work went into places where a finger slips than into numbers.
 
 **CinePlate (PKPilot0011)**
 
-- 마가린 필터 58종을 전용 창으로 분리했습니다. 그룹 칩, 검색, 썸네일 그리드, 강도 슬라이더가 한 창에 있습니다.
-- 엠블럼은 프레임 설정창의 세 갈래 토글 대신 전용 창에서 11종 정식 로고를 고릅니다. `Auto`와 `없음`, `Original`과 `All Black` 전환도 그 창에 있습니다.
-- EXIF `Auto`가 늘 HD2Lab으로 떨어지던 원인은 `resolveEmblem`이 `Make`만 보고 `Model`을 넘기지 않은 데 있었습니다. 이제 둘을 함께 보고, EXIF에 모델명만 있어도 해당 제조사 로고로 인화합니다.
-- 톤 커브는 바깥 여백을 탭해도 닫히고, 우상단 `X` 버튼도 커졌습니다. 점 개수로만 판정하던 보라색 뱃지는 정밀한 항등 판정으로 바꿨습니다.
-- 좌하단과 우상단 끝점의 X좌표가 0과 1에 묶여 좌우로 움직이지 않던 문제를 풀고, 양 끝의 수평 구간까지 그래프와 스플라인에 반영했습니다.
+- The 58 margarine filters moved into their own window, with group chips, search, a thumbnail grid and a strength slider.
+- Emblems moved out of the three-way toggle in the frame panel into a dedicated window with 11 official logos, plus `Auto`/none and `Original`/`All Black` switching.
+- EXIF `Auto` used to fall back to HD2Lab every time because `resolveEmblem` read `Make` and never passed `Model`. It now reads both, so a photo whose EXIF carries only a model name still prints with the right maker's logo.
+- The tone curve closes when you tap outside it, and the `X` at the top right is larger. The purple badge that was judged by point count now uses an exact identity check.
+- The bottom-left and top-right endpoints were pinned to x = 0 and x = 1 and could not move sideways. That is fixed, and the horizontal segments at both ends now appear in the graph and the spline.
 
 **FrameBuilder (PKPilot0015)**
 
-- 듀얼스큐 파비콘 6종, 매트 코튼(기본 0.55)과 아카이벌 페이퍼 종이 질감.
-- 아이폰 롱프레스 메뉴 차단(`-webkit-touch-callout: none`), 칸별 사진 삭제.
-- PC 방향키로 회전 1°/5°, 크기 2%/10%. 더블클릭과 더블탭은 칸 전용 `SlotModal`을 엽니다.
-- 하단 독의 앱 이름을 `Shutterplate · 4컷 인화`, `CinePlate · 필름·영상`으로 나눴습니다.
-- 두 손가락 동작은 손가락이 프레임 위에 닿으면 곧바로 회전과 크기 조절로 들어가고, 바깥 여백에 닿으면 화면 전체 줌으로 갑니다. 예전에는 빠른 핀치를 구분하려고 잠깐 기다렸는데, 그 대기를 없앴습니다.
+- Six dual-squircle favicons; a matte cotton finish (0.55 by default) and an archival paper texture.
+- The iPhone long-press menu is blocked (`-webkit-touch-callout: none`), and each slot's photo can be deleted on its own.
+- Arrow keys rotate by 1°/5° and scale by 2%/10%. Double-click and double-tap open a slot-only `SlotModal`.
+- The dock now separates `Shutterplate · 4-cut print` from `CinePlate · film and video`.
+- A two-finger gesture starts rotating and scaling as soon as the fingers land on the frame, and becomes a viewport zoom when they land on the surrounding space. The app used to wait briefly to tell a quick pinch apart; that wait is gone.
 
-확인은 CinePlate가 Vitest 159/159, 모바일 E2E 3/3, 라이브 Apple EXIF 업로드와 콘솔 오류 0건입니다. FrameBuilder는 Vitest 148/148, Playwright 130/130, 390×844 실측에서 프레임을 0도에서 24도까지 돌리고 여백 핀치로 화면 배율을 1에서 0.729까지 줄여 확인했습니다.
+Checks: CinePlate — Vitest 159/159, mobile E2E 3/3, a live Apple EXIF upload and zero console errors. FrameBuilder — Vitest 148/148, Playwright 130/130, and a measured 390×844 run that rotated a frame from 0° to 24° and pinched the viewport from fit to 0.729.
 
-## Markdown Editor (PKPilot0007) — 쓰는 창을 읽는 창과 같은 규격으로
+## Markdown Editor (PKPilot0007) — the writing window in the same shape as the reading one
 
-0008 Viewer와 달라 보이던 앱 셸을 0008 규격으로 맞추고, GitHub 설정을 한 창에 모았습니다.
+The shell no longer looks different from 0008 Viewer; it follows the 0008 spec, and GitHub settings now live in one dialog.
 
-- 타이틀바는 `? · ⚙ · ☾ · ⋮` 네 자리로 정리했습니다.
-- `#ghDialog` 하나에서 프리셋 2종, 이미지 경로 3종, 카테고리, PAT를 설정합니다.
-- 발행 모달에는 대상 저장소 배지와 `YAML Frontmatter 포함` 토글이 붙었습니다.
-- 불러오기와 이미지 업로드가 설정한 저장소를 따라갑니다. 저장소를 바꾸면 두 경로가 함께 바뀝니다.
+- The titlebar is down to four places: `? · ⚙ · ☾ · ⋮`.
+- A single `#ghDialog` holds two presets, three image paths, a category and the PAT.
+- The publish dialog shows the target repository as a badge and an `Include YAML frontmatter` toggle.
+- Loading and image upload both follow the configured repository; change the repository and both paths change with it.
 
-확인은 로컬 Playwright 25/25, 라이브 7/7, 콘솔 오류 0건입니다.
+Checks: local Playwright 25/25, live 7/7, zero console errors.
 
-## 青松館 (ADOP0001) Phase 1~3 — 다섯 도구가 한 화면을 나눠 씁니다
+## 青松館 (ADOP0001) Phases 1–3 — five tools sharing one document
 
-테스트 코드 생성, 문서 변환, 코드 분석 같은 다섯 도구가 한 화면에 있는 작업대입니다. 22일 밤에 Phase 1을 시작해 23일 새벽 Phase 3까지 지나갔습니다.
+This is a workbench where five tools sit on one screen: test generation, document conversion, code analysis and more. It went from Phase 1 to Phase 3 between the night of the 22nd and the small hours of the 23rd.
 
-**Phase 1 — Haruhi(테스트)와 Takane(코드 생성)**
+**Phase 1 — Haruhi (tests) and Takane (code generation)**
 
-- 공통 `TestCase` IR을 두고 경계값, 예외, 비동기, 메서드 입력을 실제 실행과 맞췄습니다.
-- Vitest, Jest, Pytest, JUnit5, Go 다섯 프레임워크 생성기를 다시 썼습니다.
-- 정적 분기 매핑률과 실행 커버리지를 한 숫자로 섞지 않고 나눠 표시합니다.
-- Takane은 Python 인자와 필드 순서를 검사하고, C/C++/MCU는 헤더와 구현을 나눠 씁니다.
+- A shared `TestCase` IR now keeps boundary values, exceptions, async cases and method inputs consistent with what actually runs.
+- The generators for five frameworks — Vitest, Jest, Pytest, JUnit 5 and Go — were rewritten.
+- Static branch mapping and execution coverage are reported separately instead of being blended into one number.
+- Takane checks Python argument and field order, and splits C/C++/MCU output into header and implementation.
 
-**Phase 2 — Kotoha(문서 변환)와 APP-001(작업 저장)**
+**Phase 2 — Kotoha (document conversion) and APP-001 (workspace persistence)**
 
-- OOXML의 모든 ZIP 파트와 네임스페이스를 보존합니다. 지원하지 않는 블록(텍스트 상자, 각주, 변경 추적, 병합 표)은 바이트 슬라이스로 남기고 변환 전에 경고합니다.
-- 표는 `w:tblHeader`로 헤더를 판정하고, PNG·JPEG·GIF·BMP의 실제 크기와 `wp:extent` 종횡비를 지킵니다. 여러 `numId`, `ilvl`, `startOverride` 목록도 유지합니다.
-- 여섯 도구를 오가거나 새로고침해도 입력과 옵션이 남습니다. 큰 데이터는 IndexedDB에 두고, `⋮ → 下書きをすべて破棄`로 초기화합니다.
-- 파일 25MB, 엔트리 수와 압축 해제 크기에 상한을 두고, 오류가 나면 기존 문서를 건드리지 않습니다.
+- Every OOXML ZIP part and namespace is preserved. Unsupported blocks (text boxes, footnotes, tracked changes, merged tables) survive as byte slices, and the app warns before converting.
+- Table headers are detected from `w:tblHeader`, and PNG, JPEG, GIF and BMP keep their real dimensions and `wp:extent` aspect ratio. Lists with several `numId`, `ilvl` and `startOverride` values stay intact.
+- Inputs and options survive switching between the six tools and reloading — `localStorage` for small values, IndexedDB for large ones — and `⋮ → 下書きをすべて破棄` clears them.
+- Files are capped at 25MB, with limits on entry count and uncompressed size, and an error leaves the existing document untouched.
 
-**Phase 3 — ANA-001, UI-001~002, DATA-001**
+**Phase 3 — ANA-001, UI-001–002, DATA-001**
 
-- ANA-001 파서를 다시 썼습니다. 문자열과 템플릿 리터럴 안에 들어 있는 주석 기호는 주석으로 보지 않고, 멀티라인, 제네릭, Go 리시버, Java throws, Python 데코레이터를 읽습니다. 지원하지 않는 문법은 조용히 넘기지 않고 진단으로 보여줍니다.
-- UI-001은 요청 게이트로 최신 요청만 반영하고, `ExportModal`은 실제 다운로드가 끝난 뒤에만 성공을 표시합니다. Kotoha에서 편집한 뒤 재구성하지 않고 `.docx`로 내보내는 길은 막았습니다.
-- UI-002는 워크스페이스 파일 수를 하위 폴더까지 세고, 1024px 아래에서는 PC 전용 레일과 프롬프트 팬을 아예 띄우지 않습니다.
-- DATA-001은 번들 스키마와 `toolId` 화이트리스트를 검사하고, 가져오기 전에 백업해 되돌릴 수 있게 했습니다. 실무형 샘플 3종을 더해 모두 7종입니다.
+- The ANA-001 parser was rewritten. It ignores comment markers inside strings and template literals, and reads multiline signatures, generics, Go receivers, Java `throws` and Python decorators. Unsupported syntax is not swallowed; it shows up as a diagnostic.
+- UI-001 puts a request gate in front so only the newest request lands, and `ExportModal` reports success only after the download has actually finished. Exporting to `.docx` after editing in Kotoha without rebuilding is now blocked.
+- UI-002 counts workspace files through nested folders, and on screens narrower than 1024px it does not mount the desktop-only rail and prompt pane at all.
+- DATA-001 validates the bundle schema and the `toolId` allowlist, and keeps a backup so an import can be undone. Three realistic samples were added, bringing the total to seven.
 
-확인은 Phase 1이 Vitest 124/124와 생성물 QA 38/38, Phase 2가 147/147, Phase 3이 184/184입니다. Playwright는 phase3 14건까지 통과했고, 샌드박스에 C 컴파일러가 없어 REG-11의 gcc 단계 하나만 건너뛰었습니다.
+Checks: Phase 1 — Vitest 124/124 and 38/38 on generated output; Phase 2 — 147/147; Phase 3 — 184/184. Playwright passed through all 14 phase-3 cases; only the gcc step of REG-11 was skipped, because the sandbox has no C compiler.
 
-## 네 곳에서 같은 자리가 무너지고 있었습니다
+## The same four places kept collapsing
 
-서로 다른 앱을 고쳤는데 결론이 겹쳤습니다. 적어 두면 다음에 같은 실수를 덜 합니다.
+Different apps, the same conclusion. Written down so the next pass makes fewer of the same mistakes.
 
-1. **저장은 끝난 뒤에 성공이라고 말합니다.** 트랜잭션 완료 전에 `savedStrokes`를 갱신하지 않고, 다운로드가 끝난 뒤에만 내보내기 성공을 표시합니다.
-2. **늦게 도착한 응답은 버립니다.** 녹음 세션의 `token`, 임포트의 `generation`, 검색의 토큰, 부팅의 세대 ID가 모두 같은 역할을 합니다.
-3. **같은 작업실이 두 개 열릴 수 있습니다.** `revision`과 `BroadcastChannel`로 서로를 확인하고, 조용히 덮어쓰지 않고 물어봅니다.
-4. **실패를 빈 화면으로 보여주지 않습니다.** 읽기 실패와 데이터 없음을 나누고, flush가 끝나지 않으면 오류를 던지고, 지오코더의 한도 초과를 따로 표시합니다.
+1. **A save is called successful only after it finishes.** `savedStrokes` is not updated before the transaction completes, and export success appears only after the download.
+2. **Responses that arrive late are thrown away.** The recording session's `token`, the import's `generation`, the search token and the boot generation ID all do the same job.
+3. **Two tabs can open the same workspace.** `revision` and `BroadcastChannel` let them see each other, and the app asks instead of overwriting quietly.
+4. **Failures are not shown as a blank page.** A read failure is separated from missing data, a flush that never finishes throws, and a geocoder's rate limit is reported as its own state.
 
-## 남은 것
+## What is left
 
-- 저장소 워크플로를 직접 올릴 권한이 없어 CI 워크플로는 각 저장소의 `docs/`에 YAML로 보관했습니다. 웹 화면에서 한 번 옮기면 다음부터 PR마다 검사가 자동으로 돕니다.
-- 실 iOS 사파리, 실제 마이크와 오디오 인터페이스는 이 환경에서 확인하지 못했습니다. 390×844와 iPhone 13 프로필까지는 확인했습니다.
-- Midpoint의 서버 프록시는 정적 페이지라 만들지 않았습니다. 운영 문서만 남겼습니다.
-- 青松館은 Phase 4, 전체 회귀 18건이 남아 있습니다.
+- I have no permission to push workflow files, so the CI workflows are kept as YAML under each repository's `docs/`. Moving them into place once in the web UI will make checks run on every pull request from then on.
+- Real iOS Safari, a real microphone and a real audio interface could not be checked in this environment. Verified as far as 390×844 and an iPhone 13 profile.
+- Midpoint's server proxy was not built, because the site is static. Only the operations document exists.
+- 青松館 still has Phase 4: the full 18-case regression pass.
 
-밤에 고친 것의 절반은 다음 날 아침에 다시 열어 봐야 완성됩니다. 이번에도 아침에 앱을 열어 보니 고칠 것이 몇 가지 더 보였습니다.
+Half of what gets fixed at night is only finished when it is opened again the next morning. This time too, opening the apps in the morning turned up a few more things to fix.

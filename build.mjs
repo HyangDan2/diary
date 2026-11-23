@@ -58,6 +58,10 @@ if (!(await exists(join(srcDir, "node_modules")))) {
   }
 }
 
+// Eleventy writes its output but never deletes a page whose source is gone, so a
+// removed post would survive in _site/ and be copied back out below. Start clean.
+await rm(outDir, { recursive: true, force: true });
+
 console.log("• building diary-src with Eleventy…");
 run("npm", ["run", "build"], srcDir);
 
