@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>DevOps Essentials — When You Need It, and What It&#39;s Made Of · HD2&#39;s Diary</title>
+    <meta name="description" content="If you keep reciting build commands from memory, keep hearing &#39;it works on my machine&#39;, and keep learning about outages from your users, the signals are already there. Four signs it&#39;s time to start, six parts of a pipeline, four that actually run at HD2Lab, plus the DORA metrics and the official docs.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="DevOps Essentials — When You Need It, and What It&#39;s Made Of · HD2&#39;s Diary">
+    <meta property="og:description" content="If you keep reciting build commands from memory, keep hearing &#39;it works on my machine&#39;, and keep learning about outages from your users, the signals are already there. Four signs it&#39;s time to start, six parts of a pipeline, four that actually run at HD2Lab, plus the DORA metrics and the official docs.">
+    <meta property="og:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:secure_url" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DevOps Essentials — When You Need It, and What It&#39;s Made Of · HD2&#39;s Diary">
+    <meta name="twitter:description" content="If you keep reciting build commands from memory, keep hearing &#39;it works on my machine&#39;, and keep learning about outages from your users, the signals are already there. Four signs it&#39;s time to start, six parts of a pipeline, four that actually run at HD2Lab, plus the DORA metrics and the official docs.">
+    <meta name="twitter:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta name="twitter:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    <link rel="alternate" hreflang="ko" href="/diary/posts/2026-11-23-devops-essentials/">
+    <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-23-devops-essentials/">
+    <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-23-devops-essentials/">
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
+    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261121-nav15">
+    <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body class="page-en-posts-2026-11-23-devops-essentials">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/devlog/">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/notes/" aria-current="page">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/en/categories/notes/">Notes</a>
+        </nav>
+        
+<nav class="lang-switch" aria-label="Language">
+    <a class="lang-switch-item" href="/diary/posts/2026-11-23-devops-essentials/" hreflang="ko" lang="ko">KO</a>
+    <a class="lang-switch-item is-active" href="/diary/en/posts/2026-11-23-devops-essentials/" hreflang="en" lang="en" aria-current="true">EN</a>
+</nav>
+
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Notes · 2026.11.23</p>
+        <h1>DevOps Essentials — When You Need It, and What It&#39;s Made Of</h1>
+        <p class="post-summary">If you keep reciting build commands from memory, keep hearing &#39;it works on my machine&#39;, and keep learning about outages from your users, the signals are already there. Four signs it&#39;s time to start, six parts of a pipeline, four that actually run at HD2Lab, plus the DORA metrics and the official docs.</p>
+        <div class="post-meta">
+            <span class="badge">Notes</span>
+            
+            <time datetime="2026-11-23">2026.11.23</time>
+            <span>12 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#devops</span><span class="tag">#ci</span><span class="tag">#cd</span><span class="tag">#github-actions</span><span class="tag">#deployment</span><span class="tag">#monitoring</span><span class="tag">#notes</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>The most confusing thing about learning DevOps is the list of tools. Docker, Kubernetes, Terraform, Jenkins, Argo CD, Prometheus — more than twenty names before you understand any of them. The question that actually matters is not &quot;what should I install&quot; but <strong>&quot;what should I take out of human hands&quot;</strong>.</p>
+<p>This note answers that in order. First the signals that say DevOps is worth starting; then the six parts of a pipeline, one at a time; then four pipelines that actually run at HD2Lab, written out as they are. The DORA metrics and the official documentation links are at the end. Choosing tools comes last.</p>
+<h2>1. DevOps is a sequence, not a toolchain</h2>
+<p>In one sentence: <strong>DevOps hands the build, the checks, the deploy and the watching over to code and procedure instead of to somebody's memory.</strong> Tools are how that sequence gets implemented.</p>
+<p>The sequence has five steps. Leave a record, check the work, build it the same way every time, ship it, watch it.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Step</th>
+<th>What people used to do</th>
+<th>What the pipeline does</th>
+<th>What is still a judgement call</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Record</td>
+<td>Copy the folder and hope</td>
+<td>Commit, branch, pull request</td>
+<td>What belongs in one commit</td>
+</tr>
+<tr>
+<td>Check</td>
+<td>Open it and look</td>
+<td>Type check, tests, lint</td>
+<td>Fix it now or revert</td>
+</tr>
+<tr>
+<td>Build</td>
+<td>Everyone builds on their own machine</td>
+<td>One build in a fixed environment</td>
+<td>Version number, release notes</td>
+</tr>
+<tr>
+<td>Deploy</td>
+<td>FTP, copy, manual upload</td>
+<td>The same steps, every time</td>
+<td>When to ship</td>
+</tr>
+<tr>
+<td>Watch</td>
+<td>Wait for a user to tell you</td>
+<td>Health checks, logs, alerts</td>
+<td>What to do when the alert fires</td>
+</tr>
+</tbody>
+</table></div><p>Look at the right-hand column. Automation takes the <strong>memory</strong> and the <strong>repetition</strong>; the judgement stays. Adopting DevOps does not remove decisions — it makes room for them. The minutes spent remembering which command came third turn into minutes spent deciding whether today is a good day to ship.</p>
+<h2>2. When to start — four signals</h2>
+<p>DevOps does not become necessary when a team gets big. It becomes necessary <strong>the second time the same job is done by hand</strong>. In practice the first signals look like this.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Signal</th>
+<th>What it looks like</th>
+<th>What happens if you ignore it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manual build and deploy, over and over</td>
+<td>Five commands in a deploy note; skip one and start over; every deploy comes out slightly different</td>
+<td>Deploying becomes frightening, then rare, then a batch of changes at once</td>
+</tr>
+<tr>
+<td>Environment mismatch</td>
+<td>&quot;It works on my machine&quot;, Node 18 on one laptop and 22 on another, no lockfile, paths that differ by OS</td>
+<td>You spend time suspecting the environment instead of fixing the bug, and cannot reproduce it anyway</td>
+</tr>
+<tr>
+<td>Users find the outages first</td>
+<td>A message thirty minutes after a deploy, no logs left behind, the server is up but not answering</td>
+<td>Trust erodes. Recovery time becomes reputation</td>
+</tr>
+<tr>
+<td>Secrets mixed into the code</td>
+<td>A committed <code>.env</code>, a token in the source, a deploy key with every permission</td>
+<td>One leak stays in the history, and eventually everything gets rotated</td>
+</tr>
+</tbody>
+</table></div><p>There are quieter signals too.</p>
+<ul>
+<li>There is an unspoken rule that nobody deploys on a Friday.</li>
+<li>Exactly one person can deploy. When they are away, nobody can.</li>
+<li>Rolling back means building the previous commit by hand.</li>
+<li>Every release needs a new checklist document, and one item is always missed.</li>
+</ul>
+<p>The test is two questions. <strong>Am I doing this job by hand for the second time? If it fails, would anyone know?</strong> If either answer is yes, that is where to start.</p>
+<p><a href="/diary/assets/images/en/2026-11-23-devops-manual-vs-pipeline.png"><img src="/diary/assets/images/en/2026-11-23-devops-manual-vs-pipeline.png" alt="Deploying by hand versus a pipeline: the same five steps, held together by memory on one side and by a file on the other"></a></p>
+<p>The other direction deserves saying too. A project that has never been deployed does not need a pipeline; the pipeline would be pure cost. Start when there is something to ship, when shipping repeats, and when the repetition starts to feel risky. That is not late.</p>
+<h2>3. The six parts</h2>
+<p>A pipeline is six parts. They have an order, and when an earlier part is missing the later ones lose their meaning. Automated deploys without tests are fast accidents; tests without a record are a passing grade nobody can reproduce.</p>
+<p><a href="/diary/assets/images/en/2026-11-23-devops-six-parts.png"><img src="/diary/assets/images/en/2026-11-23-devops-six-parts.png" alt="The six parts: record, check, build and deploy in a line, with secrets and observability holding it up from above and below"></a></p>
+<h3>1. Version control and branch discipline</h3>
+<p>Version control covers more than code. Workflow files, deploy configuration, documentation and small scripts all belong in the same history. That is how you can later retrace what changed and why things ended up this way.</p>
+<p>Three rules are enough.</p>
+<ol>
+<li><strong><code>main</code> is always shippable.</strong> Work happens on short branches and merges through a pull request.</li>
+<li><strong>A commit is a unit you can undo.</strong> Refactoring, a feature and reformatting in one commit cannot be reverted with a single <code>revert</code>.</li>
+<li><strong>The message is for you in six months.</strong> <code>fix(nav): stop the header from covering the first section</code> says what changed and why in one line.</li>
+</ol>
+<pre class="code-block" data-lang="bash"><code class="hljs language-bash">git switch -c fix/header-overlap
+<span class="hljs-comment"># fix it, check it</span>
+git commit -m <span class="hljs-string">&quot;fix(nav): stop the header from covering the first section&quot;</span>
+git push -u origin fix/header-overlap
+gh <span class="hljs-built_in">pr</span> create --fill
+</code></pre>
+<p>A solo project still benefits from pull requests, not for review but <strong>for the record</strong>. The description is a note to your future self, and the PR is the unit you revert when something goes wrong.</p>
+<p>The check is simple. Does <code>main</code> build right now? Can last week's change be undone with one <code>revert</code>?</p>
+<h3>2. CI — the checks run for you</h3>
+<p>CI means &quot;when I push, someone else checks it&quot;. When there is no someone else, the machine does. The checks differ by project; the order does not. <strong>Cheapest first.</strong></p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Order</th>
+<th>Check</th>
+<th>Time</th>
+<th>What a failure tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Type check, lint</td>
+<td>seconds</td>
+<td>Syntax, types, imports</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Unit tests</td>
+<td>tens of seconds</td>
+<td>Regressions in calculation and state</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Integration tests</td>
+<td>minutes</td>
+<td>Disagreement at the boundaries</td>
+</tr>
+<tr>
+<td>4</td>
+<td>End-to-end tests</td>
+<td>several minutes</td>
+<td>Behaviour in a real browser</td>
+</tr>
+</tbody>
+</table></div><p>That first step has to finish within a minute, for psychological reasons. A failure you hear about quickly gets fixed; one you hear about an hour later arrives after you have started something else.</p>
+<p>The minimum is one workflow.</p>
+<pre class="code-block" data-lang="yaml"><code class="hljs language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">ci</span>
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">pull_request:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [<span class="hljs-string">main</span>]
+
+<span class="hljs-attr">permissions:</span>
+  <span class="hljs-attr">contents:</span> <span class="hljs-string">read</span>
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">check:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v4</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-number">22</span>
+          <span class="hljs-attr">cache:</span> <span class="hljs-string">npm</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">ci</span>          <span class="hljs-comment"># install exactly what the lockfile says</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npx</span> <span class="hljs-string">tsc</span> <span class="hljs-string">--noEmit</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">test</span>
+</code></pre>
+<p>Use <code>npm ci</code>, not <code>npm install</code>. It installs from the lockfile without rewriting it. A lockfile that quietly updates inside CI is how you get a build that behaves differently there than anywhere else.</p>
+<p>There are three common failures. A test that only fails in CI (timezone, network, execution order). A flaky test that gets retried until <strong>the whole CI signal is ignored</strong>. A push made without ever running the suite locally. The third one survives even after you adopt CI, and one rule prevents it: <strong>never merge on a red build.</strong> If it is urgent, fix the test, or file the failure and record the exception on purpose.</p>
+<h3>3. CD — automated deploy and rollback</h3>
+<p>The point of CD is not &quot;automatic&quot;. It is <strong>&quot;the same way, every time&quot;</strong>. The artifact is built once and that artifact is what ships. The moment you rebuild locally and upload by hand, what you tested and what you shipped are two different things.</p>
+<p>The method depends on what you are shipping.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Target</th>
+<th>How it deploys</th>
+<th>How it stays up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Static site</td>
+<td>Upload the build output to Pages or a CDN</td>
+<td>Files swap atomically; effectively no downtime</td>
+</tr>
+<tr>
+<td>Container service</td>
+<td>Build an image, push it, replace the running one</td>
+<td>Rolling, blue-green, canary</td>
+</tr>
+<tr>
+<td>Serverless</td>
+<td>Deploy functions and configuration</td>
+<td>Switch versions through an alias</td>
+</tr>
+</tbody>
+</table></div><p>Rollback is half of CD. A deploy that is automatic while the undo is manual is only half done. The most dependable rollback is <strong>a commit that reverts the previous one</strong>, pushed through the same pipeline. Which makes &quot;how long does a rollback take&quot; the easiest question for measuring how mature a CD setup really is.</p>
+<p>The deploy job should receive only a finished artifact. In GitHub Actions that boundary is <code>needs</code> plus an explicit permission block.</p>
+<pre class="code-block" data-lang="yaml"><code class="hljs language-yaml">  <span class="hljs-attr">deploy:</span>
+    <span class="hljs-attr">needs:</span> <span class="hljs-string">build</span>                 <span class="hljs-comment"># a failed build never reaches this job</span>
+    <span class="hljs-attr">permissions:</span>
+      <span class="hljs-attr">contents:</span> <span class="hljs-string">read</span>
+      <span class="hljs-attr">pages:</span> <span class="hljs-string">write</span>
+      <span class="hljs-attr">id-token:</span> <span class="hljs-string">write</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">github-pages</span>
+</code></pre>
+<h3>4. Environment isolation and declarative infrastructure</h3>
+<p>&quot;It works on my machine&quot; is an environment problem, not a code problem. Describe the environment in a file instead of in prose, and the file becomes a reproducible environment. The steps go like this.</p>
+<ol>
+<li><strong>Pin versions</strong> — <code>.nvmrc</code>, <code>engines</code> in <code>package.json</code>, <code>packageManager</code>.</li>
+<li><strong>Commit the lockfile</strong> — freeze what the install produced.</li>
+<li><strong><code>.env.example</code></strong> — list the configuration keys, without the values.</li>
+<li><strong>A container</strong> — a <code>Dockerfile</code> and <code>compose.yaml</code> pin the OS and runtime too.</li>
+<li><strong>Declared infrastructure</strong> — servers, DNS and storage written as code.</li>
+</ol>
+<p>A static site does not need Kubernetes. GitHub Pages plus a pinned Node version is enough. A pipeline that has to compile native packages, on the other hand, is a case where a container is close to the only answer. Match the size of the tool to the size of the project.</p>
+<p>&quot;Declarative&quot; means you do not log into the server and type commands. Work done by hand is not recorded, and the next person has no way to know it happened. Write it in a file and apply the file, and you never have to explain it twice.</p>
+<p>Of the <a href="https://www.12factor.net/" target="_blank" rel="noopener noreferrer" class="external-link">Twelve-Factor App</a> principles, three are usable today: configuration in the environment rather than in code, development and production as similar as possible, logs as a stream rather than a file.</p>
+<p>The check: clone the repository onto a new laptop and build it within thirty minutes. Run the container and get the same result as local.</p>
+<h3>5. Secrets and least privilege</h3>
+<p>Secrets do not go in the code. They go in the repository's or the platform's secret store. <code>.env</code> is never committed; <code>.env.example</code> shares the key names only.</p>
+<p>Workflow permissions are forgotten even more often. A GitHub Actions <code>GITHUB_TOKEN</code> has exactly the power listed under <code>permissions</code> in the workflow file. Say nothing, and it inherits the repository default — which is often wider than the job needs. Spelling out the minimum is the safer habit.</p>
+<pre class="code-block" data-lang="yaml"><code class="hljs language-yaml"><span class="hljs-attr">permissions:</span>
+  <span class="hljs-attr">contents:</span> <span class="hljs-string">read</span>    <span class="hljs-comment"># read only</span>
+  <span class="hljs-attr">pages:</span> <span class="hljs-string">write</span>      <span class="hljs-comment"># only for the deploy job</span>
+  <span class="hljs-attr">id-token:</span> <span class="hljs-string">write</span>   <span class="hljs-comment"># OIDC to authenticate to Pages</span>
+</code></pre>
+<p>A deploy token belongs to one repository, carries an expiry, and gets rotated on a schedule. A token that was already committed does not become safe when you delete it from the history: it is still readable wherever the history was copied, in forks and in caches. <strong>Rotation is the only fix</strong>, and rewriting history is the riskier move in a shared repository.</p>
+<p>The fastest audit is one question. <strong>Could this repository be public without a problem?</strong> If the answer is no, what makes it no is your to-do list.</p>
+<h3>6. Observability and monitoring</h3>
+<p>Deploying is the start, not the end. You should be able to answer &quot;is the service healthy right now&quot; within thirty seconds, and a health check is what answers it.</p>
+<p>A health check does not ask whether the process is alive. It asks whether the process <strong>can do its job</strong>: can it reach the database, are the required dependencies answering, is the queue backing up. An endpoint that only returns <code>200 OK</code> tells you nothing beyond &quot;something is running&quot;.</p>
+<p>Send an alert <strong>only when the state changes</strong>. The same alert ten times a day is the same as no alert at all — after ten of them, people stop reading and start deleting. The value of an alert is accuracy, not frequency.</p>
+<p>Keep logs, but keep them readable. Request ID, status code, duration, and the dependency that failed. Those four on one line narrow down most incidents without anything else.</p>
+<p>One last question. If something breaks at three in the morning, who finds out, and from what? If the answer is &quot;nobody&quot;, the sixth part is missing.</p>
+<h3>The six parts at a glance</h3>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Part</th>
+<th>Without it</th>
+<th>Minimum</th>
+<th>Comfortable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Record</td>
+<td>Nothing can be undone</td>
+<td><code>main</code> plus short branches</td>
+<td>Pull requests, tags, release notes</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>Users find the regressions</td>
+<td>Types and unit tests</td>
+<td>Plus E2E, lint, bundle size</td>
+</tr>
+<tr>
+<td>CD</td>
+<td>Hand deploys, each one different</td>
+<td>Build to Pages</td>
+<td>Zero downtime, one-step rollback</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Not reproducible</td>
+<td>Pinned versions and a lockfile</td>
+<td>Containers and declared infrastructure</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td>Leak risk</td>
+<td>Secret store plus <code>permissions</code></td>
+<td>Rotation and automated scanning</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Users report the outages</td>
+<td>A health check and an alert</td>
+<td>Metrics, logs, dashboards</td>
+</tr>
+</tbody>
+</table></div><h2>4. Pipelines that actually run at HD2Lab</h2>
+<p>I never built all six parts at once. They arrived one at a time, in the order they became necessary. Four of them run today; here they are as they are, rather than as a textbook would have them.</p>
+<p><a href="/diary/assets/images/en/2026-11-23-devops-hd2lab-pipeline.png"><img src="/diary/assets/images/en/2026-11-23-devops-hd2lab-pipeline.png" alt="HD2Lab's pipeline map: push to Pages, plus a server check every ten minutes"></a></p>
+<h3>4-1. Web-HQ snapshot — automation that does not wake itself up</h3>
+<p>This workflow rebuilds the &quot;latest updates&quot; list on the Web-HQ home page once a day, collecting twenty-eight days of public commit activity and the newest commits per repository into a single JSON file. Push alone is not enough: the code can stay the same while commits land in other repositories, so the list goes stale. That is why it also runs on a schedule.</p>
+<pre class="code-block" data-lang="yaml"><code class="hljs language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Refresh</span> <span class="hljs-string">latest</span> <span class="hljs-string">updates</span>
+
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [<span class="hljs-string">main</span>]
+    <span class="hljs-attr">paths-ignore:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;data/latest-updates.json&quot;</span>   <span class="hljs-comment"># its own output must not retrigger it</span>
+  <span class="hljs-attr">schedule:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">cron:</span> <span class="hljs-string">&quot;20 15 * * *&quot;</span>            <span class="hljs-comment"># 00:20 Asia/Seoul (cron is UTC)</span>
+  <span class="hljs-attr">workflow_dispatch:</span>
+
+<span class="hljs-attr">permissions:</span>
+  <span class="hljs-attr">contents:</span> <span class="hljs-string">write</span>                    <span class="hljs-comment"># it has to commit the snapshot</span>
+
+<span class="hljs-attr">concurrency:</span>
+  <span class="hljs-attr">group:</span> <span class="hljs-string">latest-updates</span>
+  <span class="hljs-attr">cancel-in-progress:</span> <span class="hljs-literal">false</span>          <span class="hljs-comment"># cancelling leaves a half-written file</span>
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">snapshot:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v4</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-string">&quot;20&quot;</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">node</span> <span class="hljs-string">tools/build-latest-updates.mjs</span>
+        <span class="hljs-attr">env:</span>
+          <span class="hljs-attr">GITHUB_TOKEN:</span> <span class="hljs-string">$</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Commit</span> <span class="hljs-string">when</span> <span class="hljs-string">the</span> <span class="hljs-string">snapshot</span> <span class="hljs-string">changed</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">|
+          if git diff --quiet -- data/latest-updates.json; then
+            echo &quot;Snapshot already current.&quot;
+            exit 0
+          fi
+          git config user.name &quot;github-actions[bot]&quot;
+          git config user.email &quot;41898282+github-actions[bot]@users.noreply.github.com&quot;
+          git add data/latest-updates.json
+          git commit -m &quot;chore(data): refresh the latest updates snapshot&quot;
+          git push
+</span></code></pre>
+<p>Three safeguards are doing the work.</p>
+<ul>
+<li><strong><code>paths-ignore</code></strong> — a push that only changes the snapshot file does not retrigger the workflow. A push made with <code>GITHUB_TOKEN</code> does not start a new run anyway, but the rule stops holding if the token changes or another automation touches the same file. Writing the intent into the file is safer than remembering it.</li>
+<li><strong><code>concurrency</code></strong> — runs in the same group never overlap. <code>cancel-in-progress: false</code> because a cancelled run can leave a half-written snapshot behind. Queue them, do not cut them short.</li>
+<li><strong>The diff check</strong> — nothing changed, nothing gets committed. An empty commit only lengthens the history and becomes the cause of the next trigger.</li>
+</ul>
+<p><code>cron</code> is read in UTC. <code>20 15 * * *</code> is 00:20 in Seoul. Without a comment, whoever reads this in six months will have to do the arithmetic at least once.</p>
+<p>The rule I took from it: <strong>if you do not design the exit condition, automation will call automation.</strong> Any structure where a job reads a file it wrote needs a &quot;only when it changed&quot; condition.</p>
+<h3>4-2. PKPilot and ADOP0001 — types, units, E2E, Pages</h3>
+<p>The static web apps deploy to GitHub Pages. With no server, CD is simple, but the gate is clearer for it: an artifact that fails its tests has no route to Pages.</p>
+<pre class="code-block" data-lang="yaml"><code class="hljs language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Deploy</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [<span class="hljs-string">main</span>]
+  <span class="hljs-attr">workflow_dispatch:</span>
+
+<span class="hljs-attr">permissions:</span>
+  <span class="hljs-attr">contents:</span> <span class="hljs-string">read</span>
+  <span class="hljs-attr">pages:</span> <span class="hljs-string">write</span>
+  <span class="hljs-attr">id-token:</span> <span class="hljs-string">write</span>
+
+<span class="hljs-attr">concurrency:</span>
+  <span class="hljs-attr">group:</span> <span class="hljs-string">pages</span>
+  <span class="hljs-attr">cancel-in-progress:</span> <span class="hljs-literal">true</span>      <span class="hljs-comment"># a newer deploy retires the older one</span>
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v4</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-number">22</span>
+          <span class="hljs-attr">cache:</span> <span class="hljs-string">npm</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">ci</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npx</span> <span class="hljs-string">tsc</span> <span class="hljs-string">--noEmit</span>   <span class="hljs-comment"># 1. types</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">test</span>           <span class="hljs-comment"># 2. units (Vitest)</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">run</span> <span class="hljs-string">build</span>      <span class="hljs-comment"># 3. artifact</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/configure-pages@v5</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/upload-pages-artifact@v3</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">path:</span> <span class="hljs-string">dist</span>
+
+  <span class="hljs-attr">deploy:</span>
+    <span class="hljs-attr">needs:</span> <span class="hljs-string">build</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">github-pages</span>
+      <span class="hljs-attr">url:</span> <span class="hljs-string">$</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">deployment</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/deploy-pages@v4</span>
+</code></pre>
+<p>The gate runs <code>tsc</code> → Vitest → Playwright → Pages. Playwright is the <strong>local pre-merge gate</strong>, not a CI step. Installing browsers and driving a real screen costs minutes, so <code>npm run test:e2e</code> runs before the merge and CI guards against regressions through types and units.</p>
+<p>That choice has a condition attached. As a team grows or releases become frequent, E2E belongs in CI too. When it moves, it needs sharding, screenshots and traces on failure, and a retry policy. Moving E2E into CI without those just adds a slow job that fails every so often.</p>
+<p>Scripts differ a little between repositories, so it is worth checking where the gate actually lives.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Repository</th>
+<th><code>build</code> script</th>
+<th>Type check in CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PKPilot0013 (CodePlayground)</td>
+<td><code>tsc --noEmit &amp;&amp; vite build</code></td>
+<td>Included in build; <code>npm test</code> still runs separately</td>
+</tr>
+<tr>
+<td>ADOP0001 (青松館)</td>
+<td><code>tsc --noEmit &amp;&amp; vite build</code></td>
+<td>The workflow also runs <code>npx tsc --noEmit</code> explicitly</td>
+</tr>
+<tr>
+<td>PKPilot0018 (Sigrún)</td>
+<td><code>vite build</code></td>
+<td>Not in build, so a separate <code>typecheck</code> script</td>
+</tr>
+</tbody>
+</table></div><p>When <code>build</code> includes the type check, CI cannot forget it. When <code>build</code> is only <code>vite build</code>, the type check can quietly go missing. &quot;The tests passed but the deployed code has a type error&quot; usually comes from that hole.</p>
+<p><code>concurrency</code> with <code>cancel-in-progress: true</code> is deliberate as well. On a site, the last commit should win. Letting an older deploy finish can put an older artifact live after a newer one.</p>
+<h3>4-3. Sigrún (PKPilot0018) — comparing against a reference written in another language</h3>
+<p>Sigrún does statistical calculation, and that brings a risk ordinary unit tests handle badly: <strong>when you write the expected value by hand, the expected value can be wrong.</strong> The suite passes and the answer is still incorrect.</p>
+<p>So the check has two layers. The same request goes into two engines and the results are compared.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Role</th>
+<th>Implementation</th>
+<th>How it is pinned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference engine</td>
+<td>Python (numpy, scipy, statsmodels, pandas)</td>
+<td>Versions pinned in <code>requirements.txt</code></td>
+</tr>
+<tr>
+<td>Subject</td>
+<td>The TypeScript engine that actually ships in the app</td>
+<td>Built from the app source</td>
+</tr>
+<tr>
+<td>Comparison</td>
+<td>A per-case PASS / FAIL / ERROR report</td>
+<td>The run fails on any FAIL or ERROR</td>
+</tr>
+</tbody>
+</table></div><p>The reference is in another language on purpose. Build a verification tool in the same language and with the same library as the thing it checks, and the two <strong>share the same mistakes</strong>. If both produce the same wrong number, the comparison passes. Different stacks make that kind of collusion much harder.</p>
+<p>CI runs it on every pull request and on every push to <code>main</code>. If regenerating the golden datasets produces a diff against the committed files, that fails too — which checks that the calculation is deterministic. The report is kept as an HTML and JSON artifact for thirty days, so a failure leaves behind which case was off and by how much.</p>
+<p>This workflow <strong>deploys nothing</strong>. In the same repository, <code>deploy.yml</code> publishes to Pages and <code>qa-stats.yml</code> only checks. Their permissions differ for the same reason: the QA job has no <code>pages: write</code>, and that is intentional.</p>
+<h3>4-4. The personal server — every ten minutes, and only when the state changes</h3>
+<p>The last one watches a server. Its status page exposes its current state as JSON at <code>/api/status</code>.</p>
+<pre class="code-block" data-lang="json"><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;mode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;normal&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;자기야, 서버는 정상 운영 중이야 💜&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;연결 신호가 잘 들어오고 있어. 안심하고 이용해 줘!&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;last_signal&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-11-23T03:13:24+00:00&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;updated_at&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-11-23T03:13:40+00:00&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p>The wording comes from the API in Korean; the fields are the real payload. A watchdog calls that address every ten minutes, in five steps.</p>
+<ol>
+<li>Request it and check for a 200 and a <code>mode</code> value.</li>
+<li>On failure, wait two seconds and check once more.</li>
+<li>Compare with the previous state.</li>
+<li>If the state changed, record it and send an alert.</li>
+<li>If it did not change, say nothing.</li>
+</ol>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Event</th>
+<th>Condition</th>
+<th>Alert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>down</code></td>
+<td>Connection failed, not a 200, or broken JSON — twice in a row</td>
+<td>No response from the server, with the time of the last signal</td>
+</tr>
+<tr>
+<td><code>outage</code></td>
+<td><code>mode</code> is <code>outage</code></td>
+<td>The outage, with the title and body the API supplied</td>
+</tr>
+<tr>
+<td><code>maintenance</code></td>
+<td><code>mode</code> is <code>maintenance</code></td>
+<td>Maintenance started</td>
+</tr>
+<tr>
+<td><code>recovered</code></td>
+<td>Back to <code>normal</code> from anything else</td>
+<td>Recovered, and how long it lasted</td>
+</tr>
+<tr>
+<td>No change</td>
+<td>None of the above</td>
+<td>No alert</td>
+</tr>
+</tbody>
+</table></div><p>The second check exists to avoid false alarms. Waking someone at three in the morning over a single network blip costs that alert its credibility for good. Two more seconds is the better trade.</p>
+<p>Storing the state <strong>on the watchdog side</strong> rather than on the server is deliberate too. Without knowing whether the last check was healthy, there is no way to detect a transition — and without transitions you either alert every time or never. Having the API supply the message text follows the same logic: fix the wording in one place and the watchdog repeats it.</p>
+<h2>5. What to look into next</h2>
+<h3>DORA metrics — the numbers that tell you whether delivery is healthy</h3>
+<p>DORA is a research program that measures software delivery performance, long known for four metrics. Today the model has five.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Metric</th>
+<th>What it measures</th>
+<th>Which way is better</th>
+<th>How to measure it solo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deployment frequency</td>
+<td>Deploys in a period</td>
+<td>More often</td>
+<td>Days you deployed this month</td>
+</tr>
+<tr>
+<td>Change lead time</td>
+<td>Commit to production</td>
+<td>Shorter</td>
+<td>Merge time minus deploy time</td>
+</tr>
+<tr>
+<td>Change fail rate</td>
+<td>Deploys that need immediate repair</td>
+<td>Lower</td>
+<td>Share of rollbacks and hotfixes</td>
+</tr>
+<tr>
+<td>Failed deployment recovery time</td>
+<td>Time from a failed deploy to recovery</td>
+<td>Shorter</td>
+<td>How long the revert took</td>
+</tr>
+<tr>
+<td>Deployment rework rate</td>
+<td>Unplanned deploys caused by an incident</td>
+<td>Lower</td>
+<td>Share of deploys made in a hurry</td>
+</tr>
+</tbody>
+</table></div><p>The recovery metric used to be called MTTR, or &quot;time to restore service&quot;. The new name, failed deployment recovery time, says more precisely what is being measured, because what counts as recovery depends on whether a deploy caused the incident at all.</p>
+<p>These metrics are useful because they <strong>hold each other in check</strong>. Push deployment frequency alone and the fail rate rises; chase the fail rate alone and you stop deploying. DORA's long-standing finding is that speed and stability are not a trade-off.</p>
+<p>The caution: make a metric a target and people optimise the metric. Set &quot;thirty deploys this month&quot; as a goal and you get thirty meaningless deploys. Use the numbers to see a trend and find the bottleneck, nothing more.</p>
+<h3>Blue-green and canary</h3>
+<p>Two common ways to deploy without downtime.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Cost</th>
+<th>Where it fits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rolling</td>
+<td>Replace instances one at a time</td>
+<td>Low</td>
+<td>Ordinary web services</td>
+</tr>
+<tr>
+<td>Blue-green</td>
+<td>Two full environments, switch traffic at once</td>
+<td>Double the resources</td>
+<td>Services that need fast rollback</td>
+</tr>
+<tr>
+<td>Canary</td>
+<td>Send a slice of traffic first, watch, then widen</td>
+<td>Low, but more operational care</td>
+<td>High-risk changes, high-traffic services</td>
+</tr>
+</tbody>
+</table></div><p>None of this applies to a static site. Replacing whole files is already atomic, and a failure is fixed by deploying the previous commit. This table starts to matter when you run a server or an API yourself.</p>
+<h3>Shift-left security</h3>
+<p>Moving security checks from after the deploy toward the commit. The further left they go, the cheaper the fix.</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>When</th>
+<th>Check</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before the commit</td>
+<td>Passwords and tokens that slipped in</td>
+<td><code>.gitignore</code>, pre-commit hook</td>
+</tr>
+<tr>
+<td>Pull request</td>
+<td>Vulnerable dependencies, code scanning, permissions</td>
+<td>Dependabot, CodeQL, <code>permissions</code></td>
+</tr>
+<tr>
+<td>Build</td>
+<td>Reproducible build, signed artifact</td>
+<td>Lockfile, OIDC, SBOM</td>
+</tr>
+<tr>
+<td>After the deploy</td>
+<td>Anomalous behaviour</td>
+<td>Logs, alerts</td>
+</tr>
+</tbody>
+</table></div><p>Half of security incidents come down to &quot;the permission was wider than it needed to be&quot;. Narrowing the token's scope is often the first job, ahead of writing better code.</p>
+<h3>What HD2Lab should add next</h3>
+<ul>
+<li>A post-deploy smoke test as the final workflow step. Right now a successful deploy is the end of the check.</li>
+<li>A Lighthouse performance budget. A bundle that grows a little at a time is hard for a person to notice.</li>
+<li>A sweep of workflow permissions in older repositories. The earlier a workflow was written, the more likely its <code>permissions</code> block is empty.</li>
+<li>Tidying the alert channels. Today only server state changes get through, and that is about right.</li>
+</ul>
+<h2>6. Official references</h2>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Link</th>
+<th>What to read it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dora.dev/" target="_blank" rel="noopener noreferrer" class="external-link">dora.dev</a></td>
+<td>Metric definitions, the capability catalog, the annual report</td>
+</tr>
+<tr>
+<td><a href="https://docs.cloud.google.com/architecture/devops" target="_blank" rel="noopener noreferrer" class="external-link">Google Cloud — DevOps capabilities</a></td>
+<td>CI/CD, trunk-based development, small batches and the rest</td>
+</tr>
+<tr>
+<td><a href="https://www.12factor.net/" target="_blank" rel="noopener noreferrer" class="external-link">The Twelve-Factor App</a></td>
+<td>Principles for configuration, environment parity and logs</td>
+</tr>
+<tr>
+<td><a href="https://docs.github.com/actions" target="_blank" rel="noopener noreferrer" class="external-link">GitHub Actions docs</a></td>
+<td>Workflow syntax, <code>permissions</code>, <code>schedule</code>, caching</td>
+</tr>
+<tr>
+<td><a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" class="external-link">Docker docs</a></td>
+<td>Images, build cache, compose</td>
+</tr>
+</tbody>
+</table></div><h2>Closing</h2>
+<p>DevOps is not something you install. It is <strong>a sequence you decide on</strong>. Tools fix that sequence in place; tools without a sequence are just one more thing to maintain.</p>
+<p>The smallest useful first step is three things.</p>
+<ol>
+<li>Add one workflow that runs the type check and unit tests on push.</li>
+<li>Write your deploy steps in the README, then move them into a script. The next deploy runs the script, nothing else.</li>
+<li>Add one address that reports the current state. <code>/api/status</code> or <code>/healthz</code> is enough.</li>
+</ol>
+<p>After those three, the next thing to add becomes obvious. If deploying is frightening, add rollback. If users report the outages, add monitoring. If the environment keeps drifting, add a container. Set the order once, and the tools become a choice you make along the way.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/en/categories/notes/">
+            <span class="post-nav-label">Category</span>
+            <strong>Notes</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+        
+        <a class="pager-item pager-older" href="/diary/en/posts/2026-11-20-web-ui-css-layout-glossary/">
+            <span>Older →</span>
+            <strong>Web UI, CSS, and Layout Glossary</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <span class="visit-badge" data-visit-badge hidden>
+                <svg class="visit-eye" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.7 8S3.9 4.1 8 4.1 14.3 8 14.3 8 12.1 11.9 8 11.9 1.7 8 1.7 8Z"/><circle cx="8" cy="8" r="1.9"/></svg>
+                <span>Today <b class="visit-num" data-visit-today>—</b></span>
+                <span class="visit-sep" aria-hidden="true">·</span>
+                <span>Total <b class="visit-num" data-visit-total>—</b></span>
+            </span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    <script src="/diary/assets/visit-badge.js?v=20261120-visits" defer></script>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261121-nav15" defer></script>
+</body>
+</html>
