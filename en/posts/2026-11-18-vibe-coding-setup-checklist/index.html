@@ -29,9 +29,10 @@
     <link rel="alternate" hreflang="en" href="/diary/en/posts/2026-11-18-vibe-coding-setup-checklist/">
     <link rel="alternate" hreflang="x-default" href="/diary/posts/2026-11-18-vibe-coding-setup-checklist/">
     <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
-    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261117-navy">
-    <script src="/diary/assets/hd2-theme.js?v=20261117-navy" defer></script>
-    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261121-nav15">
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261124-share">
+    <script src="/diary/assets/hd2-theme.js?v=20261124-share" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261124-share">
+    <link rel="stylesheet" href="/diary/assets/hd2-share.css?v=20261124-share">
     <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-en-posts-2026-11-18-vibe-coding-setup-checklist">
@@ -93,6 +94,7 @@
                 <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
             </nav>
             <div class="header-actions">
+                <span class="theme-slot" data-hd2-theme-slot></span>
                 <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -670,6 +672,21 @@ cmd=$(jq -r <span class="hljs-string">&#x27;.tool_input.command // empty&#x27;</
             <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
         </div>
     </footer>
+    
+    <button class="hd2-share-fab" type="button" data-hd2-share
+            aria-label="Share this page"
+            title="Share this page"
+            data-copied-ko="링크가 복사되었어요" data-copied-en="Link copied"
+            data-failed-ko="링크를 복사하지 못했어요" data-failed-en="Could not copy the link">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="18" cy="5" r="2.6"/>
+            <circle cx="6" cy="12" r="2.6"/>
+            <circle cx="18" cy="19" r="2.6"/>
+            <path d="M8.35 10.75 15.65 6.25M8.35 13.25l7.3 4.5"/>
+        </svg>
+    </button>
+    <div class="hd2-share-toast" data-hd2-share-toast role="status" aria-live="polite"></div>
+    <script src="/diary/assets/hd2-share.js?v=20261124-share" defer></script>
     <script src="/diary/assets/visit-badge.js?v=20261120-visits" defer></script>
     
     <script src="/diary/assets/diary-nav.js?v=20261121-nav15" defer></script>

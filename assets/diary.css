@@ -53,6 +53,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .mark { display: inline-block; width: 17px; height: 22px; border: 3px solid var(--accent); transform: skewY(-23deg); position: relative; flex-shrink: 0; }
 .mark:after { content: ''; position: absolute; inset: 4px -8px -7px 4px; border: 2px solid var(--accent); }
 .header-actions { display: flex; align-items: center; gap: 8px; }
+/* the header spot hd2-theme.js injects the Light/Dark toggle into */
+.theme-slot { display: inline-flex; align-items: center; justify-content: center; }
+.theme-slot:empty { display: none; }
 
 /* ---------- hub navigation (same pattern as Web-HQ / the three hubs) ---------- */
 /* ---------- hub tabs (wide screens) ---------- */
@@ -162,7 +165,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .menu-button:hover { border-color: var(--accent); color: var(--accent-text); background: var(--accent-soft); }
 
 body.drawer-open { overflow: hidden; }
-body.drawer-open .hd2-theme-toggle { opacity: 0; pointer-events: none; }
+body.drawer-open .hd2-share-fab { opacity: 0; pointer-events: none; }
 .drawer-backdrop {
     position: fixed;
     inset: 0;

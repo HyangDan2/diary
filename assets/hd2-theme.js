@@ -9,7 +9,9 @@
    value before the first paint (no flash), links /assets/hd2-theme.css and
    loads this file with `defer`. Everything else is handled here:
 
-     · the fixed bottom-right toggle button (44px, safe-area aware)
+     · the toggle button — in the page header when the markup provides a
+       [data-hd2-theme-slot] (36px, next to the nav / the mobile menu button),
+       otherwise the fixed bottom-right button (44px, safe-area aware)
      · <meta name="theme-color"> kept in step with the theme
      · cross-tab sync through the `storage` event
      · window.HD2Theme.get() / .set(theme) / .toggle() for page-level controls
@@ -101,12 +103,18 @@
     moon: '<path d="M20.4 14.4A8.6 8.6 0 0 1 9.6 3.6a8.6 8.6 0 1 0 10.8 10.8z"/>'
   };
 
+  /* a page that wants the toggle in its header marks the spot */
+  function slot() {
+    return document.querySelector('[data-hd2-theme-slot]');
+  }
+
   function buildButton() {
     if (document.getElementById('hd2ThemeToggle')) return;
+    var host = slot();
     var el = document.createElement('button');
     el.type = 'button';
     el.id = 'hd2ThemeToggle';
-    el.className = 'hd2-theme-toggle';
+    el.className = host ? 'hd2-theme-toggle hd2-theme-toggle--header' : 'hd2-theme-toggle';
 
     var svgNs = 'http://www.w3.org/2000/svg';
     ['sun', 'moon'].forEach(function (name) {
@@ -124,7 +132,8 @@
       apply(current() === 'dark' ? 'light' : 'dark', { persist: true });
     });
 
-    document.body.appendChild(el);
+    if (host) host.appendChild(el);
+    else document.body.appendChild(el);
     button = el;
     paintButton(current());
   }
