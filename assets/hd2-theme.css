@@ -2,6 +2,8 @@
    HD2Lab · shared Light/Dark toggle (Navy & Lavender)
    One button, injected by /assets/hd2-theme.js, that flips
    :root[data-theme] between "light" (Soft Iris) and "dark" (Navy & Lavender).
+   In a page header (a [data-hd2-theme-slot]) it is a sun/moon slide switch;
+   otherwise it is the round button in the bottom-right corner.
 
    Per-page placement: an app overrides the custom properties below on
    `.hd2-theme-toggle` (bottom offset, z-index, surface colours), or marks a
@@ -65,41 +67,94 @@
 }
 
 /* ---------- header placement ([data-hd2-theme-slot]) ----------------------
-   In the page header the toggle sits in the flow: 36px circle on a wide
-   screen, and the same 44px rounded square as the mobile menu button beside
-   it on a narrow one. */
-.hd2-theme-toggle--header {
-  position: static;
+   In the page header the toggle is a slide switch: a 58×30 capsule with a sun
+   on the left, a moon on the right, and one 24px thumb that slides under the
+   icon of the mode the page is in. */
+.hd2-theme-toggle--slide {
+  --hd2-slide-track: #EFEBF7;
+  --hd2-slide-track-border: #DBD3EE;
+  --hd2-slide-thumb: #FFFFFF;
+  --hd2-slide-icon: #A79FBB;
+  --hd2-slide-icon-on: #6B4CD6;
+  --hd2-slide-thumb-shadow: 0 1px 3px rgb(29 25 43 / 22%);
+
+  position: relative;
   inset: auto;
-  width: 36px;
-  height: 36px;
+  width: 58px;
+  height: 30px;
   border-radius: 999px;
-  box-shadow: 0 1px 3px rgb(29 25 43 / 7%);
+  border-color: var(--hd2-slide-track-border);
+  background: var(--hd2-slide-track);
+  box-shadow: none;
   backdrop-filter: none;
 }
 
-.hd2-theme-toggle--header .hd2-theme-ic {
-  width: 17px;
-  height: 17px;
+/* the visible capsule is shorter than a comfortable touch target */
+.hd2-theme-toggle--slide::after {
+  content: '';
+  position: absolute;
+  inset: -8px -6px;
+  border-radius: 999px;
 }
 
-@media (max-width: 880px) {
-  .hd2-theme-toggle--header {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    box-shadow: none;
-  }
-
-  .hd2-theme-toggle--header .hd2-theme-ic {
-    width: 20px;
-    height: 20px;
-  }
+.hd2-theme-toggle--slide:hover {
+  border-color: var(--accent, #A78BFA);
 }
 
-/* the icon shows where the button takes you */
-html[data-theme='light'] .hd2-theme-toggle .hd2-theme-ic[data-icon='moon'],
-html[data-theme='dark'] .hd2-theme-toggle .hd2-theme-ic[data-icon='sun'] {
+.hd2-theme-toggle--slide .hd2-theme-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--hd2-slide-thumb);
+  box-shadow: var(--hd2-slide-thumb-shadow);
+  transition: transform 0.22s ease;
+}
+
+.hd2-theme-toggle--slide[aria-checked='true'] .hd2-theme-thumb {
+  transform: translateX(28px);
+}
+
+/* both icons stay visible; the one under the thumb carries the mode */
+.hd2-theme-toggle--slide .hd2-theme-ic {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  transform: translateY(-50%);
+  stroke-width: 2;
+  color: var(--hd2-slide-icon);
+  transition: color 0.2s ease;
+}
+
+.hd2-theme-toggle--slide .hd2-theme-ic[data-icon='sun'] {
+  left: 7px;
+}
+
+.hd2-theme-toggle--slide .hd2-theme-ic[data-icon='moon'] {
+  right: 7px;
+}
+
+html[data-theme='light'] .hd2-theme-toggle--slide .hd2-theme-ic[data-icon='sun'],
+html[data-theme='dark'] .hd2-theme-toggle--slide .hd2-theme-ic[data-icon='moon'] {
+  color: var(--hd2-slide-icon-on);
+}
+
+[data-theme='dark'] .hd2-theme-toggle--slide {
+  --hd2-slide-track: #1B2440;
+  --hd2-slide-track-border: #344472;
+  --hd2-slide-thumb: #E7ECFF;
+  --hd2-slide-icon: #7C8AB3;
+  --hd2-slide-icon-on: #4A2FB0;
+  --hd2-slide-thumb-shadow: 0 1px 4px rgb(0 0 0 / 45%);
+}
+
+html[data-theme='light'] .hd2-theme-toggle:not(.hd2-theme-toggle--slide) .hd2-theme-ic[data-icon='moon'],
+html[data-theme='dark'] .hd2-theme-toggle:not(.hd2-theme-toggle--slide) .hd2-theme-ic[data-icon='sun'] {
   display: block;
 }
 
@@ -108,5 +163,9 @@ html[data-theme='dark'] .hd2-theme-toggle .hd2-theme-ic[data-icon='sun'] {
   .hd2-theme-toggle:active {
     transition: none;
     transform: none;
+  }
+
+  .hd2-theme-toggle--slide .hd2-theme-thumb {
+    transition: none;
   }
 }
