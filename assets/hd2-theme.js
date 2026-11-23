@@ -65,16 +65,29 @@
     return toDark ? 'Switch to dark mode (Navy & Lavender)' : 'Switch to light mode';
   }
 
+  /* a switch is named by what it sets, and its state is the checked value */
+  function switchName() {
+    return korean() ? '다크 모드' : 'Dark mode';
+  }
+
   function paintMeta(theme) {
     if (meta) meta.setAttribute('content', theme === 'dark' ? META_DARK : metaLight);
   }
 
   function paintButton(theme) {
     if (!button) return;
+    var dark = theme === 'dark';
     var text = label(theme);
-    button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-    button.setAttribute('aria-label', text);
     button.setAttribute('title', text);
+
+    if (button.getAttribute('role') === 'switch') {
+      button.setAttribute('aria-checked', dark ? 'true' : 'false');
+      button.setAttribute('aria-label', switchName());
+      return;
+    }
+
+    button.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    button.setAttribute('aria-label', text);
   }
 
   function apply(theme, options) {
@@ -103,7 +116,8 @@
     moon: '<path d="M20.4 14.4A8.6 8.6 0 0 1 9.6 3.6a8.6 8.6 0 1 0 10.8 10.8z"/>'
   };
 
-  /* a page that wants the toggle in its header marks the spot */
+  /* a page that wants the toggle in its header marks the spot; there it is a
+     sun/moon slide switch, and elsewhere it stays the round corner button */
   function slot() {
     return document.querySelector('[data-hd2-theme-slot]');
   }
@@ -114,7 +128,16 @@
     var el = document.createElement('button');
     el.type = 'button';
     el.id = 'hd2ThemeToggle';
-    el.className = host ? 'hd2-theme-toggle hd2-theme-toggle--header' : 'hd2-theme-toggle';
+    el.className = host ? 'hd2-theme-toggle hd2-theme-toggle--slide' : 'hd2-theme-toggle';
+    if (host) el.setAttribute('role', 'switch');
+
+    /* the capsule's thumb sits under the icon of the mode it is in */
+    if (host) {
+      var thumb = document.createElement('span');
+      thumb.className = 'hd2-theme-thumb';
+      thumb.setAttribute('aria-hidden', 'true');
+      el.appendChild(thumb);
+    }
 
     var svgNs = 'http://www.w3.org/2000/svg';
     ['sun', 'moon'].forEach(function (name) {
@@ -137,7 +160,6 @@
     button = el;
     paintButton(current());
   }
-
   /* another tab (or another HD2Lab route) changed the theme */
   window.addEventListener('storage', function (event) {
     if (event.key !== KEY) return;
