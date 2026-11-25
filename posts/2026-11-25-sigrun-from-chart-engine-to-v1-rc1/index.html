@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FAFAFD">
+    <title>Sigrún: From a Chart Engine to v1.0.0-rc.1 in Twenty-Two Hours · HD2&#39;s Diary</title>
+    <meta name="description" content="Sigrún&#39;s first chart-engine commit landed at 09:59 on November 24 and the frozen release candidate was built at 07:50 the next morning. In between: a rewritten contour renderer, three stages of statistical modelling with corrective QA, a guided tutorial system, and a single-file offline build whose every hash can be recomputed. Twenty-six pull requests, 58 commits, and unit tests that went from 661 to 1,240.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="HD2Lab · HD2&#39;s Diary">
+    <meta property="og:title" content="Sigrún: From a Chart Engine to v1.0.0-rc.1 in Twenty-Two Hours · HD2&#39;s Diary">
+    <meta property="og:description" content="Sigrún&#39;s first chart-engine commit landed at 09:59 on November 24 and the frozen release candidate was built at 07:50 the next morning. In between: a rewritten contour renderer, three stages of statistical modelling with corrective QA, a guided tutorial system, and a single-file offline build whose every hash can be recomputed. Twenty-six pull requests, 58 commits, and unit tests that went from 661 to 1,240.">
+    <meta property="og:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:secure_url" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sigrún: From a Chart Engine to v1.0.0-rc.1 in Twenty-Two Hours · HD2&#39;s Diary">
+    <meta name="twitter:description" content="Sigrún&#39;s first chart-engine commit landed at 09:59 on November 24 and the frozen release candidate was built at 07:50 the next morning. In between: a rewritten contour renderer, three stages of statistical modelling with corrective QA, a guided tutorial system, and a single-file offline build whose every hash can be recomputed. Twenty-six pull requests, 58 commits, and unit tests that went from 661 to 1,240.">
+    <meta name="twitter:image" content="https://hyangdan2.github.io/diary/assets/og-image.png?v=20261121-diary">
+    <meta name="twitter:image:alt" content="HD2Lab · HD2&#39;s Diary — build log: what I made, and what broke.">
+    <link rel="icon" type="image/svg+xml" href="/diary/assets/favicon.svg?v=20261116-softiris">
+    <link rel="icon" type="image/png" sizes="32x32" href="/diary/assets/favicon-32x32.png?v=20261116-softiris">
+    <link rel="apple-touch-icon" sizes="180x180" href="/diary/assets/apple-touch-icon.png?v=20261106">
+    
+    
+    
+    
+    <script>try{var h=localStorage.getItem('hd2-theme');document.documentElement.setAttribute('data-theme',h==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+    <link rel="stylesheet" href="/diary/assets/hd2-theme.css?v=20261124-slide">
+    <script src="/diary/assets/hd2-theme.js?v=20261124-slide" defer></script>
+    <link rel="stylesheet" href="/diary/assets/diary.css?v=20261124-slide">
+    <link rel="stylesheet" href="/diary/assets/hd2-share.css?v=20261124-slide">
+    <script data-goatcounter="https://hd2lab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body class="page-posts-2026-11-25-sigrun-from-chart-engine-to-v1-rc1">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/diary/" aria-label="HD2&#39;s Diary home">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="brand-name">HD2Lab</span>
+                <em>HD2&#39;s Diary</em>
+            </a>
+            
+            
+            
+            <nav class="header-nav" aria-label="Hub categories">
+                <a class="nav-tab" href="https://hyangdan2.github.io/">Web-HQ</a>
+                <div class="nav-dropdown" data-nav-group="apps">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/ApplicationHub/">Apps<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="play">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/GameHub/">Play<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+                <div class="nav-dropdown" data-nav-group="diary">
+                    <a class="nav-tab nav-dropdown-trigger is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown" data-nav-group="info">
+                    <a class="nav-tab nav-dropdown-trigger" href="https://hyangdan2.github.io/InformationHub/">Info<span class="nav-caret" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" focusable="false"><path d="M1.8 3.5 5 6.7l3.2-3.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+                    <div class="nav-dropdown-panel">
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="nav-dropdown-link" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+                <a class="nav-tab" href="https://hyangdan2.github.io/about/">About</a>
+            </nav>
+            <div class="header-actions">
+                <span class="theme-slot" data-hd2-theme-slot></span>
+                <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-label="Hub navigation" aria-hidden="true">
+        <div class="drawer-head">
+            <span class="drawer-title"><span class="mark mark-sm" aria-hidden="true"></span><span>Navigation</span></span>
+            <button class="drawer-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="drawer-list" aria-label="Hub categories">
+            <a class="drawer-item" href="https://hyangdan2.github.io/">Web-HQ</a>
+            <div class="drawer-group" data-drawer-group="apps">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/ApplicationHub/">Apps</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-apps-sub" aria-label="Apps">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-apps-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0002/">Midpoint</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0007/">Film Studio</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0003/">Shutterplate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0006/">DOS Player</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0008/">HD2Markdown Viewer</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/EDPilot0001/">Machine Learning Lab</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0011/">CinePlate</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0012/">ObjectLens</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0013/">CodePlayground</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0014/">SlideDeck</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/PKPilot0015/">FrameBuilder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="play">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/GameHub/">Play</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-play-sub" aria-label="Play">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-play-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/AGPilot0001/">VALKYRIE EIRA</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0004/">Particle Beat</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0005/">VALKYRIE</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/CDXPilot0006/">ChibiLink</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/TechnicalHub/">Tech</a>
+            
+            <div class="drawer-group is-open" data-drawer-group="diary">
+                <div class="drawer-row">
+                    <a class="drawer-item is-current" href="https://hyangdan2.github.io/diary/" aria-current="page">Diary</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="true" aria-controls="drawer-diary-sub" aria-label="Diary sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-diary-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem is-current" href="https://hyangdan2.github.io/diary/categories/devlog/" aria-current="page">Devlog</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/architecture/">Architecture</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/troubleshooting/">Troubleshooting</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/diary/categories/notes/">Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-group" data-drawer-group="info">
+                <div class="drawer-row">
+                    <a class="drawer-item" href="https://hyangdan2.github.io/InformationHub/">Info</a>
+                    <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-info-sub" aria-label="Info sections">
+                        <span class="drawer-caret" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" focusable="false"><path d="M3.5 5.75 8 10.25l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    </button>
+                </div>
+                <div class="drawer-sub" id="drawer-info-sub">
+                    <div class="drawer-sub-inner">
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/china-ai/">China AI</a>
+                        <a class="drawer-subitem" href="https://hyangdan2.github.io/InformationHub/us-markets/">US Markets</a>
+                    </div>
+                </div>
+            </div>
+            <a class="drawer-item" href="https://hyangdan2.github.io/about/">About</a>
+        </nav>
+    </aside>
+
+    <main id="main">
+        
+
+<article class="post shell">
+    <div class="page-top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/diary/">Diary</a>
+            <span aria-hidden="true">/</span>
+            <a href="/diary/categories/devlog/">Devlog</a>
+        </nav>
+        
+    </div>
+
+    <header class="post-header">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Devlog · 2026.11.25</p>
+        <h1>Sigrún: From a Chart Engine to v1.0.0-rc.1 in Twenty-Two Hours</h1>
+        <p class="post-summary">Sigrún&#39;s first chart-engine commit landed at 09:59 on November 24 and the frozen release candidate was built at 07:50 the next morning. In between: a rewritten contour renderer, three stages of statistical modelling with corrective QA, a guided tutorial system, and a single-file offline build whose every hash can be recomputed. Twenty-six pull requests, 58 commits, and unit tests that went from 661 to 1,240.</p>
+        <div class="post-meta">
+            <span class="badge">Devlog</span>
+            
+            <time datetime="2026-11-25">2026.11.25</time>
+            <span>10 min read</span>
+            
+            
+            
+            <span class="post-tags">
+                <span class="tag">#sigrun</span><span class="tag">#pkpilot0018</span><span class="tag">#devlog</span><span class="tag">#statistics</span><span class="tag">#webgl</span><span class="tag">#qa</span><span class="tag">#release</span>
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="md-body post-content">
+        <p>Sigrún (<code>HyangDan2/PKPilot0018</code>) is a statistical and quality workspace that runs entirely in the browser. It has no server, no account and no upload: the worksheet, the fitted models, the charts and the saved projects all live on the reader's machine. That constraint decided almost everything below.</p>
+<p>The first commit in this stretch, <code>5986f8a</code>, landed at 09:59 on November 24. The release candidate was built from <code>91382d3</code> at 07:50:52 on the 25th and frozen by the artifact commit <code>3cdce23</code> six minutes later. Twenty-two hours, 58 commits and 26 pull requests (#10 through #35) separate the two.</p>
+<h2>What the twenty-two hours covered</h2>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Stage</th>
+<th>What it added</th>
+<th>Merged as</th>
+<th style="text-align:right">Tests at that point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1–2 · chart engine</td>
+<td>16-case Marching Squares, asymptotic decider, per-render clip, 7 style presets, 7-tab properties drawer, DPI export</td>
+<td><code>5986f8a</code> → <code>9a00f7f</code> (no PR)</td>
+<td style="text-align:right">661</td>
+</tr>
+<tr>
+<td>3A · guards and models</td>
+<td><code>chartGuards.ts</code>, PNG <code>pHYs</code> DPI, Stored Model Manager, polynomial regression</td>
+<td><code>9b2ad4e</code> (#10), <code>dd64e22</code> (#11)</td>
+<td style="text-align:right">749</td>
+</tr>
+<tr>
+<td>3B · 3D and overlap</td>
+<td>3D surface (WebGL mesh, static projection fallback), overlaid contour, then corrective QA F-01…F-08</td>
+<td><code>4eeb481</code> (#12), <code>fca4e6f</code> (#18)</td>
+<td style="text-align:right">953</td>
+</tr>
+<tr>
+<td>3C · optimization</td>
+<td>Multi-response optimizer, prediction profiler, then corrective QA F-3C-01…13</td>
+<td><code>99e37de</code> (#15), <code>816f34c</code> (#23)</td>
+<td style="text-align:right">1,001</td>
+</tr>
+<tr>
+<td>3D · figures</td>
+<td>Graph Layout Editor, advanced axes, chart interaction</td>
+<td><code>22d0e30</code> (#19–#21)</td>
+<td style="text-align:right">913 → 953</td>
+</tr>
+<tr>
+<td>3E · portable</td>
+<td>Whole app as one HTML file that runs from <code>file://</code></td>
+<td><code>7ad939a</code> (#26)</td>
+<td style="text-align:right">—</td>
+</tr>
+<tr>
+<td>WO-3E-11 · tutorials</td>
+<td>12 guided lessons, 68 steps, sample library, help center</td>
+<td><code>b3a792f</code> (#32)</td>
+<td style="text-align:right">1,096</td>
+</tr>
+<tr>
+<td>Tutorial QA · T-01…T-13</td>
+<td>Original-project guard, strict step verification, per-session practice slots</td>
+<td><code>7c5234d</code> (#34)</td>
+<td style="text-align:right">1,139</td>
+</tr>
+<tr>
+<td>WO-FINAL · stabilization</td>
+<td>Minitab gap audit, save/restore integrity, edition record, RC artifacts, CI gate</td>
+<td><code>91382d3</code> (#35)</td>
+<td style="text-align:right">1,240</td>
+</tr>
+</tbody>
+</table></div><p>The test count on the right is the number the stage left behind in <code>npm test</code>, so it wobbles where stages merged in a different order than they were written. It is still the cheapest summary of the arc: 661 to 1,240 unit tests, and <code>npm run qa:stats</code> — the Python reference suite that checks the engine against SciPy and statsmodels — from 156 to 225 cases.</p>
+<h2>Phase 2 — a contour is not a grid of rectangles</h2>
+<p>The Phase 1 audit of <code>ee1dafe</code> found that filled contours were drawn one rectangle per grid cell. The band edge therefore stepped by a whole cell, and on a wide plot the staircase was the first thing a reader saw. Three more defects sat behind it: only 8 of the 16 Marching Squares cases were handled, with no asymptotic decider, so saddle cells lost a segment and lines stopped at cell borders; chart width and clip ids lived in module scope, so a second chart could inherit the first one's geometry; and tick formatting looked only at magnitude, which printed <code>0.0000</code> for <code>1.2e-6</code> and <code>1.0M</code> for values spanning <code>1,000,000.001</code> to <code>1,000,000.005</code>.</p>
+<p>What replaced it, in <code>src/lib/contour.ts</code>:</p>
+<ul>
+<li><strong>All 16 cases</strong>, including the four single-corner ones and the full/empty cells.</li>
+<li><strong>An asymptotic decider</strong>: a saddle cell compares its bilinear saddle value with the iso-level, so <code>Z = X² − Y²</code> at level 0 draws two crossing segments instead of one arbitrary line.</li>
+<li><strong>Segment stitching</strong> with a tolerance relative to the axis span, so a contour is one path rather than hundreds of fragments.</li>
+<li><strong>Band polygons</strong> that interpolate the level boundary along cell edges — this is what removes the staircase.</li>
+<li><strong>A per-render clip path</strong> (<code>sigrun-clip-&lt;render&gt;-&lt;n&gt;</code>), so a band that leaves the plot box no longer paints over axes or labels.</li>
+<li><strong>A stated constant surface</strong>: a flat surface has no iso-lines, so the frame is filled with the mid colour and annotated, not left blank.</li>
+</ul>
+<p>Geometry tests compare the output against analytic planes, paraboloids, saddles, interaction surfaces, constant surfaces and NaN masks, rather than against stored screenshots.</p>
+<p><img src="/diary/assets/images/2026-11-25-sigrun-contour-filled-lines.png" alt="Filled contours at 101 × 101 after the rewrite: interpolated bands, a 60–80 colour bar, the range badge 57.392 – 80.837, and the stationary point marked"></p>
+<p>The resolution ladder was measured rather than assumed (median of five runs, 560 × 300 SVG, <code>filled-lines</code>, 10 bands):</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th style="text-align:right">Grid</th>
+<th style="text-align:right">Median</th>
+<th style="text-align:right">Fastest</th>
+<th style="text-align:right">SVG bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">41 × 41</td>
+<td style="text-align:right">8.5 ms</td>
+<td style="text-align:right">4.7 ms</td>
+<td style="text-align:right">57,935</td>
+</tr>
+<tr>
+<td style="text-align:right">101 × 101</td>
+<td style="text-align:right">30.2 ms</td>
+<td style="text-align:right">19.7 ms</td>
+<td style="text-align:right">135,063</td>
+</tr>
+<tr>
+<td style="text-align:right">201 × 201</td>
+<td style="text-align:right">50.7 ms</td>
+<td style="text-align:right">33.9 ms</td>
+<td style="text-align:right">263,130</td>
+</tr>
+<tr>
+<td style="text-align:right">401 × 401</td>
+<td style="text-align:right">100.9 ms</td>
+<td style="text-align:right">96.2 ms</td>
+<td style="text-align:right">519,965</td>
+</tr>
+</tbody>
+</table></div><p>A 401 × 401 grid produces 160,801 predicted values, and the first Ultra render died with <code>Maximum call stack size exceeded</code> because the extent was computed with <code>Math.min(...values)</code>. That is now a loop. On top of the engine went seven style presets (Sigrún Classic, Engineering, Scientific, Corporate, Monochrome, High contrast on an Okabe–Ito series, Dark), a seven-tab properties drawer that docks at the right above 1024 px and becomes a bottom sheet below it, a 60-step undo bound to Ctrl/Cmd+Z, double-click routing from an SVG region to a drawer tab, a right-click chart menu, and export at 160 × 100 mm / 300 DPI, which is 1890 × 1181 px.</p>
+<h2>Stage 3A–3C — the part that has to be right</h2>
+<p>Charts are visible, so their defects are visible. Statistics do not announce themselves; a wrong prediction looks exactly like a right one. The three modelling stages therefore shipped with a corrective pass each, and the corrective passes are the interesting part.</p>
+<h3>3B — per-model coding, honest intervals, isolated state</h3>
+<p>The 3D surface and the overlaid contour went in as <code>4eeb481</code>. The corrective pass (<code>fca4e6f</code>, F-01…F-08) then took the eight defects that only appear once two fitted models share one plot, and measured each one on a probe script run against both the baseline worktree and the fixed tree:</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Defect</th>
+<th>Probe</th>
+<th style="text-align:right">Before</th>
+<th style="text-align:right">After</th>
+<th style="text-align:right">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-01</td>
+<td>Prediction at A=2 for a second model centred at 10 with half-range 5</td>
+<td style="text-align:right">106</td>
+<td style="text-align:right">95.2</td>
+<td style="text-align:right">95.2</td>
+</tr>
+<tr>
+<td>F-03</td>
+<td>Evaluate a point on an aliased term, then evaluate (0,0)</td>
+<td style="text-align:right">NaN</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+</tr>
+<tr>
+<td>F-04</td>
+<td>Predict at A = 1e200 where A³ overflows</td>
+<td style="text-align:right">1e+200</td>
+<td style="text-align:right">null</td>
+<td style="text-align:right">invalid</td>
+</tr>
+<tr>
+<td>F-04</td>
+<td>Standard error from a covariance containing NaN</td>
+<td style="text-align:right">0.2828</td>
+<td style="text-align:right">null</td>
+<td style="text-align:right">invalid</td>
+</tr>
+<tr>
+<td>F-05</td>
+<td>Extrapolation flag where model 1 covers the range and model 2 does not</td>
+<td style="text-align:right">false</td>
+<td style="text-align:right">true</td>
+<td style="text-align:right">true</td>
+</tr>
+<tr>
+<td>F-06</td>
+<td>Convergence at Ultra: |ratio(401) − ratio(201)|</td>
+<td style="text-align:right">0 (self-compare)</td>
+<td style="text-align:right">0.0010394261468677</td>
+<td style="text-align:right">same</td>
+</tr>
+<tr>
+<td>F-07</td>
+<td>Prediction-interval width for a model with no <code>mse</code></td>
+<td style="text-align:right">0.8913</td>
+<td style="text-align:right">null</td>
+<td style="text-align:right">null</td>
+</tr>
+<tr>
+<td>F-02/F-08</td>
+<td>Overlaid contour requested with one model</td>
+<td style="text-align:right">no throw</td>
+<td style="text-align:right"><code>feasible.minModels</code></td>
+<td style="text-align:right">error</td>
+</tr>
+</tbody>
+</table></div><p>The root causes were all one mistake wearing different clothes: <code>computeGrid</code> converted axis values into design coordinates using <code>models[0]</code>'s predictors and then handed that single coding to every evaluator. Two models with different centres and half-ranges were being evaluated in someone else's units. The fix builds <strong>one actual-coordinate grid and converts it per model</strong> (<code>designFromActual</code>, <code>axisActualValue</code>), makes <code>Coded</code> display follow a declared reference model, and states <code>factorBounds</code> in actual units so the 2D view, the 3D extrapolation check and the plotted design points all agree.</p>
+<p>Two more of those defects were failures of candour rather than arithmetic. <code>effectiveBasis = basis !== 'mean' &amp;&amp; !interval.ok ? 'mean' : basis</code> silently answered a confidence-interval request with a mean-based surface when a model had no covariance; the fallback is gone, and <code>basisAvailability()</code> now returns per-model reasons that the engine, the chart recomputation, the model manager and project restore all read. <code>mse = model.residual?.mse ?? 0</code> invented a residual variance to produce a prediction interval; a model without one now gets a confidence interval and no prediction interval, and the drawer says that intervals are pointwise, not simultaneous. That last one is not implemented — it is stated.</p>
+<p>Alongside the fixes came 19 new reference cases (QA-V), each computed by an independent NumPy implementation rather than a TypeScript copy: design-matrix coding, mask intersection, 4× grid quadrature, convergence comparison. The suite caught its own over-strictness, too — four stored-model cases looked like regressions until the negative eigenvalue turned out to be −2e-8 against a diagonal of 0.86, a relative 2e-8 produced by inverting <code>X'X</code>. The PSD tolerance moved to a relative 1e-7; a genuine negative variance (−0.5 on the diagonal) is still rejected.</p>
+<h3>3C — one definition of a prediction, exact decimal domains</h3>
+<p>The optimizer and the profiler arrived in <code>99e37de</code> (Derringer–Suich desirability, multi-response), and the corrective pass <code>816f34c</code> rewrote thirteen defects. Three of them are worth spelling out because they changed what the screen is allowed to claim.</p>
+<p><strong>The optimizer had its own prediction arithmetic.</strong> <code>optimizer.ts</code> compiled its own evaluator, separate from the model manager, the contour and the surface. Every path now goes through <code>src/lib/predictionAdapter.ts</code>, which takes actual coordinates, converts per model, and returns value, SE, CI, PI, non-estimability and problem codes in one shape; the tests assert that <code>optimizer.ts</code> no longer contains <code>compilePointEvaluator</code> or <code>tInv</code>. The compiled path is 1.7× faster (23.7 µs → 14.0 µs per evaluation on a six-term model), and the difference between the two paths is compared against zero at 1e-12 rather than assumed away.</p>
+<p><strong>A discrete domain is a decimal problem.</strong> The old grid accumulated <code>lower + k × step</code>, so a 0–0.001 range at step 1e-4 carried <code>0.00015000000000000001</code> as its fourth value instead of <code>0.0003</code>, and a 0–1 range at step 0.6 produced 21 points because the step was ignored. <code>factorDomain.ts</code> builds values from an integer index and a <code>10^d</code> scale, so <code>Lower + k × Step</code> is exact for 0.3 and 1e-4 alike; <code>discreteAxis()</code> refuses to emit a value above the upper bound (0…1 at step 0.6 is <code>[0, 0.6]</code>, two points); and fixed values are validated as on-step and in-range instead of being merged into the &quot;all fixed&quot; error. Every consumer — grid, enumeration, random start, local search, profiler, UI — reads the same module.</p>
+<p><strong>Seven states instead of &quot;optimal&quot;.</strong> A local search that converged was reported as <code>optimal</code>, which is a claim it had not earned. The states are now <code>global-optimal</code> (only when every free factor is discrete or categorical and every combination was evaluated inside budget), <code>local-converged</code> (with <code>search.basins[]</code> recording each start), <code>best-found</code>, <code>limit</code> (budget, time or cancel, with <code>search.stoppedBy</code>), <code>feasible-not-found</code>, <code>infeasible</code>, and <code>invalid</code>. Hard specification compliance is computed separately from desirability, and <code>recommended</code> is true only when every hard limit is met.</p>
+<p>Search became a generator: <code>optimize()</code> consumes it synchronously for the QA adapters and tests, while <code>optimizeAsync()</code> returns control to the host every <code>chunkSize</code> evaluations and honours an <code>AbortSignal</code>. The window's Stop button stops at the next candidate and reports <code>search.stoppedBy = 'cancel'</code>. Measured on Node 24.11: 598 evaluations in 17.8 ms for a two-factor multi-start search; 2,304 enumerated combinations in 63.7 ms; a 2,304-evaluation async run in 116.6 ms with 25 host yields; ten profiler redraws (5 responses × 2 factors × 21 points) in 34.1 ms. Five batches of 100 repeated runs left the heap at 30.7 / 29.4 / 28.1 / 58.2 / 40.6 MB — not monotonic.</p>
+<p>The reference side grew 20 new cases (QA-W), including the ones that are easy to get wrong in a way nobody notices: model-order invariance, a target set to the lower limit (desirability 1 at that limit, 0 at the other), a weight of <code>Infinity</code>, and a profiler-to-optimizer prediction comparison that must agree to the last digit.</p>
+<h2>3E — the whole application as one HTML file</h2>
+<p><code>npm run build</code> emits ES modules, and module scripts need an origin; opened from <code>file://</code> the browser blocks them. That is fine for GitHub Pages and useless for a plant floor, an air-gapped PC or a USB stick.</p>
+<p><code>npm run build:portable</code> builds the same source as an IIFE with <code>inlineDynamicImports</code>, <code>assetsInlineLimit: Infinity</code>, <code>cssCodeSplit: false</code>, <code>modulePreload: false</code> and <code>base: './'</code>. The result is one HTML file with the JS, CSS and icons inlined. The offline E2E opens it through a real <code>file://</code> URL with the network blocked: <strong>63 / 63 checks pass, and the request monitor sees zero requests outside <code>file:</code>/<code>data:</code>/<code>blob:</code></strong>.</p>
+<p>The build is also reproducible. <code>SOURCE_DATE_EPOCH</code> is the single clock for the ZIP entry timestamp, the read-me, the manifest and the hashes; two builds at the same epoch produce the same SHA-256. That property is what made the release verification at the end of the day possible at all.</p>
+<h2>WO-3E-11 — a tutorial that can fail</h2>
+<p>Twelve lessons, 68 steps, covering descriptive statistics to DOE and multi-response optimization, with a flagship twelve-step lesson on a synthetic display-optics experiment (four responses, three factors) that runs a reader from &quot;load the data&quot; to a saved project read back and verified.</p>
+<p>The design decision that mattered: <strong>the tutorial is declarative content, and the assertions are checked against the real workspace</strong>. Nothing is a React component per lesson; adding a lesson is a data file. Between the app and the lesson there is exactly one bridge, and it passes an allow-list of 13 actions — no <code>eval</code>, no dynamic import, no arbitrary JavaScript. Sixteen validation rules read the actual worksheet, output cards, stored models, figures and project files, comparing floating point in an absolute 1e-9 / relative 1e-6 band rather than comparing formatted strings. <code>checkPredictionConsistency()</code> cross-checks the optimizer's solution against the stored model, the profiler's saved condition against the same model, and a 3D surface's centre node against the stored prediction — and the unit tests move a coefficient and shift a surface to prove that this check actually fails.</p>
+<p>A step that once passed does not stay passed: the rules are re-evaluated whenever the workspace changes, so evidence that has disappeared takes the step back to <code>IN_PROGRESS</code>.</p>
+<p><img src="/diary/assets/images/2026-11-25-sigrun-tutorial-library.png" alt="The tutorial library: 12 lessons, 68 steps, each step verified against the workspace, and a footer that says a lesson starts a separate practice project"></p>
+<p>The corrective pass T-01…T-13 (<code>7c5234d</code>) was almost entirely about one thing: <strong>the reader's own project</strong>. The baseline wrote a snapshot into a window variable; a refresh lost it. Now <code>guardOriginalProject()</code> writes the project and a fingerprint to <code>sigrun.tutorials.original.v1</code>, reads it back, and compares — and if the read-back does not match, the lesson does not start at all. Instead a dialog offers an explicit backup download, and the practice opens only after that file exists on disk. Autosave is flushed before the swap and paused during the practice; settings, custom chart styles, undo/redo history and figures are part of the snapshot; practice slots are keyed per tutorial and session (<code>practice.v2</code>) so discarding one lesson no longer removes another's work. Completion is separated into <code>verified</code> / <code>manual</code> / <code>skipped</code>, and the status bar reads its phase from <code>APP_PHASE</code> instead of a hard-coded <code>PHASE 1</code>.</p>
+<p>The proof was written in the direction that is uncomfortable: the corrective suite imports only APIs that exist in the baseline, so the baseline fails with 19 assertion failures and 0 module-load errors, and the same file passes 24/24 afterwards. For the two defects that live in a running app rather than a function, a browser probe does the same job: 5 of 9 at the baseline, 10/10 after.</p>
+<h2>WO-FINAL — stabilization, and the audit that says what is missing</h2>
+<p>Two things are easy to fake at the end of a project: a gap analysis and a release. Both were written so they could be checked.</p>
+<p><strong>The gap audit</strong> (<code>docs/MINITAB_MASTER_FEATURE_GAP.md</code>) counted 289 features from Minitab 22.6's public documentation, gave every row an official reference URL, and requested all 284 distinct URLs — all returned HTTP 200. Sigrún provides 70 of them in some form (24.2%): FULL 2, PARTIAL 65, DIFFERENT 3, MISSING 218, NOT_APPLICABLE 1, UNKNOWN 0. Priority: P0 0, P1 73, P2 199, P3 17; Phase 4–6 backlogs were written from that list (85 / 179 / 25 features). <code>tools/verify_audit.mjs</code> recomputes the document, CSV, JSON and dashboard totals from the same source and refuses to pass when they disagree. The document states plainly that <strong>Minitab was never executed</strong>, so numerical equivalence is not claimed anywhere — only that the same statistical definition was chosen, checked against an independent NumPy/SciPy/statsmodels reference.</p>
+<p><strong>The release</strong> (<code>v1.0.0-rc.1</code>) is defined by a single clock. <code>SOURCE_DATE_EPOCH</code> sets the build time; Vite, the portable builder and the ZIP writer all receive the same value, so the About year, the ZIP timestamp, the manifest and the hashes point at one instant. Eleven files in <code>release/v1.0.0-rc.1/</code>, a <code>SHA256SUMS.txt</code> that does not list itself, and <code>build-info.json</code> that does not hash itself:</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>File</th>
+<th style="text-align:right">Bytes</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sigrun-v1.0.0-rc.1.html</code></td>
+<td style="text-align:right">1,605,775</td>
+<td><code>db4dad0d…c2071441</code></td>
+</tr>
+<tr>
+<td><code>Sigrun-v1.0.0-rc.1-Portable.zip</code></td>
+<td style="text-align:right">469,961</td>
+<td><code>6b652902…a32c191d87</code></td>
+</tr>
+<tr>
+<td><code>Sigrun-v1.0.0-rc.1-Web.zip</code></td>
+<td style="text-align:right">616,244</td>
+<td><code>5f76c821…5770b42ce4</code></td>
+</tr>
+<tr>
+<td><code>build-info.json</code></td>
+<td style="text-align:right">975</td>
+<td><code>815ecfab…504376638</code></td>
+</tr>
+<tr>
+<td><code>VERSION.txt</code></td>
+<td style="text-align:right">161</td>
+<td><code>8b031c73…49c3412763</code></td>
+</tr>
+<tr>
+<td><code>LICENSES.txt</code></td>
+<td style="text-align:right">383,480</td>
+<td><code>46eaa067…c9370459</code></td>
+</tr>
+</tbody>
+</table></div><p>All ten hashes recompute. The verification also rebuilds the portable HTML from the recorded epoch and requires it to be <strong>byte-identical</strong>; it checks that the HTML inside <code>Portable.zip</code> equals the release HTML, that no external script is loaded, that no product token is left unresolved, and that no build input has changed since the build commit — a later documentation or CI commit does not invalidate the artifacts, but a later source change does.</p>
+<p><code>LICENSES.txt</code> grew from 8.5 KB to 383 KB because the full license text and NOTICE of all 115 packages are now included, with the packages that have no license file saying so. <code>release:check</code> fails the build outright when any package is <code>UNLICENSED</code>; this build has zero unknown licenses.</p>
+<h2>The edition record — one place for every name</h2>
+<p>The public build had its product name, canonical URL and storage keys scattered across <code>index.html</code>, the Vite config and individual modules. Deriving a second build meant hunting them all, and missing one would mix the public site's brand or storage keys into an enterprise install.</p>
+<p>Now two records under <code>src/config/editions/</code> are the only source. The public record reproduces today's strings and keys exactly; the enterprise record is complete except for the brand and copyright, which stay empty until the owner supplies them — and an enterprise build with an empty brand is blocked on purpose. The engine under <code>src/lib</code> does not know which edition it is in. Every persistence key is namespaced (<code>sigrun.enterprise.…</code>), so both editions can run on one origin without reading or deleting each other's data.</p>
+<h2>Where the honesty costs</h2>
+<p>Four things were left as they are, and said out loud:</p>
+<ul>
+<li><strong>The macOS clipboard failures were not this branch's.</strong> stage1 lost 15 checks and stage3 lost 4, all on <code>navigator.clipboard</code>, and the same 15 and 4 reproduced at the baseline <code>52e8a79</code>, on the Phase 3E tree, and against the live Pages site. They were never counted as passes. WO-FINAL-002 then ran those suites on a Linux runner as a CI job, where they pass 77/77 and 176/176 — which settles the question the local machine could not.</li>
+<li><strong>The first CI run of the portable suite failed</strong>, on a browser flag that only makes sense on macOS. It was fixed by splitting the flag per platform without touching a single check, and the failure is recorded in the corrective review rather than overwritten by the green re-run.</li>
+<li><strong>A restored project is only restored once it is on disk.</strong> WO-FINAL-002 changed restore so it writes the guarded copy to autosave, reads it back and compares every record, and removes the backup only when the read-back is identical.</li>
+<li><strong>Range slack had to come from the ULP, not the offset.</strong> A design bound of <code>2^(1/4) = 1.189207115002721</code> arriving as <code>1.189207115</code> from a 9-digit column was being classified as extrapolation, failing 10 of 225 statistical QA cases on a 1.14e-12 difference. The width-proportional term moved from <code>1e-12</code> to <code>1e-9</code>, while the 4-ULP term keeps a genuinely out-of-range value out of domain — Lower 100000000, Upper 100000000.001, Value 100000000.05 is still OUTSIDE.</li>
+</ul>
+<h2>Final numbers</h2>
+<p>At <code>91382d3</code>, on the build that produced the release artifacts:</p>
+<div class="table-wrap" role="region" tabindex="0"><table><thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npx tsc --noEmit</code></td>
+<td>0 errors</td>
+</tr>
+<tr>
+<td><code>npm test</code></td>
+<td>1,240 / 1,240 (57 files)</td>
+</tr>
+<tr>
+<td><code>npm run qa:stats</code> (SciPy 1.18.1, statsmodels 0.15.0)</td>
+<td>225 / 225, 0 FAIL / REVIEW / UNVERIFIED / ERROR</td>
+</tr>
+<tr>
+<td>Tutorial E2E, all 12 lessons</td>
+<td>28 / 28 checks</td>
+</tr>
+<tr>
+<td>Portable offline, <code>file://</code></td>
+<td>63 / 63</td>
+</tr>
+<tr>
+<td>Portable tutorials</td>
+<td>8 / 8</td>
+</tr>
+<tr>
+<td>Tutorial guard probe</td>
+<td>10 / 10</td>
+</tr>
+<tr>
+<td>Network audit (public, portable, enterprise)</td>
+<td>13 / 13</td>
+</tr>
+<tr>
+<td>Release verify <code>--repro</code></td>
+<td>PASS · 11 files · portable HTML byte-identical</td>
+</tr>
+<tr>
+<td>CI gate on PR #35, run <code>45500479639</code></td>
+<td>every stage green, deploy skipped</td>
+</tr>
+<tr>
+<td>macOS browser regression</td>
+<td>505 / 524 executed · 19 clipboard failures, reproduced at baseline</td>
+</tr>
+<tr>
+<td>Linux CI browser regression</td>
+<td>stage1 77 / 77 · stage3 176 / 176</td>
+</tr>
+</tbody>
+</table></div><h2>What is not in it</h2>
+<p>Minitab was not run, so no number here is claimed to match it to the last digit; where the definition differs — the Anderson–Darling p-value is an approximation, proportion power uses a normal approximation — the QA report marks those cases REVIEW instead of passing them. Two tabs on one origin is a stated limitation, not a solved problem: the newer save is reported rather than silently overwritten. A portable file opened from <code>file://</code> may get an opaque origin, so anything that must survive belongs in Save Project. Phase 4–6 (new analyses, new chart families, server features) is not in this release, and the <code>v1.0.0</code> tag is deliberately not created — this is <code>-rc.1</code>.</p>
+<p>The release is public at <a href="https://hyangdan2.github.io/PKPilot0018/" target="_blank" rel="noopener noreferrer" class="external-link">hyangdan2.github.io/PKPilot0018</a>, and the single HTML file needs nothing but a browser.</p>
+
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+        <a class="post-nav-item" href="/diary/">
+            <span class="post-nav-label">Diary</span>
+            <strong>All posts</strong>
+        </a>
+        <a class="post-nav-item" href="/diary/categories/devlog/">
+            <span class="post-nav-label">Category</span>
+            <strong>Devlog</strong>
+        </a>
+    </nav>
+
+    
+    <nav class="post-pager" aria-label="Previous and next posts">
+        <span class="pager-item pager-empty" aria-hidden="true"></span>
+        
+        <a class="pager-item pager-older" href="/diary/posts/2026-11-23-devops-essentials/">
+            <span>Older →</span>
+            <strong>DevOps 핵심 정리 — 언제 필요하고, 무엇으로 이루어지는가</strong>
+        </a>
+        
+    </nav>
+    
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>© 2026 HD2Lab</span>
+            <span class="footer-note">++ BUILD NOTES ++ KEEP SHIPPING ++</span>
+            <span class="visit-badge" data-visit-badge hidden>
+                <svg class="visit-eye" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.7 8S3.9 4.1 8 4.1 14.3 8 14.3 8 12.1 11.9 8 11.9 1.7 8 1.7 8Z"/><circle cx="8" cy="8" r="1.9"/></svg>
+                <span>Today <b class="visit-num" data-visit-today>—</b></span>
+                <span class="visit-sep" aria-hidden="true">·</span>
+                <span>Total <b class="visit-num" data-visit-total>—</b></span>
+            </span>
+            <a href="/">Web-HQ <span aria-hidden="true">↗</span></a>
+        </div>
+    </footer>
+    
+    <button class="hd2-share-fab" type="button" data-hd2-share
+            aria-label="Share this page"
+            title="Share this page"
+            data-copied-ko="링크가 복사되었어요" data-copied-en="Link copied"
+            data-failed-ko="링크를 복사하지 못했어요" data-failed-en="Could not copy the link">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            <path d="M15.3 6.35 8.7 10.05M8.7 13.95l6.6 3.7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <circle cx="18" cy="5.2" r="2.7" fill="currentColor"/>
+            <circle cx="6" cy="12" r="2.7" fill="currentColor"/>
+            <circle cx="18" cy="18.8" r="2.7" fill="currentColor"/>
+        </svg>
+    </button>
+    <div class="hd2-share-toast" data-hd2-share-toast role="status" aria-live="polite"></div>
+    <script src="/diary/assets/hd2-share.js?v=20261124-slide" defer></script>
+    <script src="/diary/assets/visit-badge.js?v=20261120-visits" defer></script>
+    
+    <script src="/diary/assets/diary-nav.js?v=20261121-nav15" defer></script>
+</body>
+</html>
